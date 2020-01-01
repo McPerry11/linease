@@ -1,3 +1,29 @@
 .is-rounded {
 	width: 175px;
 }
+
+.container.is-fluid {
+	margin-top: 10%;
+	margin-right: 5%;
+	margin-left: 5%;
+}
+
+.column.is-7 {
+	margin-right: 10px;
+}
+
+.content h1 {
+	margin-bottom: 0;
+}
+
+#pass-field {
+	width: 100%;
+}
+
+#login-level {
+	margin-top: 25px;
+}
+
+#login {
+	background-color: #00C944;
+}

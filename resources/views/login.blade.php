@@ -5,13 +5,13 @@
 @endsection
 
 @section('body')
-<div class="container is-fluid" style="margin-top: 10%; margin-right: 10%">
+<div class="container is-fluid">
 	<div class="columns is-vcentered">
 		<div class="column is-7">
 			<div class="level">
 				<div class="level-item">
 					<div class="content">
-						<h1 style="margin-bottom: 0">LinEase</h1>
+						<h1>LinEase</h1>
 						<small>"Linis with Ease"</small>						
 					</div>
 				</div>
@@ -40,7 +40,7 @@
 						</p>
 					</div>
 					<div class="field has-addons is-marginless">
-						<p class="control has-icons-left" style="width: 100%">
+						<p id="pass-field" class="control has-icons-left">
 							<input type="password" class="input" placeholder="Password">
 							<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
 						</p>
@@ -51,9 +51,9 @@
 					<div class="has-text-right">
 						<small><a href=" ">Forgot Password?</a></small>
 					</div>
-					<div class="level" style="margin-top: 25px">
+					<div id="login-level" class="level">
 						<div class="level-item">
-							<button id="login" class="button is-rounded is-outlined has-text-white" type="submit" style="background-color: #00C944;">LOG IN</button>
+							<button id="login" class="button is-rounded is-outlined has-text-white" type="submit">LOG IN</button>
 						</div>
 						<div class="level-item">
 							<small class="is-size-7">OR</small>
