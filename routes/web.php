@@ -14,3 +14,5 @@
 Route::get('/', 'IndexController@dashboard');
 
 Route::get('/login', 'IndexController@login');
+
+Route::get('/register', 'IndexController@register');

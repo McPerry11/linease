@@ -1,20 +1,3 @@
-.containerfluid, .container, .row {
-	max-width: 100vw;
-	max-height: 100vh;
-	width: 100vw;
-	height: 100vh;
+.is-rounded {
+	width: 175px;
 }
-
-@media (min-width: 992px) {
-	form {
-		margin-top: 20px;
-		margin-left: 40px;
-		margin-right: 40px;
-	}
-}
-
-small {
-	text-align: right;
-}
-
-#00C944

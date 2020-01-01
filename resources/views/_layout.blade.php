@@ -9,9 +9,7 @@
 	@yield('styles')
 </head>
 <body>
-	<div class="container-fluid">
-		@yield('body')
-	</div>
+	@yield('body')
 
 	@include('_scripts')
 	@yield('scripts')
