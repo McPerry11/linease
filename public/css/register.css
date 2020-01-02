@@ -1,0 +1,14 @@
+.card {
+	width: 30%;
+	margin-top: 5%;
+}
+
+#pass-field {
+	width: 100%;
+}
+
+#create {
+	background-color: #00C944;
+	margin-top: 25px;
+	margin-bottom: 10px;
+}

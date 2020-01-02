@@ -1,10 +1,14 @@
 @extends('_layout')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/register.css') }}">
+@endsection
+
 @section('body')
 <div class="container is-fluid">
 	<div class="level">
 		<div class="level-item">
-			<div class="card" style="width: 30%; margin-top: 5%">
+			<div class="card">
 				<div class="card-content">
 					<div class="level">
 						<div class="level-item">
@@ -31,7 +35,7 @@
 						</div>
 					</div>
 					<div class="field has-addons">
-						<p class="control has-icons-left" style="width: 100%">
+						<p id="pass-field" class="control has-icons-left">
 							<input type="password" class="input" placeholder="Password">
 							<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
 						</p>
@@ -45,11 +49,11 @@
 							<span class="icon is-small is-left"><i class="fas fa-check"></i></span>
 						</div>
 					</div>
-					<button class="button is-fullwidth is-rounded is-outlined has-text-white" style="background-color: #00C944; margin-top: 25px; margin-bottom: 10px;">CREATE ACCOUNT</button>
+					<button id="create" class="button is-fullwidth is-rounded is-outlined has-text-white">CREATE ACCOUNT</button>
 					<div class="level">
 						<div class="level-item">
 							<div class="content">
-								<small>Already have an account?<a href="{{ url('login') }}" class="has-text-warning">Sign in</a></small>
+								<small>Already have an account? <a href="{{ url('login') }}" class="has-text-warning">Sign in</a></small>
 							</div>
 						</div>
 					</div>
