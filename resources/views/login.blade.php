@@ -6,7 +6,7 @@
 
 @section('body')
 <div class="container is-fluid">
-	<div class="columns is-vcentered">
+	<div class="columns is-vcentered is-flex-mobile">
 		<div class="column is-7">
 			<div class="level">
 				<div class="level-item">
@@ -47,23 +47,17 @@
 								<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
 							</p>
 							<div class="control">
-								<button id="view" class="button has-background-grey-lighter" type="button"><i class="fas fa-eye"></i></button>
+								<button id="view" class="button has-background-grey-lighter" type="button"><i id="icon-pass" class="fas fa-eye"></i></button>
 							</div>
 						</div>
-						@if(!empty($message))
-						<div class="columns is-fullwidth">
-							<div class="column is-8 has-text-left">
-								<small class="has-text-danger">{{ $message }}</small>
+						<div class="columns">
+							<div class="column is-7 has-text-left">
+								<small id="message" class="has-text-danger">{{ $message ?? '' }}</small>
 							</div>
-							<div class="column is-4 has-text-right">
+							<div class="column is-5 has-text-right">
 								<small><a href=" ">Forgot Password?</a></small>
 							</div>
 						</div>
-						@else
-						<div class="has-text-right">
-							<small><a href=" ">Forgot Password?</a></small>
-						</div>
-						@endif
 						<div id="login-level" class="level">
 							<div class="level-item">
 								<button id="login" class="button is-rounded is-outlined has-text-white" type="submit">LOG IN</button>
