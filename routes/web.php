@@ -11,8 +11,14 @@
 |
 */
 
-Route::get('/', 'IndexController@dashboard');
+Route::get('login', 'IndexController@login')->name('login');
+Route::post('login', 'LoginController@login');
 
-Route::get('/login', 'IndexController@login');
+Route::get('register', 'IndexController@register');
 
-Route::get('/register', 'IndexController@register');
+Route::group(['middleware' => 'auth'], function() {
+	Route::get('', 'IndexController@dashboard');
+	Route::post('', 'LoginController@logout');
+
+	Route::resource('user', 'UserController');
+});
