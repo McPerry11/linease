@@ -1,4 +1,15 @@
 $(function() {
+	document.addEventListener('DOMContentLoaded', () => {
+		(document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+			$notification = $delete.parentNode;
+			console.log('Nin');
+
+			$delete.addEventListener('click', () => {
+				$notification.parentNode.removeChild($notification);
+			});
+		});
+	});
+
 	$('#view').click(function() {
 		if( $('#password').attr('type') == 'password' ) {
 			$('#password').attr('type', 'text');
@@ -21,6 +32,13 @@ $(function() {
 
 	$('form').submit(function() {
 		$('#login').addClass('is-loading');
+		$('#register').attr('disabled', 'disabled');
+	});
+
+	$('#register').click(function() {
+		$(this).addClass('is-loading');
+		$(this).text('');
+		$('#login').attr('disabled', 'disabled');
 	});
 
 	$('#password').keypress(function() {

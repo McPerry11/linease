@@ -17,10 +17,12 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username')
             ->unique();
-            $table->string('firstname');
+            $table->string('firstname')
+            ->nullable();
             $table->string('middlename')
             ->nullable();
-            $table->string('lastname');
+            $table->string('lastname')
+            ->nullable();
             $table->string('email')
             ->unique();
             $table->enum('type', [

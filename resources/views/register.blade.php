@@ -23,35 +23,38 @@
 						</div>
 					</div>
 					<form method="POST">
-						{{ csrf_field() }}
+						@csrf
 						<div class="field">
-							<div class="control has-icons-left">
-								<input type="text" class="input" placeholder="Username">
-								<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+							<div id="user-control" class="control has-icons-left">
+								<input type="text" id="username" class="input" placeholder="Username" name="username" required>
+								<span class="icon is-small is-left"><i id="user-icon" class="fas fa-user"></i></span>
 							</div>
+							<small id="user-warning" class="has-text-danger"></small>
 						</div>
 						<div class="field">
-							<div class="control has-icons-left">
-								<input type="email" class="input" placeholder="Email Address">
-								<span class="icon is-small is-left"><i class="fas fa-at"></i></span>
+							<div id="email-control" class="control has-icons-left">
+								<input type="email" id="email" class="input" placeholder="Email Address" name="email" required>
+								<span class="icon is-small is-left"><i id="email-icon" class="fas fa-at"></i></span>
 							</div>
+							<small id="email-warning" class="has-text-danger"></small>
 						</div>
 						<div class="field has-addons">
 							<p id="pass-field" class="control has-icons-left">
-								<input type="password" class="input" placeholder="Password">
-								<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+								<input type="password" id="password" class="input" placeholder="Password" name="password" required>
+								<span class="icon is-small is-left"><i id="pass-icon" class="fas fa-key"></i></span>
 							</p>
 							<div class="control">
-								<button class="button has-background-grey-lighter" type="button"><i class="fas fa-eye"></i></button>
+								<button id="view" class="button has-background-grey-lighter" type="button"><i id="icon-pass" class="fas fa-eye"></i></button>
 							</div>
 						</div>
 						<div class="field">
-							<div class="control has-icons-left">
-								<input type="password" class="input" placeholder="Confirm Password">
-								<span class="icon is-small is-left"><i class="fas fa-check"></i></span>
+							<div id="cpass-control" class="control has-icons-left">
+								<input type="password" id="cpass" class="input" placeholder="Confirm Password" required>
+								<span class="icon is-small is-left"><i id="cpass-icon" class="fas fa-check"></i></span>
 							</div>
+							<small id="cpass-warning" class="has-text-danger"></small>
 						</div>
-						<button id="create" class="button is-fullwidth is-rounded is-outlined has-text-white">CREATE ACCOUNT</button>
+						<button id="create" class="button is-fullwidth is-rounded is-outlined has-text-white" type="submit">CREATE ACCOUNT</button>
 						<div class="level">
 							<div class="level-item">
 								<div class="content">
@@ -65,4 +68,8 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/register.js') }}"></script>
 @endsection

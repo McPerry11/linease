@@ -34,7 +34,7 @@
 						</div>
 					</div>
 					<form method="POST">
-						{{ csrf_field() }}
+						@csrf
 						<div class="field">
 							<p class="control has-icons-left">
 								<input type="text" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>

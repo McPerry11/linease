@@ -15,10 +15,17 @@ Route::get('login', 'IndexController@login')->name('login');
 Route::post('login', 'LoginController@login');
 
 Route::get('register', 'IndexController@register');
+Route::post('register', 'UsersController@store');
+
+Route::prefix('users')->group(function() {
+	Route::post('', 'UsersController@index');
+});
 
 Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');
 	Route::post('', 'LoginController@logout');
-
-	Route::resource('user', 'UserController');
 });
+
+// Route::fallback(function() {
+// 	return 'Excuse me';
+// });
