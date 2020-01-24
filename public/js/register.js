@@ -9,6 +9,15 @@ $(function() {
 		}
 	}
 
+	function validateUsername(username) {
+		var expr = /^[a-zA-Z0-9._]*$/;
+		if (!expr.test(username)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	function validatePassword(pass, confirm) {
 		if (pass == confirm) {
 			$('#password').removeClass('is-danger');
@@ -50,38 +59,51 @@ $(function() {
 		} else {
 			$('#user-control').addClass('is-loading');
 			$('#create').attr('disabled', 'disabled');
-			$.ajax({
-				type: 'POST',
-				url: 'users',
-				data: {username:username, data:'username', source:'registration'},
-				datatype: 'JSON',
-				success: function(data) {
-					if (data.status == 'error') {
-						$('#user-warning').text(data.msg);
-						$('#username').removeClass('is-success');
-						$('#username').addClass('is-danger');
-						$('#user-icon').removeClass('has-text-success');
-						$('#user-icon').addClass('has-text-danger');
-						error[0] = false;
-					} else {
-						$('#user-warning').text('');
-						$('#username').removeClass('is-danger');
-						$('#username').addClass('is-success');
-						$('#user-icon').removeClass('has-text-danger');
-						$('#user-icon').addClass('has-text-success');
+			var valid_uname = validateUsername(username);
+			if (valid_uname) {
+				$.ajax({
+					type: 'POST',
+					url: 'users',
+					data: {username:username, data:'username', source:'registration'},
+					datatype: 'JSON',
+					success: function(data) {
+						if (data.status == 'error') {
+							$('#user-warning').text(data.msg);
+							$('#username').removeClass('is-success');
+							$('#username').addClass('is-danger');
+							$('#user-icon').removeClass('has-text-success');
+							$('#user-icon').addClass('has-text-danger');
+							error[0] = false;
+						} else {
+							$('#user-warning').text('');
+							$('#username').removeClass('is-danger');
+							$('#username').addClass('is-success');
+							$('#user-icon').removeClass('has-text-danger');
+							$('#user-icon').addClass('has-text-success');
+							error[0] = true;
+						}
+					},
+					error: function() {
 						error[0] = true;
+						$('#create').removeAttr('disabled');
+						$('#user-control').removeClass('is-loading');
+						alert('Something went wrong. Please try again later.');
 					}
-				},
-				error: function() {
-					error[0] = true;
-					$('#create').removeAttr('disabled');
+				}).then(function() {
 					$('#user-control').removeClass('is-loading');
-					alert('Something went wrong. Please try again later.');
-				}
-			}).then(function() {
+					validate(error);
+				});
+			} else {
+				$(this).removeClass('is-success');
+				$(this).addClass('is-danger');
+				$('#user-icon').removeClass('has-text-success');
+				$('#user-icon').addClass('has-text-danger');
 				$('#user-control').removeClass('is-loading');
+				$('#user-warning').text('Special characters except . and _ are not allowed');
+				$('#create').attr('disabled', 'disabled');
+				error[0] = false;
 				validate(error);
-			});
+			}
 		}
 	});
 
@@ -176,10 +198,19 @@ $(function() {
 	$('#password').focusout(function() {
 		var pass = $(this).val();
 		var confirm = $('#cpass').val();
-		if (confirm.trim() != "") {
-			validatePassword(pass, confirm);
+		if (pass.length >= 8) {
+			$(this).removeClass('is-danger');
+			$('#pass-warning').text('');
+			$('#create').removeAttr('disabled');
+			if (confirm.trim() != "") {
+				validatePassword(pass, confirm);
+			}
+			validate(error);
+		} else {
+			$(this).addClass('is-danger');
+			$('#create').attr('disabled', 'disabled');
+			$('#pass-warning').text('Password must be a minimum length of 8');
 		}
-		validate(error);
 	});
 
 	$('#password').keyup(function() {
@@ -191,21 +222,26 @@ $(function() {
 	$('#cpass').focusout(function() {
 		var pass = $('#password').val();
 		var confirm = $(this).val();
-		validatePassword(pass, confirm);
+		if (pass.length >= 8) {
+			validatePassword(pass, confirm);
+		}
 	});
 
 	$('#cpass').keyup(function() {
-		$('#cpass-warning').text('');
-		$('#password').removeClass('is-success');
-		$('#password').removeClass('is-danger');
-		$('#pass-icon').removeClass('has-text-success');
-		$('#pass-icon').removeClass('has-text-danger');
-		$(this).removeClass('is-success');
-		$(this).removeClass('is-danger');
-		$('#cpass-icon').removeClass('has-text-success');
-		$('#cpass-icon').removeClass('has-text-danger');
-		error[2] = true;
-		validate(error);
+		var pass = $('#password').val();
+		if (pass.length >= 8) {
+			$('#cpass-warning').text('');
+			$('#password').removeClass('is-success');
+			$('#password').removeClass('is-danger');
+			$('#pass-icon').removeClass('has-text-success');
+			$('#pass-icon').removeClass('has-text-danger');
+			$(this).removeClass('is-success');
+			$(this).removeClass('is-danger');
+			$('#cpass-icon').removeClass('has-text-success');
+			$('#cpass-icon').removeClass('has-text-danger');
+			error[2] = true;
+			validate(error);
+		}
 	});
 
 	$('form').submit(function() {

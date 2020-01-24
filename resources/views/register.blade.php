@@ -42,6 +42,7 @@
 							<p id="pass-field" class="control has-icons-left">
 								<input type="password" id="password" class="input" placeholder="Password" name="password" required>
 								<span class="icon is-small is-left"><i id="pass-icon" class="fas fa-key"></i></span>
+								<small id="pass-warning" class="has-text-danger"></small>
 							</p>
 							<div class="control">
 								<button id="view" class="button has-background-grey-lighter" type="button"><i id="icon-pass" class="fas fa-eye"></i></button>
