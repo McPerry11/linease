@@ -5,7 +5,8 @@
 @endsection
 
 @section('body')
-<div class="container is-fluid">
+{{-- Desktop View --}}
+<div id="lmargin" class="container is-fluid is-hidden-touch mtop">
 	<div class="columns is-vcentered is-flex-mobile">
 		<div class="column is-7">
 			<div class="level">
@@ -60,7 +61,7 @@
 						</div>
 						<div id="login-level" class="level">
 							<div class="level-item">
-								<button id="login" class="button is-rounded is-outlined has-text-white" type="submit">LOG IN</button>
+								<button type="submit" id="login" class="button is-rounded is-outlined has-text-white">LOG IN</button>
 							</div>
 							<div class="level-item">
 								<small class="is-size-7">OR</small>
@@ -74,7 +75,57 @@
 			</div>
 		</div>
 	</div>
+	<footer class="footer">
+		<div class="content has-text-centered">
+			<small class="is-size-7">© Copyright</small>
+		</div>
+	</footer>
 </div>
+
+{{-- Mobile View --}}
+<div class="container is-fluid is-hidden-desktop has-text-centered-mobile mtop">
+	<div class="level">
+		<div class="level-item">
+			<figure class="image is-128x128">
+				<img src="{{ asset("img/LineaseLogo.png") }}" alt="LinEase Logo">
+			</figure>
+		</div>
+	</div>
+	<div class="level">
+		<div class="level-item">
+			<p class="is-size-7">NEW TO LINEASE? <a href="{{ asset("register") }}" class="has-text-warning">SIGN UP FOR FREE</a></p>
+		</div>
+	</div>
+	<form method="POST">
+		@csrf
+		<div class="field">
+			<p class="control has-icons-left">
+				<input type="text" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
+				<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+			</p>
+		</div>
+		<div class="level">
+			<div class="level-item">
+				<button type="submit" id="mlogin" class="button is-rounded is-outlined has-text-white">LOG IN</button>
+			</div>
+		</div>
+		<div class="level">
+			<div class="level-item">
+				<small class="is-size-7">OR</small>
+			</div>
+		</div>
+		<div class="level">
+			<div class="level-item">
+				<a id="mregister" class="button is-rounded has-background-grey-darker has-text-white" href="{{ asset("register") }}">CREATE ACCOUNT</a>
+			</div>
+		</div>
+	</div>
+</form>
+<footer class="footer">
+	<div class="content has-text-centered">
+		<small class="is-size-7">© Copyright</small>
+	</div>
+</footer>
 @endsection
 
 @section('scripts')

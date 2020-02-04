@@ -1,18 +1,7 @@
 $(function() {
-	document.addEventListener('DOMContentLoaded', () => {
-		(document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-			$notification = $delete.parentNode;
-			console.log('Nin');
-
-			$delete.addEventListener('click', () => {
-				$notification.parentNode.removeChild($notification);
-			});
-		});
-	});
-
-	$('#view').click(function() {
-		if( $('#password').attr('type') == 'password' ) {
-			$('#password').attr('type', 'text');
+	$('.view').click(function() {
+		if( $('.password').attr('type') == 'password' ) {
+			$('.password').attr('type', 'text');
 			$('#icon-pass').removeClass('fa-eye');
 			$('#icon-pass').addClass('fa-eye-slash');
 			$('#icon-pass').addClass('has-text-white');
@@ -20,7 +9,7 @@ $(function() {
 			$(this).addClass('has-background-grey-dark');
 			$(this).addClass('is-selected');
 		} else {
-			$('#password').attr('type', 'password');
+			$('.password').attr('type', 'password');
 			$('#icon-pass').removeClass('fa-eye-slash');
 			$('#icon-pass').addClass('fa-eye');
 			$('#icon-pass').removeClass('has-text-white');
@@ -32,7 +21,9 @@ $(function() {
 
 	$('form').submit(function() {
 		$('#login').addClass('is-loading');
+		$('#mlogin').addClass('is-loading');
 		$('#register').attr('disabled', 'disabled');
+		$('#mregister').attr('disabled', 'disabled');
 	});
 
 	$('#register').click(function() {
@@ -41,7 +32,13 @@ $(function() {
 		$('#login').attr('disabled', 'disabled');
 	});
 
-	$('#password').keypress(function() {
+	$('#mregister').click(function() {
+		$(this).addClass('is-loading');
+		$(this).text('');
+		$('#mlogin').attr('disabled', 'disabled');
+	});
+
+	$('.password').keypress(function() {
 		$('#message').text('');
 	})
 });
