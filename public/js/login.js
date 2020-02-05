@@ -1,7 +1,7 @@
 $(function() {
-	$('.view').click(function() {
-		if( $('.password').attr('type') == 'password' ) {
-			$('.password').attr('type', 'text');
+	$('#view').click(function() {
+		if( $('#password').attr('type') == 'password' ) {
+			$('#password').attr('type', 'text');
 			$('#icon-pass').removeClass('fa-eye');
 			$('#icon-pass').addClass('fa-eye-slash');
 			$('#icon-pass').addClass('has-text-white');
@@ -9,10 +9,30 @@ $(function() {
 			$(this).addClass('has-background-grey-dark');
 			$(this).addClass('is-selected');
 		} else {
-			$('.password').attr('type', 'password');
+			$('#password').attr('type', 'password');
 			$('#icon-pass').removeClass('fa-eye-slash');
 			$('#icon-pass').addClass('fa-eye');
 			$('#icon-pass').removeClass('has-text-white');
+			$(this).removeClass('has-background-grey-dark');
+			$(this).addClass('has-background-grey-lighter');
+			$(this).removeClass('is-selected');
+		}
+	});
+
+	$('#mview').click(function() {
+		if( $('#mpassword').attr('type') == 'password' ) {
+			$('#mpassword').attr('type', 'text');
+			$('#micon-pass').removeClass('fa-eye');
+			$('#micon-pass').addClass('fa-eye-slash');
+			$('#micon-pass').addClass('has-text-white');
+			$(this).removeClass('has-background-grey-lighter');
+			$(this).addClass('has-background-grey-dark');
+			$(this).addClass('is-selected');
+		} else {
+			$('#mpassword').attr('type', 'password');
+			$('#micon-pass').removeClass('fa-eye-slash');
+			$('#micon-pass').addClass('fa-eye');
+			$('#micon-pass').removeClass('has-text-white');
 			$(this).removeClass('has-background-grey-dark');
 			$(this).addClass('has-background-grey-lighter');
 			$(this).removeClass('is-selected');
@@ -38,7 +58,11 @@ $(function() {
 		$('#mlogin').attr('disabled', 'disabled');
 	});
 
-	$('.password').keypress(function() {
+	$('#password').keypress(function() {
 		$('#message').text('');
+	})
+
+	$('#mpassword').keypress(function() {
+		$('#mmessage').text('');
 	})
 });

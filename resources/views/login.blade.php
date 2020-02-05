@@ -43,12 +43,12 @@
 							</p>
 						</div>
 						<div class="field has-addons is-marginless">
-							<p id="pass-field" class="control has-icons-left">
+							<p class="control has-icons-left pass-field">
 								<input type="password" id="password" class="input" placeholder="Password" name="password" required>
 								<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
 							</p>
 							<div class="control">
-								<button id="view" class="button has-background-grey-lighter" type="button"><i id="icon-pass" class="fas fa-eye"></i></button>
+								<button type="button" id="view" class="button has-background-grey-lighter"><i id="icon-pass" class="fas fa-eye"></i></button>
 							</div>
 						</div>
 						<div class="columns">
@@ -59,7 +59,7 @@
 								<small><a href=" ">Forgot Password?</a></small>
 							</div>
 						</div>
-						<div id="login-level" class="level">
+						<div class="level">
 							<div class="level-item">
 								<button type="submit" id="login" class="button is-rounded is-outlined has-text-white">LOG IN</button>
 							</div>
@@ -104,28 +104,43 @@
 				<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 			</p>
 		</div>
-		<div class="level">
-			<div class="level-item">
-				<button type="submit" id="mlogin" class="button is-rounded is-outlined has-text-white">LOG IN</button>
+		<div class="field has-addons is-marginless">
+			<p class="control has-icons-left pass-field">
+				<input type="password" id="mpassword" class="input" placeholder="Password" name="password" required>
+				<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+			</p>
+			<div class="control">
+				<button type="button" id="mview" class="button has-background-grey-lighter"><i id="micon-pass" class="fas fa-eye"></i></button>
 			</div>
 		</div>
-		<div class="level">
-			<div class="level-item">
-				<small class="is-size-7">OR</small>
+		<div class="has-text-right">
+			<small><a href=" ">Forgot Password?</a></small>
+		</div>
+		<small id="mmessage" class="has-text-danger">{{ $message ?? '' }}</small>
+		<div id="buttons">
+			<div class="level">
+				<div class="level-item">
+					<button type="submit" id="mlogin" class="button is-rounded is-outlined has-text-white">LOG IN</button>
+				</div>
+			</div>
+			<div class="level">
+				<div class="level-item">
+					<small class="is-size-7">OR</small>
+				</div>
+			</div>
+			<div class="level">
+				<div class="level-item">
+					<a id="mregister" class="button is-rounded has-background-grey-darker has-text-white" href="{{ asset("register") }}">CREATE ACCOUNT</a>
+				</div>
 			</div>
 		</div>
-		<div class="level">
-			<div class="level-item">
-				<a id="mregister" class="button is-rounded has-background-grey-darker has-text-white" href="{{ asset("register") }}">CREATE ACCOUNT</a>
-			</div>
+	</form>
+	<footer id="mfooter" class="footer">
+		<div class="content has-text-centered">
+			<small class="is-size-7">© Copyright</small>
 		</div>
-	</div>
-</form>
-<footer class="footer">
-	<div class="content has-text-centered">
-		<small class="is-size-7">© Copyright</small>
-	</div>
-</footer>
+	</footer>
+</div>
 @endsection
 
 @section('scripts')

@@ -1,10 +1,8 @@
 .mtop {
 	margin-top: 10%;
-	margin-left: 5%;
-	margin-right: 5%;
 }
 
-#lmargin {
+#lmargin, .mtop {
 	margin-right: 5%;
 	margin-left: 5%;
 }
@@ -21,11 +19,11 @@
 	width: 175px;
 }
 
-#pass-field {
+.pass-field {
 	width: 100%;
 }
 
-#login {
+#login, #mlogin {
 	background-color: #00C944;
 }
 
@@ -33,6 +31,18 @@
 	width: 90%;
 }
 
-#mlogin {
-	background-color: #00C944;
+#buttons {
+	margin-top: 20px;
+}
+
+#buttons .level {
+	margin-bottom: 10px;
+}
+
+#mfooter {
+	position: -webkit-sticky;
+	position: sticky;
+	bottom: 0;
+	padding: 0;
+	margin-top: 100%;
 }
