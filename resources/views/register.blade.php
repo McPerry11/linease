@@ -5,7 +5,7 @@
 @endsection
 
 @section('body')
-<div class="container is-fluid">
+<div class="container is-fluid is-hidden-touch">
 	<div class="level">
 		<div class="level-item">
 			<div class="card">
