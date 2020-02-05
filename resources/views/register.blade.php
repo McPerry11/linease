@@ -5,6 +5,7 @@
 @endsection
 
 @section('body')
+{{-- Desktop View --}}
 <div class="container is-fluid is-hidden-touch">
 	<div class="level">
 		<div class="level-item">
@@ -68,6 +69,11 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+{{-- Mobile View --}}
+<div class="container is-fluid is-hidden-desktop has-text-centered-mobile">
+	
 </div>
 @endsection
 
