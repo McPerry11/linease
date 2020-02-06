@@ -75,8 +75,8 @@
 			</div>
 		</div>
 	</div>
-	<footer class="footer">
-		<div class="content has-text-centered">
+	<footer id="footer" class="footer">
+		<div class="content has-text-centered has-background-white">
 			<small class="is-size-7">© Copyright</small>
 		</div>
 	</footer>
@@ -136,7 +136,7 @@
 		</div>
 	</form>
 	<footer id="mfooter" class="footer">
-		<div class="content has-text-centered">
+		<div class="content has-text-centered has-background-white">
 			<small class="is-size-7">© Copyright</small>
 		</div>
 	</footer>
