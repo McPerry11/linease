@@ -1,14 +1,37 @@
+html, body {
+	overflow-y: overlay;
+}
+
+@media screen and (min-width: 1204px) {
+	html, body {
+		overflow-y: hidden;
+	}
+}
+
 .card {
 	width: 30%;
 	margin-top: 5%;
 }
 
-#pass-field {
+.pass-field {
 	width: 100%;
 }
 
-#create {
+#create, #mcreate {
 	background-color: #00C944;
 	margin-top: 25px;
 	margin-bottom: 10px;
+}
+
+.footer {
+	margin-top: 20px;
+	bottom: 0;
+	width: 100%;
+	padding: 0;
+}
+
+.mtop {
+	margin-top: 10%;
+	margin-left: 5%;
+	margin-right: 5%;
 }

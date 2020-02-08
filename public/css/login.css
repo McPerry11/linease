@@ -7,10 +7,6 @@
 	margin-left: 5%;
 }
 
-.column .is-7 {
-	margin-right: 10px;
-}
-
 .content h1 {
 	margin-bottom: 0;
 }
@@ -39,10 +35,9 @@
 	margin-bottom: 10px;
 }
 
-#mfooter {
-	position: -webkit-sticky;
-	position: sticky;
+.footer {
+	position: fixed;
 	bottom: 0;
+	width: 90%;
 	padding: 0;
-	margin-top: 100%;
 }

@@ -31,14 +31,14 @@
 					</div>
 					<div class="level">
 						<div class="level-item">
-							<p class="is-medium">NEW TO LINEASE? <a class="has-text-warning" href="{{ url('register') }}">SIGN UP FOR FREE</a></p>
+							<p class="is-medium">NEW TO LINEASE? <a class="has-text-success" href="{{ url('register') }}">SIGN UP FOR FREE</a></p>
 						</div>
 					</div>
 					<form method="POST">
 						@csrf
 						<div class="field">
 							<p class="control has-icons-left">
-								<input type="text" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
+								<input type="text" id="username" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
 								<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 							</p>
 						</div>
@@ -55,8 +55,8 @@
 							<div class="column is-7 has-text-left">
 								<small id="message" class="has-text-danger">{{ $message ?? '' }}</small>
 							</div>
-							<div class="column is-5 has-text-right">
-								<small><a href=" ">Forgot Password?</a></small>
+							<div id="mright" class="column is-5 has-text-right">
+								<small><a class="has-text-grey" href=" ">Forgot Password?</a></small>
 							</div>
 						</div>
 						<div class="level">
@@ -76,7 +76,7 @@
 		</div>
 	</div>
 	<footer class="footer">
-		<div class="content has-text-centered">
+		<div class="content has-text-centered has-background-white">
 			<small class="is-size-7">© Copyright</small>
 		</div>
 	</footer>
@@ -93,14 +93,14 @@
 	</div>
 	<div class="level">
 		<div class="level-item">
-			<p class="is-size-7">NEW TO LINEASE? <a href="{{ asset("register") }}" class="has-text-warning">SIGN UP FOR FREE</a></p>
+			<p class="is-size-7">NEW TO LINEASE? <a class="has-text-success" href="{{ asset("register") }}" >SIGN UP FOR FREE</a></p>
 		</div>
 	</div>
 	<form method="POST">
 		@csrf
 		<div class="field">
 			<p class="control has-icons-left">
-				<input type="text" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
+				<input type="text" id="musername" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
 				<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 			</p>
 		</div>
@@ -114,7 +114,7 @@
 			</div>
 		</div>
 		<div class="has-text-right">
-			<small><a href=" ">Forgot Password?</a></small>
+			<small><a class="has-text-grey" href=" ">Forgot Password?</a></small>
 		</div>
 		<small id="mmessage" class="has-text-danger">{{ $message ?? '' }}</small>
 		<div id="buttons">
@@ -135,8 +135,8 @@
 			</div>
 		</div>
 	</form>
-	<footer id="mfooter" class="footer">
-		<div class="content has-text-centered">
+	<footer class="footer">
+		<div class="content has-text-centered has-background-white">
 			<small class="is-size-7">© Copyright</small>
 		</div>
 	</footer>
