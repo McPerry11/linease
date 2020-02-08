@@ -23,7 +23,7 @@
 							<p class="is-medium">Join the community</p>
 						</div>
 					</div>
-					<form method="POST">
+					<form class="has-text-left" method="POST">
 						@csrf
 						<div class="field">
 							<div id="user-control" class="control has-icons-left">
@@ -120,12 +120,12 @@
 		<button id="mcreate" class="button is-fullwidth is-rounded is-outlined has-text-white" type="submit">CREATE ACCOUNT</button>
 	</form>
 	<small class="mbot">Already have an account? <a class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
+	<footer class="footer">
+		<div class="content has-text-centered has-background-white">
+			<small class="is-size-7">© Copyright</small>
+		</div>
+	</footer>
 </div>
-<footer class="footer">
-	<div class="content has-text-centered has-background-white">
-		<small class="is-size-7">© Copyright</small>
-	</div>
-</footer>
 @endsection
 
 @section('scripts')

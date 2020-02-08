@@ -2,12 +2,6 @@ html, body {
 	overflow-y: overlay;
 }
 
-@media screen and (min-width: 1204px) {
-	html, body {
-		overflow-y: hidden;
-	}
-}
-
 .card {
 	width: 30%;
 	margin-top: 5%;
