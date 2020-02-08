@@ -413,7 +413,6 @@ $(function() {
 		validate(error);
 	});
 
-
 	$('#mview').click(function() {
 		if( $('#mpassword').attr('type') == 'password' ) {
 			$('#mpassword').attr('type', 'text');

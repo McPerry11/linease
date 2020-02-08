@@ -35,7 +35,11 @@ $(function() {
 		$('#login').attr('disabled', 'disabled');
 	});
 
-	$('#password').keypress(function() {
+	$('#username').keyup(function() {
+		$('#message').text('');
+	});
+
+	$('#password').keyup(function() {
 		$('#message').text('');
 	})
 
@@ -67,7 +71,11 @@ $(function() {
 		$('#mlogin').attr('disabled', 'disabled');
 	});
 
-	$('#mpassword').keypress(function() {
+	$('#musername').keyup(function() {
+		$('#mmessage').text('');
+	});
+
+	$('#mpassword').keyup(function() {
 		$('#mmessage').text('');
 	});
 });
