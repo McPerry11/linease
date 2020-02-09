@@ -7,7 +7,7 @@
 @section('body')
 {{-- Desktop View --}}
 <div id="lmargin" class="container is-fluid is-hidden-touch mtop">
-	<div class="columns is-vcentered is-flex-mobile">
+	<div class="columns is-vcentered">
 		<div class="column is-7">
 			<div class="level">
 				<div class="level-item">

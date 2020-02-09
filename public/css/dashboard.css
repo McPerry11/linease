@@ -1,0 +1,20 @@
+html, body {
+	overflow-y: hidden;
+}
+
+.navbar {
+	background-color: #00C944;
+}
+
+.navbar-item {
+	width: 50%;
+	color: white;
+}
+
+#profile {
+	padding-left: 15vw;
+}
+
+#settings {
+	padding-right: 20vw;
+}
