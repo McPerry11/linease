@@ -18,17 +18,20 @@
 {{-- Mobile View --}}
 <div class="is-hidden-desktop has-text-centered">
 	<nav class="navbar is-fixed-top">
-		<div class="navbar-brand">
-			<form method="POST">
-				@csrf
-				<button class="button is-danger">Logout</button>
-			</form>
+		<div class="navbar-item">
+			<div class="content">
+				<h4>MAP</h4>
+			</div>
 		</div>
 	</nav>
 	<nav class="navbar is-fixed-bottom">
 		<div class="navbar-brand">
-			<a id="profile" class="navbar-item"><i class="is-size-4 fas fa-user"></i></a>
-			<a id="settings" class="navbar-item"><i class="is-size-4 fas fa-bars"></i></a>
+			<a class="navbar-item">
+				<div id="profile" class="has-text-left"><i class="is-size-4 fas fa-user"></i></div>
+			</a>
+			<a class="navbar-item">
+				<div id="settings" class="has-text-right"><i class="is-size-4 fas fa-bars"></i></div>
+			</a>
 		</div>
 	</nav>
 </div>
