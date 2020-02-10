@@ -2,11 +2,6 @@
 	margin-top: 10%;
 }
 
-#lmargin, .mtop {
-	margin-right: 5%;
-	margin-left: 5%;
-}
-
 .content h1 {
 	margin-bottom: 0;
 }
@@ -38,6 +33,12 @@
 .footer {
 	position: fixed;
 	bottom: 0;
-	width: 90%;
+	width: 80%;
 	padding: 0;
+}
+
+@media screen and (min-width: 1024px) {
+	.footer {
+		width: 95%;
+	}
 }

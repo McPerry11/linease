@@ -4,7 +4,7 @@ html, body {
 
 .card {
 	width: 30%;
-	margin-top: 5%;
+	margin-top: 2%;
 }
 
 .pass-field {
@@ -26,6 +26,4 @@ html, body {
 
 .mtop {
 	margin-top: 10%;
-	margin-left: 5%;
-	margin-right: 5%;
 }
