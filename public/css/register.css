@@ -1,14 +1,29 @@
-.card {
-	width: 30%;
-	margin-top: 5%;
+html, body {
+	overflow-y: overlay;
 }
 
-#pass-field {
+.card {
+	width: 30%;
+	margin-top: 2%;
+}
+
+.pass-field {
 	width: 100%;
 }
 
-#create {
+#create, #mcreate {
 	background-color: #00C944;
 	margin-top: 25px;
 	margin-bottom: 10px;
+}
+
+.footer {
+	margin-top: 20px;
+	bottom: 0;
+	width: 100%;
+	padding: 0;
+}
+
+.mtop {
+	margin-top: 10%;
 }

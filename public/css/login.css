@@ -2,15 +2,6 @@
 	margin-top: 10%;
 }
 
-#lmargin, .mtop {
-	margin-right: 5%;
-	margin-left: 5%;
-}
-
-.column .is-7 {
-	margin-right: 10px;
-}
-
 .content h1 {
 	margin-bottom: 0;
 }
@@ -35,14 +26,19 @@
 	margin-top: 20px;
 }
 
-#buttons .level {
+#buttons .level{
 	margin-bottom: 10px;
 }
 
-#mfooter {
-	position: -webkit-sticky;
-	position: sticky;
+.footer {
 	bottom: 0;
+	width: 100%;
 	padding: 0;
-	margin-top: 100%;
+	margin-top: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+	.footer {
+		width: 95%;
+	}
 }

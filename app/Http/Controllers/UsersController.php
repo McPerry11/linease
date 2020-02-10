@@ -36,8 +36,6 @@ class UsersController extends Controller
           );
         }
 
-        return response()->json($response);
-
       } else if ($request->data == 'email') {
         foreach ($users as $user) {
           if ($user->email == $request->email) {
@@ -56,8 +54,8 @@ class UsersController extends Controller
           );
         }
 
-        return response()->json($response);
       }
+      return response()->json($response);
     }
   }
 
