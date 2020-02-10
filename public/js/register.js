@@ -114,8 +114,7 @@ $(function() {
 						}
 					},
 					error: function() {
-						error[0] = true;
-						$('#create').removeAttr('disabled');
+						error[0] = false;
 						$('#user-control').removeClass('is-loading');
 						alert('Something went wrong. Please try again later.');
 					}
@@ -184,7 +183,7 @@ $(function() {
 					}
 				},
 				error: function() {
-					error[1] = true;
+					error[1] = false;
 					$('#email-control').removeClass('is-loading');
 					alert('Something went wrong. Please try again later.');
 				}
@@ -325,8 +324,7 @@ $(function() {
 						}
 					},
 					error: function() {
-						error[0] = true;
-						$('#mcreate').removeAttr('disabled');
+						error[0] = false;
 						$('#muser-control').removeClass('is-loading');
 						alert('Something went wrong. Please try again later.');
 					}
@@ -395,7 +393,7 @@ $(function() {
 					}
 				},
 				error: function() {
-					error[1] = true;
+					error[1] = false;
 					$('#memail-control').removeClass('is-loading');
 					alert('Something went wrong. Please try again later.');
 				}
