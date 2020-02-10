@@ -1,5 +1,8 @@
 $(function() {
 	// Universal
+        $("html").removeClass("has-navbar-fixed-bottom");
+        $("html").removeClass("has-navbar-fixed-top");
+
 	$('form').submit(function() {
 		$('#login').addClass('is-loading');
 		$('#mlogin').addClass('is-loading');

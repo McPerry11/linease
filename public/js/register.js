@@ -1,5 +1,8 @@
 $(function() {
 	// Universal
+	$("html").removeClass("has-navbar-fixed-bottom");
+        $("html").removeClass("has-navbar-fixed-top");
+
 	var error = [true, true, true];
 
 	function validateUsername(username) {
