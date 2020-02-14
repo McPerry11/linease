@@ -2,14 +2,22 @@
 	background-color: #00C944;
 }
 
+.navbar.is-fixed-top {
+	box-shadow: 0 3px 15px grey;
+}
+
 .content h4 {
 	margin-bottom: 0;
-	margin-top: 10px;
 	color: white;
 }
 
-.navbar.is-fixed-top {
-	box-shadow: 0 3px 15px grey;
+.navbar-burger {
+	color: white;
+}
+
+.navbar-burger:active, .navbar-burger.is-active, .navbar-burger:hover {
+	color: #00C944;
+	background-color: white
 }
 
 .navbar.is-fixed-bottom {
