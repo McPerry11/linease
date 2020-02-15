@@ -10,13 +10,12 @@
 
 {{-- Mobile View --}}
 <div class="is-hidden-desktop">
+	<div class="content">
+		<h4>MAP</h4>
+	</div>
 	<nav class="navbar is-fixed-top has-text-center">
 		<div class="navbar-brand">
-			<div class="navbar-item">
-				<div class="content">
-					<h4>MAP</h4>
-				</div>
-			</div>
+			<div class="navbar-item"></div>
 			<a class="navbar-burger">
 				<span></span>
 				<span></span>
