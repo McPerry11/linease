@@ -66,7 +66,10 @@ class UsersController extends Controller
    */
   public function create()
   {
-    //
+    if (Auth::user()) {
+      return redirect('');
+    }
+    return view('register');
   }
 
   /**
@@ -101,9 +104,12 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show($username)
   {
-    //
+    $user = User::where('username', $username)->get();
+    return view('profile', [
+      'user' => $user,
+    ]);
   }
 
   /**

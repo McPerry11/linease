@@ -25,7 +25,7 @@
 		</div>
 		<div class="navbar-menu">
 			<div class="navbar-end">
-				<a class="navbar-item" href="{{ url('profile') }}"><i class="fas fa-user"></i> Profile</a>
+				<a class="navbar-item" href="{{ url($user->username) }}"><i class="fas fa-user"></i> Profile</a>
 				<a class="navbar-item" href=""><i class="fas fa-users"></i> Accounts</a>
 				<a class="navbar-item" href=""><i class="fas fa-stream"></i> Logs</a>
 				<a class="navbar-item" href=""><i class="fas fa-cogs"></i> Settings</a>
