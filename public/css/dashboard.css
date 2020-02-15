@@ -1,3 +1,27 @@
 html, body {
 	overflow-y: hidden;
 }
+
+figure.image.is-64x64 {
+	height: 80px;
+	width: 80px;
+}
+
+#center {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: 4% auto;
+	z-index: 1;
+}
+
+#center a {
+	cursor: none;
+}
+
+#center:active {
+	height: 85px;
+	width: 85px;
+	margin: 3% auto;
+}
