@@ -46,6 +46,17 @@ p.control {
 	padding-bottom: 10px;
 }
 
+#legend {
+	margin-right: 5px;
+	background-color: lightgrey;
+	padding: 6px;
+	border-radius: 15px;
+}
+
+#legend img {
+	margin: 2.5px auto;	
+}
+
 figure.image.is-64x64 {
 	height: 80px;
 	width: 80px;

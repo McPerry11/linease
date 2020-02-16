@@ -15,6 +15,7 @@
 {{-- Mobile View --}}
 <div id="map-container" class="is-hidden-desktop">
 	<div id="map"></div>
+	<div id="legend"></div>
 	<form method="POST">
 		<div class="field has-addons">
 			<p class="control has-icons-left">
