@@ -1,7 +1,7 @@
 $(function() {
 	// Universal
-        $("html").removeClass("has-navbar-fixed-bottom");
-        $("html").removeClass("has-navbar-fixed-top");
+	$("html").removeClass("has-navbar-fixed-bottom");
+	$("html").removeClass("has-navbar-fixed-top");
 
 	$('form').submit(function() {
 		$('#login').addClass('is-loading');
@@ -33,6 +33,10 @@ $(function() {
 	});
 
 	$('#register').click(function() {
+		var attr = $('#register').attr('disabled');
+		if (typeof attr !== typeof undefined && attr !== false) {
+			return false;
+		}
 		$(this).addClass('is-loading');
 		$(this).text('');
 		$('#login').attr('disabled', 'disabled');
@@ -68,7 +72,11 @@ $(function() {
 		}
 	});
 
-	$('#mregister').click(function() {
+	$('#mregister').click(function(e) {
+		var attr = $('#mregister').attr('disabled');
+		if (typeof attr !== typeof undefined && attr !== false) {
+			return false;
+		}
 		$(this).addClass('is-loading');
 		$(this).text('');
 		$('#mlogin').attr('disabled', 'disabled');

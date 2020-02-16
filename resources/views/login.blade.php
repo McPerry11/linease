@@ -38,7 +38,7 @@
 						@csrf
 						<div class="field">
 							<p class="control has-icons-left">
-								<input type="text" id="username" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
+								<input type="text" id="username" class="input" placeholder="Username" name="username" required>
 								<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 							</p>
 						</div>
@@ -56,7 +56,7 @@
 								<small id="message" class="has-text-danger">{{ $message ?? '' }}</small>
 							</div>
 							<div id="mright" class="column is-5 has-text-right">
-								<small><a class="has-text-grey" href=" ">Forgot Password?</a></small>
+								<small><a class="has-text-grey">Forgot Password?</a></small>
 							</div>
 						</div>
 						<div class="level">
@@ -114,7 +114,7 @@
 			</div>
 		</div>
 		<div class="has-text-right">
-			<small><a class="has-text-grey" href=" ">Forgot Password?</a></small>
+			<small><a class="has-text-grey">Forgot Password?</a></small>
 		</div>
 		<small id="mmessage" class="has-text-danger">{{ $message ?? '' }}</small>
 		<div id="buttons">

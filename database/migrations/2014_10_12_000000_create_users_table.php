@@ -27,8 +27,9 @@ class CreateUsersTable extends Migration
             ->unique();
             $table->enum('type', [
                 'USER',
+                'FACIL',
                 'ADMIN',
-                'SUPER'
+                'SUPER',
             ]);
             $table->string('password');
             $table->integer('avatar_id')

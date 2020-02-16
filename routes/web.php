@@ -14,7 +14,7 @@
 Route::get('login', 'IndexController@login')->name('login');
 Route::post('login', 'LoginController@login');
 
-Route::get('register', 'IndexController@register');
+Route::get('register', 'UserController@create');
 Route::post('register', 'UsersController@store');
 
 Route::prefix('users')->group(function() {
@@ -24,6 +24,8 @@ Route::prefix('users')->group(function() {
 Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');
 	Route::post('', 'LoginController@logout');
+
+	Route::get('{username}', 'UsersController@show');
 });
 
 // Route::fallback(function() {

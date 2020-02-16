@@ -1,0 +1,40 @@
+.content {
+	position: fixed;
+	top: 15px;
+	right: 0;
+	left: 0;
+	margin: auto;
+	width: fit-content;
+	text-align: center;
+	z-index: 3;
+}
+
+.content h4 {
+	margin-bottom: 0;
+	color: white;
+}
+
+.navbar.is-fixed-top {
+	background-color: #00C944;
+	box-shadow: 0 3px 15px darkgrey;
+	z-index: 2;
+}
+
+.navbar-brand .navbar-item {
+	margin: auto;
+	justify-content: center;
+}
+
+.navbar-burger {
+	color: white;
+	margin: 0;
+}
+
+.navbar-end .navbar-item {
+	color: #00C944;
+}
+
+.navbar-end .navbar-item .fas {
+	width: 25px;
+	text-align: center;
+}

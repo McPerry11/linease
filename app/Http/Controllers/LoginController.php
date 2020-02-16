@@ -15,7 +15,6 @@ class LoginController extends Controller
 		} 
 		return view('login', [
 			'message' => 'Invalid username and/or password',
-			'username' => $request->username,
 		]);
 	}
 

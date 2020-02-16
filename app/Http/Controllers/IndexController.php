@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\User;
 
 class IndexController extends Controller
 {
@@ -14,14 +15,10 @@ class IndexController extends Controller
 		return view('login');
 	}
 
-	public function register() {
-		if (Auth::user()) {
-			return redirect('');
-		}
-		return view('register');
-	}
-
 	public function dashboard() {
-		return view('dashboard');
+		$user = Auth::user();
+		return view('dashboard', [
+			'user' => $user,
+		]);
 	}
 }
