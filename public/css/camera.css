@@ -13,5 +13,22 @@ body {
 	width: 100vw;
 	height: 100%;
 	background-color: grey;
+	color: white;
+	text-align: center;
+	padding: 20% 20px;
 	z-index: 0;
+}
+
+#camera .icon.is-large {
+	text-align: center;
+	font-size: 50px;
+	margin: auto;
+	height: fit-content;
+	width: fit-content;
+}
+
+#camera .fa-exclamation-triangle.fa-stack-2x {
+	font-size: 40px;
+	bottom: 25px;
+	padding-left: 50px;
 }

@@ -6,8 +6,10 @@
 
 @section('body')
 <div id="camera"></div>
+
 @endsection
 
 @section('scripts')
-{{-- <script src="{{ asset('js/camera.js') }}"></script> --}}
+<script src="{{ asset('js/modernizr-custom.js') }}"></script>
+<script src="{{ asset('js/camera.js') }}"></script>
 @endsection
