@@ -21,4 +21,8 @@ class IndexController extends Controller
 			'user' => $user,
 		]);
 	}
+
+	public function camera() {
+		return view('camera');
+	}
 }

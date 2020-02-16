@@ -32,7 +32,7 @@
 		</div>
 	</form>
 	<figure id="center" class="image is-64x64">
-		<a>
+		<a href="{{ url('camera') }}">
 			<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
 		</a>
 	</figure>

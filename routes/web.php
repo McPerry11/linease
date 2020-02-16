@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');
 	Route::post('', 'LoginController@logout');
 
+	Route::get('camera', 'IndexController@camera');
+
 	Route::get('{username}', 'UsersController@show');
 });
 
