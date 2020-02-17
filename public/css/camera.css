@@ -2,16 +2,17 @@ html {
 	height: 100vh;
 	width: 100vw;
 	background-color: black;
-	padding-bottom: 100px;
 }
 
 body {
 	height: 100%;
+	display: flex;
 }
 
 #camera {
 	width: 100vw;
-	height: 100%;
+	height: 100vw;
+	margin: auto;
 	background-color: grey;
 	color: white;
 	text-align: center;
@@ -31,4 +32,56 @@ body {
 	font-size: 40px;
 	bottom: 25px;
 	padding-left: 50px;
+}
+
+.navbar.is-fixed-bottom {
+	z-index: 1;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item {
+	width: 50%;
+}
+
+.navbar-item div {
+	color: #00C944;
+	width: 100%;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item:active {
+	background-color: #00C944;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item:active > div {
+	color: white;
+}
+
+a.navbar-item, #center a {
+	cursor: none;
+}
+
+#left {
+	padding-left: 14vw;
+}
+
+#right {
+	padding-right: 14vw;
+}
+
+figure.image.is-64x64 {
+	height: 80px;
+	width: 80px;
+}
+
+#center {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: -3% auto;
+	z-index: 2;
+}
+
+#center:active {
+	height: 85px;
+	width: 85px;
 }

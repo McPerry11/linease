@@ -1,4 +1,6 @@
 $(function() {
+  $('html').addClass('has-navbar-fixed-bottom');
+
   if (!Modernizr.getusermedia) {
     alert('Your browser does not support getUserMedia according to Modernizr.');
     $('#camera').append('<span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span>');
@@ -6,13 +8,18 @@ $(function() {
   } else {
     const constraints = {
       audio: false,
-      video: {facingMode: {ideal: 'environment'}},
+      video: {
+        width: {ideal: 720},
+        height: {ideal: 720},
+        facingMode: {ideal: 'environment'}
+      },
     };
 
     navigator.mediaDevices.getUserMedia(constraints)
     .then(function(stream) {
       $('#camera').remove();
-      $('body').append('<video autoplay></video>');
+      $('body').append('<video autoplay id="camera"></video>');
+      $('#camera').css('padding', 0);
       var video = document.querySelector('video');
       video.srcObject = stream;
     }).catch(function(err) {
