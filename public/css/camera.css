@@ -9,7 +9,7 @@ body {
 	display: flex;
 }
 
-#camera {
+#camera, canvas {
 	width: 100vw;
 	height: 100vw;
 	margin: auto;
@@ -100,4 +100,10 @@ figure.image.is-64x64 {
 #center:active {
 	height: 85px;
 	width: 85px;
+}
+
+.inactive {
+	pointer-events: none;
+	cursor: default;
+	background-color: lightgrey;
 }

@@ -5,8 +5,7 @@ $(function() {
 			$('.navbar-menu').slideToggle('fast', function() {
 				$('.navbar-menu').removeClass('is-active');
 			});
-			$(this).removeClass('is-active');
-			$(this).css({'color':'white', 'background-color':'#00C944'});
+			$(this).removeClass('is-active').css({'color':'white', 'background-color':'#00C944'});
 		} else {
 			$(this).addClass('is-active');
 			$('.navbar-menu').slideToggle('fast', function() {

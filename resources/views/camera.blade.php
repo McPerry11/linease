@@ -8,11 +8,11 @@
 <div id="camera"></div>
 <nav class="navbar is-fixed-bottom">
 	<div class="navbar-brand">
-		<a id="left" class="navbar-item" href="{{ url('') }}">
-			<div class="has-text-left"><i class="fas fa-times is-size-4"></i></div>
+		<a id="left" class="navbar-item">
+			<div class="has-text-left"><i id="licon" class="fas fa-times is-size-4"></i></div>
 		</a>
 		<a id="right" class="navbar-item">
-			<div class="has-text-right"><i class="fas fa-check is-size-4"></i></div>
+			<div class="has-text-right"><i id="ricon" class="fas fa-check is-size-4"></i></div>
 		</a>
 	</div>
 </nav>
