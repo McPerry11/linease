@@ -8,7 +8,7 @@
 	@include('_styles')
 	@yield('styles')
 </head>
-<body>
+<body ondragstart="return false;" ondrop="return false;">
 	@yield('body')
 
 	@include('_scripts')

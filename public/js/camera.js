@@ -1,10 +1,10 @@
 $(function() {
   $('html').addClass('has-navbar-fixed-bottom');
 
-  if (!Modernizr.getusermedia) {
+  if (Modernizr.getusermedia) {
     alert('Your browser does not support getUserMedia according to Modernizr.');
-    $('#camera').append('<span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span>');
-    $('#camera').append('LinEase cannot access your device\'s camera through this broswer. We recommend Google Chrome for more browser feature supports.');
+    $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span></div>');
+    $('#warning').append('LinEase cannot access your device\'s camera through this broswer. We recommend Google Chrome for more browser feature supports.');
   } else {
     const constraints = {
       audio: false,

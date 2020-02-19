@@ -16,8 +16,12 @@ body {
 	background-color: grey;
 	color: white;
 	text-align: center;
-	padding: 20% 20px;
+	display: flex;
 	z-index: 0;
+}
+
+#warning {
+	margin: auto;
 }
 
 #camera .icon.is-large {
@@ -47,11 +51,23 @@ body {
 	width: 100%;
 }
 
-.is-fixed-bottom .navbar-brand .navbar-item:active {
+#left div {
+	color: red;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#right:active {
 	background-color: #00C944;
 }
 
-.is-fixed-bottom .navbar-brand .navbar-item:active > div {
+.is-fixed-bottom .navbar-brand .navbar-item#right:active > div {
+	color: white;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#left:active {
+	background-color: red;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#left:active > div {
 	color: white;
 }
 
