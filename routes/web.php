@@ -14,7 +14,7 @@
 Route::get('login', 'IndexController@login')->name('login');
 Route::post('login', 'LoginController@login');
 
-Route::get('register', 'UserController@create');
+Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');
 
 Route::prefix('users')->group(function() {
