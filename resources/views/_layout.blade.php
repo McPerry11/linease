@@ -9,6 +9,7 @@
 	@yield('styles')
 </head>
 <body ondragstart="return false;" ondrop="return false;">
+	<div class="pageloader is-success is-bottom-to-top is-active"><span class="title"></span></div>
 	@yield('body')
 
 	@include('_scripts')

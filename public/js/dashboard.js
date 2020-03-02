@@ -35,3 +35,7 @@ function initMap() {
 
 	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 }
+
+$('#center').click(function() {
+	$('.pageloader').addClass('is-active');
+});

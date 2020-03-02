@@ -90,7 +90,8 @@ $(function() {
 							error[0] = true;
 						}
 					},
-					error: function() {
+					error: function(err) {
+						console.log(err);
 						error[0] = false;
 						$('#user-control').removeClass('is-loading');
 						alert('Something went wrong. Please try again later.');
@@ -152,7 +153,8 @@ $(function() {
 						error[1] = true;
 					}
 				},
-				error: function() {
+				error: function(err) {
+					console.log(err);
 					error[1] = false;
 					$('#email-control').removeClass('is-loading');
 					alert('Something went wrong. Please try again later.');
@@ -270,7 +272,8 @@ $(function() {
 							error[0] = true;
 						}
 					},
-					error: function() {
+					error: function(err) {
+						console.log(err);
 						error[0] = false;
 						$('#muser-control').removeClass('is-loading');
 						alert('Something went wrong. Please try again later.');
@@ -329,7 +332,8 @@ $(function() {
 						error[1] = true;
 					}
 				},
-				error: function() {
+				error: function(err) {
+					console.log(err);
 					error[1] = false;
 					$('#memail-control').removeClass('is-loading');
 					alert('Something went wrong. Please try again later.');

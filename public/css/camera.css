@@ -55,7 +55,7 @@ body {
 	color: red;
 }
 
-.is-fixed-bottom .navbar-brand .navbar-item#right:active {
+.is-fixed-bottom .navbar-brand .navbar-item#right:active, .modal-card-body {
 	background-color: #00C944;
 }
 
@@ -67,7 +67,7 @@ body {
 	background-color: red;
 }
 
-.is-fixed-bottom .navbar-brand .navbar-item#left:active > div {
+.is-fixed-bottom .navbar-brand .navbar-item#left:active > div, label {
 	color: white;
 }
 
@@ -90,20 +90,35 @@ figure.image.is-64x64 {
 
 #center {
 	position: fixed;
-	bottom: 0;
+	bottom: -10px;
 	left: 0;
 	right: 0;
-	margin: -3% auto;
+	margin: auto;
 	z-index: 2;
 }
 
-#center:active {
+#center.active:active {
 	height: 85px;
 	width: 85px;
 }
 
 .inactive {
 	pointer-events: none;
-	cursor: default;
 	background-color: lightgrey;
+}
+
+.modal-card {
+	border-radius: 10px;
+}
+
+form {
+	margin-top: 20px;
+}
+
+.field {
+	margin-bottom: 5px;
+}
+
+button[type="submit"] {
+	margin-right: 5px;
 }

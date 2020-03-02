@@ -16,11 +16,12 @@
 		</a>
 	</div>
 </nav>
-<figure id="center" class="image is-64x64">
+<figure id="center" class="image is-64x64 active">
 	<a>
 		<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN" title="Take a Photo">
 	</a>
 </figure>
+@include('_modals')
 @endsection
 
 @section('scripts')
