@@ -5,7 +5,6 @@ $.ajaxSetup({
 });
 
 $(function() {
-	$('.pageloader').addClass('is-active');
 	$(window).on('load', function() {
 		$('.pageloader').removeClass('is-active');
 	});

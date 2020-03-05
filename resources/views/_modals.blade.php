@@ -1,12 +1,12 @@
 <div id="createReport" class="modal is-success">
 	<div class="modal-background"></div>
 	<div class="modal-card">
-		<section class="modal-card-body">
-			<figure class="image is-1x1">
-				<img src="" alt="" id="preview">
-			</figure>
-			<form>
-				@csrf
+		<form>
+			@csrf
+			<section class="modal-card-body">
+				<figure class="image is-1x1">
+					<img src="" alt="" id="preview">
+				</figure>
 				<div class="field">
 					<div class="control">
 						<label>LATITUDE</label>
@@ -25,6 +25,7 @@
 						<div class="select">
 							<select name="severity">
 								<option value="">Hello World</option>
+								<option value="">Hello World sdfasdf gjasdgk</option>
 							</select>
 						</div>
 					</div>
@@ -35,9 +36,11 @@
 						<textarea rows="5" class="textarea" name="description"></textarea>
 					</div>
 				</div>
-				<button class="button is-pulled-right is-white is-outlined" type="button">CANCEL</button>
+			</section>
+			<footer class="modal-card-foot">
+				<button id="cancel" class="button is-pulled-right is-white is-outlined" type="button">CANCEL</button>
 				<button class="button is-pulled-right is-white has-text-success" type="submit">SUBMIT</button>
-			</form>
-		</section>
+			</footer>
+		</form>
 	</div>
 </div>

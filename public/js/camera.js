@@ -12,7 +12,9 @@ $(function() {
 
       const track = stream.getVideoTracks()[0];
       imgCap = new ImageCapture(track);
+      $('.pageloader').removeClass('is-active');
     }).catch(function(err) {
+      $('.pageloader').removeClass('is-active');
       console.log(err);
       Swal.fire({
         type: 'error',
@@ -40,6 +42,9 @@ $(function() {
   $('html').addClass('has-navbar-fixed-bottom');
   $('#center').attr('disabled', 'disabled');
   $('#right').addClass('inactive');
+  $(window).on('load', function() {
+    $('.pageloader').addClass('is-active');
+  });
 
   if (!Modernizr.getusermedia) {
     Swal.fire({
@@ -130,4 +135,8 @@ $(function() {
     $('#right').removeClass('inactive');
     $('#center').removeAttr('disabled');
   });
+
+  $('#cancel').click(function() {
+    $('modal').removeClass('is-active');
+  })
 });

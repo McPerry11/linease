@@ -57,6 +57,10 @@ $(function() {
 		$('#mcreate').addClass('is-loading');
 	});
 
+	$('a.has-text-success').click(function() {
+		$('.pageloader').addClass('is-active');
+	});
+
 
 	// Desktop Version
 	$('#username').focusout(function() {

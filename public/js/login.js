@@ -9,6 +9,10 @@ $(function() {
 		$('#mregister').attr('disabled', 'disabled');
 	});
 
+	$('a.has-text-success').click(function() {
+		$('.pageloader').addClass('is-active');
+	});
+
 
 	// Desktop Version
 	$('#view').click(function() {
@@ -28,8 +32,7 @@ $(function() {
 		if (typeof attr !== typeof undefined && attr !== false) {
 			return false;
 		}
-		$(this).addClass('is-loading').text('');
-		$('#login').attr('disabled', 'disabled');
+		$('.pageloader').addClass('is-active');
 	});
 
 	$('#username').keyup(function() {
@@ -59,8 +62,7 @@ $(function() {
 		if (typeof attr !== typeof undefined && attr !== false) {
 			return false;
 		}
-		$(this).addClass('is-loading').text('');
-		$('#mlogin').attr('disabled', 'disabled');
+		$('.pageloader').addClass('is-active');
 	});
 
 	$('#musername').keyup(function() {
