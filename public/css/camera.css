@@ -122,3 +122,20 @@ form {
 button[type="submit"] {
 	margin-right: 5px;
 }
+
+.select:after {
+	visibility: hidden;
+}
+
+option.avatar {
+	background-repeat: no-repeat !important;
+	padding-left: 20px;
+}
+
+.avatar .ui-icon {
+	background-position: left top;
+}
+
+.no-scroll {
+	overflow: hidden;
+}

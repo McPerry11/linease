@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/camera.css') }}">
+<link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
 @endsection
 
 @section('body')
@@ -27,4 +28,5 @@
 @section('scripts')
 <script src="{{ asset('js/modernizr-custom.js') }}"></script>
 <script src="{{ asset('js/camera.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 @endsection

@@ -39,6 +39,40 @@ $(function() {
     },
   };
 
+  // Create Custom Select Dropdown with Thumbnails
+  $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+    _renderItem: function( ul, item ) {
+      var li = $( "<li>" ),
+      wrapper = $( "<div>", { text: item.label } );
+
+      if ( item.disabled ) {
+        li.addClass( "ui-state-disabled" );
+      }
+
+      $( "<span>", {
+        style: item.element.attr( "data-style" ),
+        "class": "ui-icon " + item.element.attr( "data-class" )
+      }).appendTo( wrapper );
+
+      return li.append( wrapper ).appendTo( ul );
+    }
+  });
+  $("#severity").iconselectmenu().iconselectmenu( "menuWidget").addClass( "ui-menu-icons avatar" );
+  $('#severity-button').css('height', '40px');
+  $('.modal-card-body').bind('touchmove', function(e) {
+    if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open')) {
+      e.preventDefault();
+    }
+  });
+  $(window).click(function() {
+    if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open')) {
+      $('.modal-card-body').addClass('no-scroll');
+    } else {
+      $('.modal-card-body').removeClass('no-scroll');
+    }
+  });
+
+
   $('html').addClass('has-navbar-fixed-bottom');
   $('#center').attr('disabled', 'disabled');
   $('#right').addClass('inactive');
