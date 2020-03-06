@@ -108,8 +108,20 @@ class UsersController extends Controller
   public function show($username)
   {
     $user = User::where('username', $username)->get();
+    $user = $user[0];
+    $name = null;
+    if ($user->firstname) {
+      $name = $user->firstname;
+    }
+    if ($user->middlename) {
+      $name = $name . ' ' . $user->middlename;
+    }
+    if ($user->lastname) {
+      $name = $name . ' ' . $user->lastname;
+    }
     return view('profile', [
       'user' => $user,
+      'name' => $name,
       ]);
   }
 
@@ -119,9 +131,13 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit($username)
   {
-    //
+    $user = User::where('username', $username)->get();
+    $user = $user[0];
+    return view('accdetails', [
+      'user' => $user,
+      ]);
   }
 
   /**

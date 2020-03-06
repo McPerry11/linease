@@ -25,9 +25,11 @@
 		<div class="navbar-menu">
 			<div class="navbar-end">
 				<a class="navbar-item" href="{{ url($user->username) }}"><i class="fas fa-user"></i> Profile</a>
+				@if ($user->type == 'ADMIN' || $user->type == 'SUPER')
 				<a class="navbar-item" href="{{ url('accounts') }}"><i class="fas fa-users"></i> Accounts</a>
-				<a class="navbar-item" href=""><i class="fas fa-stream"></i> Logs</a>
-				<a class="navbar-item" href=""><i class="fas fa-cogs"></i> Settings</a>
+				<a class="navbar-item" href="{{ url('logs') }}"><i class="fas fa-stream"></i> Logs</a>
+				@endif
+				<a class="navbar-item" href="{{ url('settings') }}"><i class="fas fa-cogs"></i> Settings</a>
 			</div>
 		</div>
 	</nav>

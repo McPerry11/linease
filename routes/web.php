@@ -27,9 +27,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('camera', 'ReportController@create');
 
-	Route::get('{username}', 'UsersController@show');
-
   Route::get('accounts', 'IndexController@accounts');
+
+  Route::get('settings', 'IndexController@settings');
+
+  Route::get('logs', 'IndexController@logs');
+
+  Route::get('{username}', 'UsersController@show');
+  Route::get('{username}/details', 'UsersController@edit');
 });
 
 // Route::fallback(function() {

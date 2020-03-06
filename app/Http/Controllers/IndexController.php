@@ -23,6 +23,18 @@ class IndexController extends Controller
 	}
 
 	public function accounts() {
-		return view('accounts');
+		if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER') {
+			return view('accounts');
+		} else {
+			return redirect('');
+		}
+	}
+
+	public function settings() {
+		return view('settings');
+	}
+
+	public function logs() {
+		return view('logs');
 	}
 }
