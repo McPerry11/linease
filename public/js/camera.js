@@ -23,7 +23,6 @@ $(function() {
       });
       $('video').remove();
       $('#center').attr('disabled', 'disabled');
-      $('body').append('<div id="camera"></div>');
       $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
       $('#warning').append('LinEase had a problem accessing your device\'s camera. Please refresh and try again.<br>If problem persists, we recommend changing browsers.');
     });
@@ -76,9 +75,7 @@ $(function() {
   $('html').addClass('has-navbar-fixed-bottom');
   $('#center').attr('disabled', 'disabled');
   $('#right').addClass('inactive');
-  $(window).on('load', function() {
-    $('.pageloader').addClass('is-active');
-  });
+  $('.pageloader').addClass('is-active');
 
   if (!Modernizr.getusermedia) {
     Swal.fire({
@@ -138,7 +135,7 @@ $(function() {
     if ( $('#licon').hasClass('fa-times') ) {
       // Localhost Computer
       $('.pageloader').addClass('is-active');
-      window.location.href = "/linease/public/";
+      window.location.href = "/linease-alpha/public/";
       // Server
       // window.location.href = "/linease-alpha/";
     } else {

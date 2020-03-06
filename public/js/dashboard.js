@@ -36,6 +36,12 @@ function initMap() {
 	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 }
 
-$('#center').click(function() {
-	$('.pageloader').addClass('is-active');
+$(function() {
+	$('#center').click(function() {
+		$('.pageloader').addClass('is-active');
+	});
+
+	$('.navbar-item').click(function() {
+		$('.pageloader').addClass('is-active');
+	});
 });

@@ -30,11 +30,11 @@ class UsersController extends Controller
           $response = array(
             'status' => 'error',
             'msg' => 'Username is already taken',
-          );
+            );
         } else {
           $response = array(
             'status' => 'success',
-          );
+            );
         }
 
       } else if ($request->data == 'email') {
@@ -48,11 +48,11 @@ class UsersController extends Controller
           $response = array(
             'status' => 'error',
             'msg' => 'Email Address is already taken',
-          );
+            );
         } else {
           $response = array(
             'status' => 'success',
-          );
+            );
         }
 
       }
@@ -87,17 +87,17 @@ class UsersController extends Controller
       'username',
       'email',
       'password'
-    ]));
+      ]));
 
-    $user->type = 'USER';
+$user->type = 'USER';
 
-    $user->created_at = Carbon::now('+8:00');
-    $user->updated_at = Carbon::now('+8:00');
+$user->created_at = Carbon::now('+8:00');
+$user->updated_at = Carbon::now('+8:00');
 
-    $user->save();
+$user->save();
 
-    return redirect('login')->with('status', 'Registered Successfully');
-  }
+return redirect('login')->with('status', 'Registered Successfully');
+}
 
   /**
    * Display the specified resource.
@@ -110,7 +110,7 @@ class UsersController extends Controller
     $user = User::where('username', $username)->get();
     return view('profile', [
       'user' => $user,
-    ]);
+      ]);
   }
 
   /**
