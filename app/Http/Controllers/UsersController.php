@@ -89,15 +89,15 @@ class UsersController extends Controller
       'password'
       ]));
 
-$user->type = 'USER';
+    $user->type = 'USER';
 
-$user->created_at = Carbon::now('+8:00');
-$user->updated_at = Carbon::now('+8:00');
+    $user->created_at = Carbon::now('+8:00');
+    $user->updated_at = Carbon::now('+8:00');
 
-$user->save();
+    $user->save();
 
-return redirect('login')->with('status', 'Registered Successfully');
-}
+    return redirect('login')->with('status', 'Registered Successfully');
+  }
 
   /**
    * Display the specified resource.

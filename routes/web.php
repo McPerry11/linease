@@ -25,9 +25,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');
 	Route::post('', 'LoginController@logout');
 
-	Route::get('camera', 'IndexController@camera');
+	Route::get('camera', 'ReportController@create');
 
 	Route::get('{username}', 'UsersController@show');
+
+  Route::get('accounts', 'IndexController@accounts');
 });
 
 // Route::fallback(function() {

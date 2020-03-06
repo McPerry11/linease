@@ -19,10 +19,10 @@ class IndexController extends Controller
 		$user = Auth::user();
 		return view('dashboard', [
 			'user' => $user,
-		]);
+			]);
 	}
 
-	public function camera() {
-		return view('camera');
+	public function accounts() {
+		return view('accounts');
 	}
 }
