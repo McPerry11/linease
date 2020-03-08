@@ -1,6 +1,7 @@
 $(function() {
 	// Universal
 	$("html").removeClass("has-navbar-fixed-bottom").removeClass("has-navbar-fixed-top");
+	$(".pageloader").removeClass("is-active");
 
 	var error = [true, true, true];
 

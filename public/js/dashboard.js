@@ -37,6 +37,7 @@ function initMap() {
 }
 
 $(function() {
+	$('.pageloader').removeClass('is-active');
 	$('#center').click(function() {
 		$('.pageloader').addClass('is-active');
 	});
