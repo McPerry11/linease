@@ -135,9 +135,9 @@ $(function() {
     if ( $('#licon').hasClass('fa-times') ) {
       // Localhost Computer
       $('.pageloader').addClass('is-active');
-      window.location.href = "/linease-alpha/public/";
+      // window.location.href = "/linease-alpha/public/";
       // Server
-      // window.location.href = "/linease-alpha/";
+      window.location.href = "/linease-alpha/";
     } else {
       camera();
       $('#licon').removeClass('fa-redo-alt').addClass('fa-times');
