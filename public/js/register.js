@@ -1,6 +1,8 @@
 $(function() {
 	// Universal
+	$(".title").text("Loading Registration Form");
 	$("html").removeClass("has-navbar-fixed-bottom").removeClass("has-navbar-fixed-top");
+	$(".title").text("");
 	$(".pageloader").removeClass("is-active");
 
 	var error = [true, true, true];
@@ -59,6 +61,7 @@ $(function() {
 	});
 
 	$('a.has-text-success').click(function() {
+		$('.title').text('Loading Login Module');
 		$('.pageloader').addClass('is-active');
 	});
 

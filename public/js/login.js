@@ -1,6 +1,8 @@
 $(function() {
 	// Universal
+	$(".title").text("Loading Login Page");
 	$("html").removeClass("has-navbar-fixed-bottom").removeClass("has-navbar-fixed-top");
+	$(".title").text("");
 	$(".pageloader").removeClass("is-active");
 
 	$('form').submit(function() {
@@ -11,6 +13,7 @@ $(function() {
 	});
 
 	$('a.has-text-success').click(function() {
+		$('.title').text('Loading Registration');
 		$('.pageloader').addClass('is-active');
 	});
 
@@ -33,6 +36,7 @@ $(function() {
 		if (typeof attr !== typeof undefined && attr !== false) {
 			return false;
 		}
+		$('.title').text('Loading Registration');
 		$('.pageloader').addClass('is-active');
 	});
 
@@ -63,6 +67,7 @@ $(function() {
 		if (typeof attr !== typeof undefined && attr !== false) {
 			return false;
 		}
+		$('.title').text('Loading Registration');
 		$('.pageloader').addClass('is-active');
 	});
 

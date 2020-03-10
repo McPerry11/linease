@@ -12,6 +12,7 @@ $(function() {
 
       const track = stream.getVideoTracks()[0];
       imgCap = new ImageCapture(track);
+      $(".title").text("");
       $('.pageloader').removeClass('is-active');
     }).catch(function(err) {
       $('.pageloader').removeClass('is-active');
@@ -76,6 +77,7 @@ $(function() {
   $('#center').attr('disabled', 'disabled');
   $('#right').addClass('inactive');
   $('.pageloader').addClass('is-active');
+  $(".title").text("Checking device camera");
 
   if (!Modernizr.getusermedia) {
     Swal.fire({
@@ -86,6 +88,7 @@ $(function() {
     $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span></div>');
     $('#warning').append('LinEase cannot access your device\'s camera through this broswer. We recommend Google Chrome for more browser feature supports.');
   } else {
+    $(".title").text("Initializing Camera");
     camera();
   }
 
@@ -135,6 +138,7 @@ $(function() {
     if ( $('#licon').hasClass('fa-times') ) {
       // Localhost Computer
       $('.pageloader').addClass('is-active');
+      $('.title').text('Loading Dashboard');
       // window.location.href = "/linease-alpha/public/";
       // Server
       window.location.href = "/linease-alpha/";
