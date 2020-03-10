@@ -1,3 +1,7 @@
+body {
+  height: 100vh;
+}
+
 .navbar {
   background-color: #00C944;
   height: 100px;
@@ -53,4 +57,15 @@ aside.menu {
   width: 89%;
   padding-bottom: 3px;
   border-bottom: 1px solid lightgrey;
+}
+
+.level {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#logout.button {
+  background-color: #00C944;
+  color: white;
 }

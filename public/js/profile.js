@@ -15,4 +15,10 @@ $(function() {
     $('.title').text('Loading ' + page);
     $('.pageloader').addClass('is-active');
   });
+
+  $('form').submit(function() {
+    $('#logout').addClass('is-loading');
+    $('.title').text('Logging Out');
+    $('.pageloader').addClass('is-active');
+  });
 });

@@ -36,6 +36,14 @@
     <li><a href=""><i class="fas fa-comment-dots"></i><span>Feedback</span></a></li>
   </ul>
 </aside>
+<div class="level">
+  <div class="level-item">
+    <form method="POST">
+      @csrf
+      <button id="logout" class="button" type="submit">Logout</button>
+    </form>
+  </div>
+</div>
 @endsection
 
 @section('scripts')

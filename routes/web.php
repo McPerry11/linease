@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('logs', 'IndexController@logs');
 
   Route::get('{username}', 'UsersController@show');
+  Route::post('{username}', 'LoginController@logout');
   Route::get('{username}/details', 'UsersController@edit');
 });
 
