@@ -115,6 +115,10 @@ form {
 	margin-top: 20px;
 }
 
+.field:first-of-type {
+	margin-top: 10px;
+}
+
 .field {
 	margin-bottom: 5px;
 }
@@ -138,4 +142,8 @@ option.avatar {
 
 .no-scroll {
 	overflow: hidden;
+}
+
+.ui-selectmenu-text {
+	margin-left: 25px;
 }

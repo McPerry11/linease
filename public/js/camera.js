@@ -43,7 +43,7 @@ $(function() {
   $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
     _renderItem: function( ul, item ) {
       var li = $( "<li>" ),
-      wrapper = $( "<div>", { text: item.label } );
+      wrapper = $( "<div>", { text: item.label, "data-img": item.element.attr("data-img") } );
 
       if ( item.disabled ) {
         li.addClass( "ui-state-disabled" );
@@ -161,17 +161,17 @@ $(function() {
       $('#createReport').addClass('is-active');
       var preview = document.getElementById('preview');
       preview.src = img;
+      $('.icon.is-left img').attr('src', 'img/S1Label.png');
     }
   });
 
-  $('.delete').click(function() {
-    $('#createReport').removeClass('is-active');
-    $('#left').removeClass('inactive');
-    $('#right').removeClass('inactive');
-    $('#center').removeAttr('disabled');
+  $('div.ui-menu-item-wrapper').click(function() {
+    console.log(this);
   });
 
   $('#cancel').click(function() {
-    $('modal').removeClass('is-active');
+    $('.modal').removeClass('is-active');
+    $('#left').removeClass('inactive');
+    $('#right').removeClass('inactive');
   })
 });
