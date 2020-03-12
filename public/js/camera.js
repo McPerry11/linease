@@ -12,9 +12,10 @@ $(function() {
 
       const track = stream.getVideoTracks()[0];
       imgCap = new ImageCapture(track);
-      $(".title").text("");
+      $('.title').text('');
       $('.pageloader').removeClass('is-active');
     }).catch(function(err) {
+      $('.title').text('');
       $('.pageloader').removeClass('is-active');
       console.log(err);
       Swal.fire({
@@ -57,7 +58,7 @@ $(function() {
       return li.append( wrapper ).appendTo( ul );
     }
   });
-  $("#severity").iconselectmenu().iconselectmenu( "menuWidget").addClass( "ui-menu-icons avatar" );
+  $('#severity').iconselectmenu().iconselectmenu('menuWidget').addClass('ui-menu-icons avatar');
   $('#severity-button').css('height', '40px');
   $('.modal-card-body').bind('touchmove', function(e) {
     if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open')) {
@@ -77,7 +78,6 @@ $(function() {
   $('#center').attr('disabled', 'disabled');
   $('#right').addClass('inactive');
   $('.pageloader').addClass('is-active');
-  $(".title").text("Checking device camera");
 
   if (!Modernizr.getusermedia) {
     Swal.fire({
@@ -88,7 +88,7 @@ $(function() {
     $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span></div>');
     $('#warning').append('LinEase cannot access your device\'s camera through this broswer. We recommend Google Chrome for more browser feature supports.');
   } else {
-    $(".title").text("Initializing Camera");
+    $('.title').text('Initializing Camera');
     camera();
   }
 
@@ -165,8 +165,12 @@ $(function() {
     }
   });
 
-  $('div.ui-menu-item-wrapper').click(function() {
-    console.log(this);
+  $('body').click(function(e) {
+    var target = e.target;
+    if ($(target).hasClass('ui-menu-item-wrapper')) {
+      var img = $(target).data('img');
+      $('.icon.is-left img').attr('src', 'img/' + img);
+    }
   });
 
   $('#cancel').click(function() {

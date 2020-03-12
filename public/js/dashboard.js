@@ -1,6 +1,6 @@
 var map;
 function initMap() {
-	$(".title").text("Initializing Map");
+	$('.title').text('Initializing Map');
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat:14.5891, lng:120.9826},
 		zoom: 15,
@@ -39,8 +39,8 @@ function initMap() {
 
 $(function() {
 	$('.title').text('Loading Dashboard');
-	$(window).on("load", function() {
-		$(".title").text("");
+	$(window).on('load', function() {
+		$('.title').text('');
 	});
 
 	$('#center').click(function() {
