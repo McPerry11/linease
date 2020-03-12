@@ -14,7 +14,7 @@
 Route::get('login', 'IndexController@login')->name('login');
 Route::post('login', 'LoginController@login');
 
-Route::get('register', 'UserController@create');
+Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');
 
 Route::prefix('users')->group(function() {
@@ -25,7 +25,17 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');
 	Route::post('', 'LoginController@logout');
 
-	Route::get('{username}', 'UsersController@show');
+	Route::get('camera', 'ReportController@create');
+
+  Route::get('accounts', 'IndexController@accounts');
+
+  Route::get('settings', 'IndexController@settings');
+
+  Route::get('logs', 'IndexController@logs');
+
+  Route::get('{username}', 'UsersController@show');
+  Route::post('{username}', 'LoginController@logout');
+  Route::get('{username}/details', 'UsersController@edit');
 });
 
 // Route::fallback(function() {

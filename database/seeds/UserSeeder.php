@@ -19,10 +19,13 @@ class UserSeeder extends Seeder
     	$user->middlename = 'and';
     	$user->lastname = 'Development';
     	$user->email = 'rndccss.ue@gmail.com';
-    	$user->type = 'SUPER';
-    	$user->password = 'rndccss2008';
-    	$user->avatar_id = NULL;
+        $user->phone = '';
+        $user->city = 'Manila';
+        $user->birthdate = '2007-11-1';
+        $user->type = 'SUPER';
+        $user->password = 'rndccss2008';
+        $user->avatar_id = NULL;
 
-    	$user->save();
+        $user->save();
     }
-  }
+}

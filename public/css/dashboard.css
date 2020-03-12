@@ -4,16 +4,11 @@ html {
 	overflow-y: hidden;
 }
 
-body {
-	height: 100%;
-}
-
-#map-container {
+body, #map-container, #map {
 	height: 100%;
 }
 
 #map {
-	height: 100%;
 	background-color: grey;
 	width: 100vw;
 	z-index: 0;
@@ -36,14 +31,6 @@ p.control {
 	background-color: #00C944;
 	color: white;
 	width: 50px;
-}
-
-.image.is-16x16 {
-	margin-top: -15px;
-}
-
-#search {
-	padding-bottom: 10px;
 }
 
 #legend {

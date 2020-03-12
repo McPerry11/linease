@@ -21,8 +21,8 @@
 			<p class="control has-icons-left">
 				<input id="search" class="input is-rounded" type="text" name="search" value="" placeholder="Search Address, City, or District">
 				<span class="icon is-left">
-					<i class="image is-16x16">
-						<img src="{{ asset('img/RPin.png') }}" alt="LinEase Pin">
+					<i class="image is-24x24">
+						<img src="{{ asset('img/LineaseIcon.PNG') }}" alt="LinEase Pin">
 					</i>
 				</span>
 			</p>
@@ -32,7 +32,7 @@
 		</div>
 	</form>
 	<figure id="center" class="image is-64x64">
-		<a>
+		<a href="{{ url('camera') }}">
 			<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
 		</a>
 	</figure>

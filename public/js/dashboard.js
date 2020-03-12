@@ -1,5 +1,6 @@
 var map;
 function initMap() {
+	$('.title').text('Initializing Map');
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat:14.5891, lng:120.9826},
 		zoom: 15,
@@ -35,3 +36,21 @@ function initMap() {
 
 	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 }
+
+$(function() {
+	$('.title').text('Loading Dashboard');
+	$(window).on('load', function() {
+		$('.title').text('');
+	});
+
+	$('#center').click(function() {
+		$('.title').text('Loading Camera');
+		$('.pageloader').addClass('is-active');
+	});
+
+	$('.navbar-item').click(function() {
+		var page = $(this).text();
+		$('.title').text('Loading ' + page);
+		$('.pageloader').addClass('is-active');
+	});
+});

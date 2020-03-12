@@ -12,7 +12,7 @@ class LoginController extends Controller
 
 		if (Auth::attempt($credentials)) {
 			return redirect('');
-		} 
+		}
 		return view('login', [
 			'message' => 'Invalid username and/or password',
 		]);

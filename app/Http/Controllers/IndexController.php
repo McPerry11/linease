@@ -19,6 +19,22 @@ class IndexController extends Controller
 		$user = Auth::user();
 		return view('dashboard', [
 			'user' => $user,
-		]);
+			]);
+	}
+
+	public function accounts() {
+		if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER') {
+			return view('accounts');
+		} else {
+			return redirect('');
+		}
+	}
+
+	public function settings() {
+		return view('settings');
+	}
+
+	public function logs() {
+		return view('logs');
 	}
 }

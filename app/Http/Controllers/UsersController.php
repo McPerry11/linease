@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,11 +30,11 @@ class UsersController extends Controller
           $response = array(
             'status' => 'error',
             'msg' => 'Username is already taken',
-          );
+            );
         } else {
           $response = array(
             'status' => 'success',
-          );
+            );
         }
 
       } else if ($request->data == 'email') {
@@ -47,11 +48,11 @@ class UsersController extends Controller
           $response = array(
             'status' => 'error',
             'msg' => 'Email Address is already taken',
-          );
+            );
         } else {
           $response = array(
             'status' => 'success',
-          );
+            );
         }
 
       }
@@ -86,7 +87,7 @@ class UsersController extends Controller
       'username',
       'email',
       'password'
-    ]));
+      ]));
 
     $user->type = 'USER';
 
@@ -107,9 +108,21 @@ class UsersController extends Controller
   public function show($username)
   {
     $user = User::where('username', $username)->get();
+    $user = $user[0];
+    $name = null;
+    if ($user->firstname) {
+      $name = $user->firstname;
+    }
+    if ($user->middlename) {
+      $name = $name . ' ' . $user->middlename;
+    }
+    if ($user->lastname) {
+      $name = $name . ' ' . $user->lastname;
+    }
     return view('profile', [
       'user' => $user,
-    ]);
+      'name' => $name,
+      ]);
   }
 
   /**
@@ -118,9 +131,13 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit($username)
   {
-    //
+    $user = User::where('username', $username)->get();
+    $user = $user[0];
+    return view('accdetails', [
+      'user' => $user,
+      ]);
   }
 
   /**

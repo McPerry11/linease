@@ -1,0 +1,149 @@
+html {
+	height: 100vh;
+	width: 100vw;
+	background-color: black;
+}
+
+body {
+	height: 100%;
+	display: flex;
+}
+
+#camera, canvas {
+	width: 100vw;
+	height: 100vw;
+	margin: auto;
+	background-color: grey;
+	color: white;
+	text-align: center;
+	display: flex;
+	z-index: 0;
+}
+
+#warning {
+	margin: auto;
+}
+
+#camera .icon.is-large {
+	text-align: center;
+	font-size: 50px;
+	margin: auto;
+	height: fit-content;
+	width: fit-content;
+}
+
+#camera .fa-exclamation-triangle.fa-stack-2x {
+	font-size: 40px;
+	bottom: 25px;
+	padding-left: 50px;
+}
+
+.navbar.is-fixed-bottom {
+	z-index: 1;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item {
+	width: 50%;
+}
+
+.navbar-item div {
+	color: #00C944;
+	width: 100%;
+}
+
+#left div {
+	color: red;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#right:active, .modal-card-body {
+	background-color: #00C944;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#right:active > div {
+	color: white;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#left:active {
+	background-color: red;
+}
+
+.is-fixed-bottom .navbar-brand .navbar-item#left:active > div, label {
+	color: white;
+}
+
+a.navbar-item, #center a {
+	cursor: none;
+}
+
+#left {
+	padding-left: 14vw;
+}
+
+#right {
+	padding-right: 14vw;
+}
+
+figure.image.is-64x64 {
+	height: 80px;
+	width: 80px;
+}
+
+#center {
+	position: fixed;
+	bottom: -10px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	z-index: 2;
+}
+
+#center.active:active {
+	height: 85px;
+	width: 85px;
+}
+
+.inactive {
+	pointer-events: none;
+	background-color: lightgrey;
+}
+
+.modal-card {
+	border-radius: 10px;
+}
+
+form {
+	margin-top: 20px;
+}
+
+.field:first-of-type {
+	margin-top: 10px;
+}
+
+.field {
+	margin-bottom: 5px;
+}
+
+button[type="submit"] {
+	margin-right: 5px;
+}
+
+.select:after {
+	visibility: hidden;
+}
+
+option.avatar {
+	background-repeat: no-repeat !important;
+	padding-left: 20px;
+}
+
+.avatar .ui-icon {
+	background-position: left top;
+}
+
+.no-scroll {
+	overflow: hidden;
+}
+
+.ui-selectmenu-text {
+	margin-left: 25px;
+}

@@ -1,0 +1,61 @@
+body {
+  height: 100vh;
+}
+
+.navbar {
+  background-color: #00C944;
+  height: 100px;
+  z-index: 0;
+}
+
+.content h3 {
+  margin: auto;
+}
+
+figure.image {
+  top: -50px;
+  margin: auto;
+  z-index: 1;
+  border-radius: 10px;
+  border: 1px solid grey;
+}
+
+#name {
+  margin-top: -40px;
+}
+
+#name h4 {
+  margin-bottom: 0;
+}
+
+aside.menu {
+  margin-left: 15px;
+  width: 100%;
+}
+
+.menu-list, li {
+  width: 100%;
+}
+
+.menu-list i {
+  margin-right: 10px;
+  width: 20px;
+  color: #00C944;
+}
+
+.menu-list span {
+  display: inline-block;
+  width: 89%;
+  padding-bottom: 3px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.level {
+  margin-top: 25px;
+  width: 100%;
+}
+
+#logout.button {
+  background-color: #00C944;
+  color: white;
+}

@@ -1,7 +1,7 @@
 $(function() {
-	// Universal
-	$("html").removeClass("has-navbar-fixed-bottom");
-	$("html").removeClass("has-navbar-fixed-top");
+	// Univeral
+	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
+	$('.pageloader').removeClass('is-active');
 
 	$('form').submit(function() {
 		$('#login').addClass('is-loading');
@@ -10,25 +10,22 @@ $(function() {
 		$('#mregister').attr('disabled', 'disabled');
 	});
 
+	$('a.has-text-success').click(function() {
+		$('.title').text('Loading Registration');
+		$('.pageloader').addClass('is-active');
+	});
+
 
 	// Desktop Version
 	$('#view').click(function() {
 		if( $('#password').attr('type') == 'password' ) {
 			$('#password').attr('type', 'text');
-			$('#icon-pass').removeClass('fa-eye');
-			$('#icon-pass').addClass('fa-eye-slash');
-			$('#icon-pass').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter');
-			$(this).addClass('has-background-grey-dark');
-			$(this).addClass('is-selected');
+			$('#icon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
+			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
 		} else {
 			$('#password').attr('type', 'password');
-			$('#icon-pass').removeClass('fa-eye-slash');
-			$('#icon-pass').addClass('fa-eye');
-			$('#icon-pass').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark');
-			$(this).addClass('has-background-grey-lighter');
-			$(this).removeClass('is-selected');
+			$('#icon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
+			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
 		}
 	});
 
@@ -37,9 +34,8 @@ $(function() {
 		if (typeof attr !== typeof undefined && attr !== false) {
 			return false;
 		}
-		$(this).addClass('is-loading');
-		$(this).text('');
-		$('#login').attr('disabled', 'disabled');
+		$('.title').text('Loading Registration');
+		$('.pageloader').addClass('is-active');
 	});
 
 	$('#username').keyup(function() {
@@ -55,20 +51,12 @@ $(function() {
 	$('#mview').click(function() {
 		if( $('#mpassword').attr('type') == 'password' ) {
 			$('#mpassword').attr('type', 'text');
-			$('#micon-pass').removeClass('fa-eye');
-			$('#micon-pass').addClass('fa-eye-slash');
-			$('#micon-pass').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter');
-			$(this).addClass('has-background-grey-dark');
-			$(this).addClass('is-selected');
+			$('#micon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
+			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
 		} else {
 			$('#mpassword').attr('type', 'password');
-			$('#micon-pass').removeClass('fa-eye-slash');
-			$('#micon-pass').addClass('fa-eye');
-			$('#micon-pass').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark');
-			$(this).addClass('has-background-grey-lighter');
-			$(this).removeClass('is-selected');
+			$('#micon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
+			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
 		}
 	});
 
@@ -77,9 +65,8 @@ $(function() {
 		if (typeof attr !== typeof undefined && attr !== false) {
 			return false;
 		}
-		$(this).addClass('is-loading');
-		$(this).text('');
-		$('#mlogin').attr('disabled', 'disabled');
+		$('.title').text('Loading Registration');
+		$('.pageloader').addClass('is-active');
 	});
 
 	$('#musername').keyup(function() {
