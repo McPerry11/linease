@@ -88,8 +88,19 @@ $(function() {
     $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span></div>');
     $('#warning').append('LinEase cannot access your device\'s camera through this broswer. We recommend Google Chrome for more browser feature supports.');
   } else {
-    $('.title').text('Initializing Camera');
-    camera();
+    $('.title').text('Checking Geolocation');
+    if (navigator.geolocation) {
+      $('.title').text('Initializing Camera');
+      camera();
+    } else {
+      Swal.fire({
+        type: 'warning',
+	title: 'Unsupported Browser',
+	text: 'Your browser does not support Geolocation. Try switching broswers.',
+      });
+      $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-map-marker-alt fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></div>');
+      $('#warning').append('LinEase cannot fetch your coordinates. Try switching browsers with more supported features.');
+    }
   }
 
   $('#center').click(function() {
@@ -153,6 +164,16 @@ $(function() {
     if ( $('#right').hasClass('inactive') ) {
       return false;
     } else {
+      // HTML5 Geolocation
+      if (navigator.geolocation) {
+	navigator.geolocation.getCurrentPosition(function(position) {
+	  lat = position.coords.latitude;
+	  lng = position.coords.longitude;
+
+	  $('#lat').val(lat);
+	  $('#lng').val(lng);
+	});
+      }
       var canvas = document.querySelector('canvas');
       var img = canvas.toDataURL('image/jpeg', 1.0);
       $('#left').addClass('inactive');
@@ -161,7 +182,13 @@ $(function() {
       $('#createReport').addClass('is-active');
       var preview = document.getElementById('preview');
       preview.src = img;
+      $('.icon.is-left img').attr('src', 'img/RLabel.png');
+      $('.icon.is-left img').attr('src', 'img/S4Label.png');
+      $('.icon.is-left img').attr('src', 'img/S3Label.png');
+      $('.icon.is-left img').attr('src', 'img/S2Label.png');
       $('.icon.is-left img').attr('src', 'img/S1Label.png');
+      $('#loader').addClass('is-hidden');
+      $('.modal-card-body form').removeClass('is-hidden');
     }
   });
 

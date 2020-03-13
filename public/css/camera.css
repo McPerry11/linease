@@ -147,3 +147,7 @@ option.avatar {
 .ui-selectmenu-text {
 	margin-left: 25px;
 }
+
+.modal-card-body .icon {
+	width: 100%;
+}

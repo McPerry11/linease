@@ -2,7 +2,10 @@
 	<div class="modal-background"></div>
 	<div class="modal-card">
 		<section class="modal-card-body">
-			<form>
+			<span id="loader" class="icon is-large has-text-white">
+				<i class="fas fa-circle-notch fa-spin fa-3x"></i>
+			</span>
+			<form class="is-hidden">
 				@csrf
 				<figure class="image is-1x1">
 					<img src="" alt="" id="preview">
@@ -10,13 +13,13 @@
 				<div class="field">
 					<div class="control">
 						<label>LATITUDE</label>
-						<input class="input" type="number" name="lat" readonly>
+						<input id="lat" class="input has-text-grey" type="number" name="lat" readonly>
 					</div>
 				</div>
 				<div class="field">
 					<div class="control">
 						<label>LONGITUDE</label>
-						<input class="input" type="text" name="long" readonly>
+						<input id="lng" class="input has-text-grey" type="text" name="long" readonly>
 					</div>
 				</div>
 				<div class="field">
