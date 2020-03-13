@@ -1,3 +1,4 @@
+
 $(function() {
   function camera() {
     $('canvas').remove();
@@ -30,7 +31,7 @@ $(function() {
     });
   }
 
-  var imgCap, w, h;
+  var imgCap, w, h, lat, lng;
   const constraints = {
     audio: false,
     video: {
@@ -204,5 +205,42 @@ $(function() {
     $('.modal').removeClass('is-active');
     $('#left').removeClass('inactive');
     $('#right').removeClass('inactive');
-  })
+  });
+
+  $('form').submit(function(e) {
+    e.preventDefault();
+    $('#submit').addClass('is-loading');
+    $('#cancel').attr('disabled', 'disabled');
+    var des = $('textarea').val();
+    var sev = $('#severity-button .ui-selectmenu-text').text().toUpperCase();
+    var img = $('#preview').attr('src');
+    $.ajax({
+      type: 'POST',
+      url: 'camera',
+      data: {lat:lat, lng:lng, sev:sev, des:des, img:img},
+      datatype: 'JSON',
+      success: function(response) {
+	console.log(response);
+	$('#submit').removeClass('is-loading').attr('disabled', 'disabled');
+	Swal.fire({
+	  type: 'success',
+	  title: response,
+	  showConfirmButton: false,
+	  timer: 2500,
+	}).then(function() {
+	  window.location.href = '/linease-alpha/';
+	});
+      },
+      error: function(err) {
+	console.log(err);
+	$('#submit').removeClass('is-loading');
+	$('#cancel').removeAttr('disabled');
+	Swal.fire({
+	  type: 'error',
+	  title: 'Cannot Upload Report',
+	  text: 'Something went wrong. Please try again later.',
+	});
+      }
+    });
+  });
 });

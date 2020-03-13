@@ -23,9 +23,10 @@ Route::prefix('users')->group(function() {
 
 Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');
-	Route::post('', 'LoginController@logout');
+	Route::post('markers', 'ReportController@index');
 
 	Route::get('camera', 'ReportController@create');
+	Route::post('camera', 'ReportController@store');
 
   Route::get('accounts', 'IndexController@accounts');
 
