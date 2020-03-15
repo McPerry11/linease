@@ -4,6 +4,7 @@ $(function() {
 	$('.pageloader').removeClass('is-active');
 
 	var error = [true, true, true];
+	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 	function validateUsername(username) {
 		var expr = /^[a-zA-Z0-9._]*$/;
@@ -107,8 +108,7 @@ $(function() {
 					validate(error);
 				});
 			} else {
-				$(this).removeClass('is-success');
-				$(this).addClass('is-danger');
+				$(this).removeClass('is-success').addClass('is-danger');
 				$('#user-icon').removeClass('has-text-success').addClass('has-text-danger');
 				$('#user-control').removeClass('is-loading');
 				$('#user-warning').text('Special characters except . and _ are not allowed');
@@ -122,8 +122,7 @@ $(function() {
 	$('#username').keyup(function(e) {
 		if (e.which || e.keyCode !== 9) {
 			$('#user-warning').text('');
-			$(this).removeClass('is-success');
-			$(this).removeClass('is-danger');
+			$(this).removeClass('is-success').removeClass('is-danger');
 			$('#user-icon').removeClass('has-text-success').removeClass('has-text-danger');
 			error[0] = true;
 			validate(error);
@@ -133,10 +132,15 @@ $(function() {
 	$('#email').focusout(function() {
 		var email = $(this).val();
 		if (email.trim() == '') {
-			$(this).removeClass('is-success');
-			$(this).addClass('is-danger');
+			$(this).removeClass('is-success').addClass('is-danger');
 			$('#email-icon').removeClass('has-text-success').addClass('has-text-danger');
 			$('#email-warning').text('Email Address cannot be empty');
+			$('#create').attr('disabled', 'disabled');
+			error[1] = false;
+		} else if (!email.match(mailformat)) {
+			$(this).removeClass('is-success').addClass('is-danger');
+			$('#email-icon').removeClass('has-text-success').addClass('has-text-danger');
+			$('#email-warning').text('Invalid format of email address');
 			$('#create').attr('disabled', 'disabled');
 			error[1] = false;
 		} else {
@@ -210,6 +214,8 @@ $(function() {
 			$('#cpass').removeClass('is-success').addClass('is-danger');
 			$('#cpass-icon').removeClass('has-text-success').addClass('has-text-danger');
 			$('#pass-warning').text('Password must be a minimum length of 8');
+			error[2] = false;
+			validate(error);
 		}
 	});
 
@@ -230,6 +236,7 @@ $(function() {
 		if (pass.length >= 8) {
 			validatePassword(pass, confirm);
 		}
+		validate(error);
 	});
 
 	$('#cpass').keyup(function() {
@@ -316,6 +323,12 @@ $(function() {
 			$(this).removeClass('is-success').addClass('is-danger');
 			$('#memail-icon').removeClass('has-text-success').addClass('has-text-danger');
 			$('#memail-warning').text('Email Address cannot be empty');
+			$('#mcreate').attr('disabled', 'disabled');
+			error[1] = false;
+		} else if (!email.match(mailformat)) {
+			$(this).removeClass('is-success').addClass('is-danger');
+			$('#memail-icon').removeClass('has-text-success').addClass('has-text-danger');
+			$('#memail-warning').text('Invalid email address format');
 			$('#mcreate').attr('disabled', 'disabled');
 			error[1] = false;
 		} else {

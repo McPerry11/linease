@@ -11,9 +11,13 @@ class LoginController extends Controller
 		$credentials = $request->only(['username', 'password']);
 
 		if (Auth::attempt($credentials)) {
-			return redirect('');
+			return response()->json([
+				'status' => 'success',
+				'message' => 'Successfully logged in',
+			]);
 		}
-		return view('login', [
+		return response()->json([
+			'status' => 'error',
 			'message' => 'Invalid username and/or password',
 		]);
 	}

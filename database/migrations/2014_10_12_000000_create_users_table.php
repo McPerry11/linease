@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username')->unique();
+            $table->string('username')->unique()->collation('utf8_bin');
             $table->string('firstname')->nullable();
             $table->string('middlename')->nullable();
             $table->string('lastname')->nullable();
@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
                 'FACIL',
                 'ADMIN',
                 'SUPER',
-                ]);
+            ]);
             $table->string('password');
             $table->integer('avatar_id')->nullable();
             $table->rememberToken();

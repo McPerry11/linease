@@ -96,8 +96,8 @@ $(function() {
     } else {
       Swal.fire({
         type: 'warning',
-	title: 'Unsupported Browser',
-	text: 'Your browser does not support Geolocation. Try switching broswers.',
+        title: 'Unsupported Browser',
+        text: 'Your browser does not support Geolocation. Try switching broswers.',
       });
       $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-map-marker-alt fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></div>');
       $('#warning').append('LinEase cannot fetch your coordinates. Try switching browsers with more supported features.');
@@ -105,9 +105,12 @@ $(function() {
   }
 
   $('#center').click(function() {
+    console.log('Hello');
     if ( $('#center').attr('disabled') ) {
+      console.log('Here');
       return false;
     } else if ( !$('canvas').length ) {
+      console.log('World');
       $('body').append('<canvas></canvas>');
       $('#right').removeClass('inactive');
       const canvas = document.querySelector('canvas');
@@ -151,9 +154,9 @@ $(function() {
       // Localhost Computer
       $('.pageloader').addClass('is-active');
       $('.title').text('Loading Dashboard');
-      // window.location.href = "/linease-alpha/public/";
+      window.location.href = "/linease-alpha/public/";
       // Server
-      window.location.href = "/linease-alpha/";
+      // window.location.href = "/linease-alpha/";
     } else {
       camera();
       $('#licon').removeClass('fa-redo-alt').addClass('fa-times');
@@ -167,31 +170,31 @@ $(function() {
     } else {
       // HTML5 Geolocation
       if (navigator.geolocation) {
-	navigator.geolocation.getCurrentPosition(function(position) {
-	  lat = position.coords.latitude;
-	  lng = position.coords.longitude;
+       navigator.geolocation.getCurrentPosition(function(position) {
+         lat = position.coords.latitude;
+         lng = position.coords.longitude;
 
-	  $('#lat').val(lat);
-	  $('#lng').val(lng);
-	});
-      }
-      var canvas = document.querySelector('canvas');
-      var img = canvas.toDataURL('image/jpeg', 1.0);
-      $('#left').addClass('inactive');
-      $('#right').addClass('inactive');
-      $('#center').attr('disabled', 'disabled');
-      $('#createReport').addClass('is-active');
-      var preview = document.getElementById('preview');
-      preview.src = img;
-      $('.icon.is-left img').attr('src', 'img/RLabel.png');
-      $('.icon.is-left img').attr('src', 'img/S4Label.png');
-      $('.icon.is-left img').attr('src', 'img/S3Label.png');
-      $('.icon.is-left img').attr('src', 'img/S2Label.png');
-      $('.icon.is-left img').attr('src', 'img/S1Label.png');
-      $('#loader').addClass('is-hidden');
-      $('.modal-card-body form').removeClass('is-hidden');
-    }
-  });
+         $('#lat').val(lat);
+         $('#lng').val(lng);
+       });
+     }
+     var canvas = document.querySelector('canvas');
+     var img = canvas.toDataURL('image/jpeg', 1.0);
+     $('#left').addClass('inactive');
+     $('#right').addClass('inactive');
+     $('#center').attr('disabled', 'disabled');
+     $('#createReport').addClass('is-active');
+     var preview = document.getElementById('preview');
+     preview.src = img;
+     $('.icon.is-left img').attr('src', 'img/RLabel.png');
+     $('.icon.is-left img').attr('src', 'img/S4Label.png');
+     $('.icon.is-left img').attr('src', 'img/S3Label.png');
+     $('.icon.is-left img').attr('src', 'img/S2Label.png');
+     $('.icon.is-left img').attr('src', 'img/S1Label.png');
+     $('#loader').addClass('is-hidden');
+     $('.modal-card-body form').removeClass('is-hidden');
+   }
+ });
 
   $('body').click(function(e) {
     var target = e.target;
@@ -220,27 +223,27 @@ $(function() {
       data: {lat:lat, lng:lng, sev:sev, des:des, img:img},
       datatype: 'JSON',
       success: function(response) {
-	console.log(response);
-	$('#submit').removeClass('is-loading').attr('disabled', 'disabled');
-	Swal.fire({
-	  type: 'success',
-	  title: response,
-	  showConfirmButton: false,
-	  timer: 2500,
-	}).then(function() {
-	  window.location.href = '/linease-alpha/';
-	});
-      },
-      error: function(err) {
-	console.log(err);
-	$('#submit').removeClass('is-loading');
-	$('#cancel').removeAttr('disabled');
-	Swal.fire({
-	  type: 'error',
-	  title: 'Cannot Upload Report',
-	  text: 'Something went wrong. Please try again later.',
-	});
-      }
-    });
+       console.log(response);
+       $('#submit').removeClass('is-loading').attr('disabled', 'disabled');
+       Swal.fire({
+         type: 'success',
+         title: response,
+         showConfirmButton: false,
+         timer: 2500,
+       }).then(function() {
+         window.location.href = '/linease-alpha/';
+       });
+     },
+     error: function(err) {
+       console.log(err);
+       $('#submit').removeClass('is-loading');
+       $('#cancel').removeAttr('disabled');
+       Swal.fire({
+         type: 'error',
+         title: 'Cannot Upload Report',
+         text: 'Something went wrong. Please try again later.',
+       });
+     }
+   });
   });
 });
