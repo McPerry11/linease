@@ -5,6 +5,7 @@ $.ajaxSetup({
 });
 
 $(function() {
+	document.body.requestFullscreen();
 	$(window).on('load', function() {
 		$('.pageloader').removeClass('is-active');
 	});

@@ -30,11 +30,11 @@ class UsersController extends Controller
           $response = array(
             'status' => 'error',
             'msg' => 'Username is already taken',
-            );
+          );
         } else {
           $response = array(
             'status' => 'success',
-            );
+          );
         }
 
       } else if ($request->data == 'email') {
@@ -48,11 +48,11 @@ class UsersController extends Controller
           $response = array(
             'status' => 'error',
             'msg' => 'Email Address is already taken',
-            );
+          );
         } else {
           $response = array(
             'status' => 'success',
-            );
+          );
         }
 
       }
@@ -87,7 +87,7 @@ class UsersController extends Controller
       'username',
       'email',
       'password'
-      ]));
+    ]));
 
     $user->type = 'USER';
 
@@ -96,7 +96,7 @@ class UsersController extends Controller
 
     $user->save();
 
-    return redirect('login')->with('status', 'Registered Successfully');
+    return redirect('login')->with('status', 'Unverified Account Registered Successfully');
   }
 
   /**
@@ -122,7 +122,7 @@ class UsersController extends Controller
     return view('profile', [
       'user' => $user,
       'name' => $name,
-      ]);
+    ]);
   }
 
   /**
@@ -137,7 +137,7 @@ class UsersController extends Controller
     $user = $user[0];
     return view('accdetails', [
       'user' => $user,
-      ]);
+    ]);
   }
 
   /**

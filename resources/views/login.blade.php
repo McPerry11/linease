@@ -5,6 +5,13 @@
 @endsection
 
 @section('body')
+@if (session('status'))
+<div class="notification is-success">
+	<button class="delete" type="button"></button>
+	{{ session('status') }}
+</div>
+@endif
+
 {{-- Desktop View --}}
 <div id="lmargin" class="container is-fluid is-hidden-touch mtop">
 	<div class="columns is-vcentered">
@@ -34,7 +41,7 @@
 							<p class="is-medium">NEW TO LINEASE? <a class="has-text-success" href="{{ url('register') }}">SIGN UP FOR FREE</a></p>
 						</div>
 					</div>
-					<form method="POST">
+					<form>
 						@csrf
 						<div class="field">
 							<p class="control has-icons-left">
@@ -53,7 +60,7 @@
 						</div>
 						<div class="columns">
 							<div class="column is-7 has-text-left">
-								<small id="message" class="has-text-danger">{{ $message ?? '' }}</small>
+								<small id="message" class="has-text-danger"></small>
 							</div>
 							<div id="mright" class="column is-5 has-text-right">
 								<small><a class="has-text-grey">Forgot Password?</a></small>
@@ -116,7 +123,7 @@
 		<div class="has-text-right">
 			<small><a class="has-text-grey">Forgot Password?</a></small>
 		</div>
-		<small id="mmessage" class="has-text-danger">{{ $message ?? '' }}</small>
+		<small id="mmessage" class="has-text-danger"></small>
 		<div id="buttons">
 			<div class="level">
 				<div class="level-item">
