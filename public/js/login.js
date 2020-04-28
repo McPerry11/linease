@@ -1,22 +1,51 @@
 $(function() {
-	// Univeral
+	function registerBtn(event) {
+		if ($(btnLogin).hasClass('is-loading')) {
+			event.preventDefault();
+		} else {
+			$('.title').text('Loading Registration');
+			$('.pageloader').addClass('is-active');
+		}
+	}
+
+	function resetMsg() {
+		$(txtMsg).text('');
+	}
+
+	function ajaxResponse() {
+		$(btnLogin).removeClass('is-loading');
+		$(btnRegister).removeAttr('disabled');
+		$(btnView).removeAttr('disabled');
+		$(inpUsername).removeAttr('readonly');
+		$(inpPassword).removeAttr('readonly');
+	}
+
+	var platform = '', isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
+	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
+	if (isMobile) {
+		platform = 'm';
+	}
+
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.pageloader').removeClass('is-active');
 
 	$('form').submit(function(e) {
 		e.preventDefault();
 		var username, password;
-		$('#login').addClass('is-loading');
-		$('#mlogin').addClass('is-loading');
-		$('#register').attr('disabled', 'disabled');
-		$('#mregister').attr('disabled', 'disabled');
-		if ($('#username').val()) {
-			username = $('#username').val();
-			password = $('#password').val();
-		} else {
-			username = $('#musername').val();
-			password = $('#mpassword').val();
+
+		if( $(inpPassword).attr('type') == 'text' ) {
+			$(inpPassword).attr('type', 'password');
+			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
+			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
 		}
+
+		$(btnView).attr('disabled', 'disabled');
+		$(btnLogin).addClass('is-loading');
+		$(btnRegister).attr('disabled', 'disabled');
+		$(inpUsername).attr('readonly', 'true');
+		$(inpPassword).attr('readonly', 'true');
+		username = $(inpUsername).val();
+		password = $(inpPassword).val();
 
 		$.ajax({
 			type: 'POST',
@@ -24,10 +53,7 @@ $(function() {
 			data: {username:username, password:password},
 			datatype: 'JSON',
 			success: function(response) {
-				$('#login').removeClass('is-loading');
-				$('#mlogin').removeClass('is-loading');
-				$('#register').removeAttr('disabled');
-				$('#mregister').removeAttr('disabled');
+				ajaxResponse();
 				if (response.status == 'success') {
 					Swal.fire({
 						type: 'success',
@@ -42,20 +68,14 @@ $(function() {
 						// window.location.href = "/linease-alpha";
 					});
 				} else if (response.status == 'error') {
-					$('#message').text(response.message);
-					$('#mmessage').text(response.message);
-					$('#password').val('');
-					$('#mpassword').val('');
-					$('#username').val('');
-					$('#musername').val('');
+					$(txtMsg).text(response.message);
+					$(inpPassword).val('');
+					$(inpUsername).val('');
 				}
 			},
 			error: function(err) {
 				console.log(err);
-				$('#login').removeClass('is-loading');
-				$('#mlogin').removeClass('is-loading');
-				$('#register').removeAttr('disabled');
-				$('#mregister').removeAttr('disabled');
+				ajaxResponse();
 				Swal.fire({
 					type: 'error',
 					title: 'Cannot Log In to LinEase',
@@ -70,72 +90,31 @@ $(function() {
 		$('.pageloader').addClass('is-active');
 	});
 
-	$('.delete').click(function() {
-		$('.notification').fadeOut();
-		setTimeout(function() {
-			$('.notification').remove();
-		}, 1000);
-	});
-
-
-	// Desktop Version
-	$('#view').click(function() {
-		if( $('#password').attr('type') == 'password' ) {
-			$('#password').attr('type', 'text');
-			$('#icon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
+	$(btnView).click(function() {
+		if( $(inpPassword).attr('type') == 'password' ) {
+			$(inpPassword).attr('type', 'text');
+			$(icnViewPass).removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
 			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
 		} else {
-			$('#password').attr('type', 'password');
-			$('#icon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
+			$(inpPassword).attr('type', 'password');
+			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
 			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
 		}
 	});
 
-	$('#register').click(function() {
-		var attr = $('#register').attr('disabled');
-		if (typeof attr !== typeof undefined && attr !== false) {
-			return false;
-		}
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
+	$(btnRegister).click(function(e) {
+		registerBtn(e);
 	});
 
-	$('#username').keyup(function() {
-		$('#message').text('');
+	$('#' + platform + 'reglink').click(function(e) {
+		registerBtn(e);
 	});
 
-	$('#password').keyup(function() {
-		$('#message').text('');
-	})
-
-
-	// Mobile Version
-	$('#mview').click(function() {
-		if( $('#mpassword').attr('type') == 'password' ) {
-			$('#mpassword').attr('type', 'text');
-			$('#micon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
-		} else {
-			$('#mpassword').attr('type', 'password');
-			$('#micon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
-		}
+	$(inpUsername).keyup(function() {
+		resetMsg();
 	});
 
-	$('#mregister').click(function(e) {
-		var attr = $('#mregister').attr('disabled');
-		if (typeof attr !== typeof undefined && attr !== false) {
-			return false;
-		}
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
-	});
-
-	$('#musername').keyup(function() {
-		$('#mmessage').text('');
-	});
-
-	$('#mpassword').keyup(function() {
-		$('#mmessage').text('');
+	$(inpPassword).keyup(function() {
+		resetMsg();
 	});
 });

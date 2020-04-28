@@ -38,7 +38,7 @@
 					</div>
 					<div class="level">
 						<div class="level-item">
-							<p class="is-medium">NEW TO LINEASE? <a class="has-text-success" href="{{ url('register') }}">SIGN UP FOR FREE</a></p>
+							<p class="is-medium">NEW TO LINEASE? <a id="reglink" class="has-text-success" href="{{ url('register') }}">SIGN UP FOR FREE</a></p>
 						</div>
 					</div>
 					<form>
@@ -100,7 +100,7 @@
 	</div>
 	<div class="level">
 		<div class="level-item">
-			<p class="is-size-7">NEW TO LINEASE? <a class="has-text-success" href="{{ asset("register") }}" >SIGN UP FOR FREE</a></p>
+			<p class="is-size-7">NEW TO LINEASE? <a id="mreglink" class="has-text-success" href="{{ asset("register") }}" >SIGN UP FOR FREE</a></p>
 		</div>
 	</div>
 	<form method="POST">
