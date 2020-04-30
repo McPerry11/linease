@@ -21,10 +21,10 @@ $(function() {
 	}
 
 	var platform = '', isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
-	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
 	if (isMobile) {
 		platform = 'm';
 	}
+	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.pageloader').removeClass('is-active');
