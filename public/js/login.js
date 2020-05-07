@@ -85,11 +85,6 @@ $(function() {
 		});
 	});
 
-	$('a.has-text-success').click(function() {
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
-	});
-
 	$(btnView).click(function() {
 		if( $(inpPassword).attr('type') == 'password' ) {
 			$(inpPassword).attr('type', 'text');
