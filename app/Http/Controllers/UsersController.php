@@ -16,48 +16,40 @@ class UsersController extends Controller
    */
   public function index(Request $request)
   {
-    $users = User::all();
-    if ($request->source == 'registration') {
-      $identical = 0;
-      if ($request->data == 'username') {
-        foreach ($users as $user) {
-          if ($user->username == $request->username) {
-            $identical++;
-          }
-        }
+    $identical = false;
+    switch ($request->data) {
+      case 'username':
+      $identical = User::where('username', $request->username)->get();
 
-        if ($identical > 0) {
-          $response = array(
-            'status' => 'error',
-            'msg' => 'Username is already taken',
-          );
-        } else {
-          $response = array(
-            'status' => 'success',
-          );
-        }
-
-      } else if ($request->data == 'email') {
-        foreach ($users as $user) {
-          if ($user->email == $request->email) {
-            $identical++;
-          }
-        }
-
-        if ($identical > 0) {
-          $response = array(
-            'status' => 'error',
-            'msg' => 'Email Address is already taken',
-          );
-        } else {
-          $response = array(
-            'status' => 'success',
-          );
-        }
-
+      if (count($identical) > 0) {
+        $response = array(
+          'status' => 'error',
+          'msg' => 'Username is already taken'
+        );
+      } else {
+        $response = array(
+          'status' => 'success'
+        );
       }
-      return response()->json($response);
+      break;
+
+      case 'email':
+      $identical = User::where('email', $request->email)->get();
+
+      if (count($identical) > 0) {
+        $response = array(
+          'status' => 'error',
+          'msg' => 'Email address is already taken'
+        );
+      } else {
+        $response = array(
+          'status' => 'success'
+        );
+      }
+      break;
     }
+
+    return response()->json($response);
   }
 
   /**

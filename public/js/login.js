@@ -32,21 +32,18 @@ $(function() {
 	$('form').submit(function(e) {
 		e.preventDefault();
 		var username, password;
-
 		if( $(inpPassword).attr('type') == 'text' ) {
 			$(inpPassword).attr('type', 'password');
 			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
 			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
 		}
-
 		$(btnView).attr('disabled', 'disabled');
 		$(btnLogin).addClass('is-loading');
 		$(btnRegister).attr('disabled', 'disabled');
-		$(inpUsername).attr('readonly', 'true');
-		$(inpPassword).attr('readonly', 'true');
+		$(inpUsername).attr('readonly', true);
+		$(inpPassword).attr('readonly', true);
 		username = $(inpUsername).val();
 		password = $(inpPassword).val();
-
 		$.ajax({
 			type: 'POST',
 			url: 'login',
@@ -59,7 +56,7 @@ $(function() {
 						type: 'success',
 						title: response.message,
 						showConfirmButton: false,
-						timer: 2500,
+						timer: 2500
 					}).then(function() {
 						$('.title').text('Loading Dashboard');
 						$('.pageloader').addClass('is-active');
@@ -79,7 +76,7 @@ $(function() {
 				Swal.fire({
 					type: 'error',
 					title: 'Cannot Log In to LinEase',
-					text: 'Something went wrong. Please try again later.',
+					text: 'Something went wrong. Please try again later.'
 				});
 			}
 		});

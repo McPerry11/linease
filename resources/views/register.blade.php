@@ -58,7 +58,7 @@
 						</div>
 						<button id="create" class="button is-fullwidth is-rounded is-outlined has-text-white" type="submit">CREATE ACCOUNT</button>
 					</form>
-					<small>Already have an account? <a class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
+					<small>Already have an account? <a id="login" class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
 				</div>
 			</div>
 		</div>
@@ -119,7 +119,7 @@
 		</div>
 		<button id="mcreate" class="button is-fullwidth is-rounded is-outlined has-text-white" type="submit">CREATE ACCOUNT</button>
 	</form>
-	<small class="mbot">Already have an account? <a class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
+	<small class="mbot">Already have an account? <a id="mlogin" class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
 	<footer class="footer">
 		<div class="content has-text-centered has-background-white">
 			<small class="is-size-7">© Copyright</small>
