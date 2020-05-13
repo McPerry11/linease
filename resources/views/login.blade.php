@@ -13,7 +13,7 @@
 @endif
 
 {{-- Desktop View --}}
-<div id="lmargin" class="container is-fluid is-hidden-touch mtop">
+<div class="container is-fluid is-hidden-touch mtop">
 	<div class="columns is-vcentered">
 		<div class="column is-7">
 			<div class="level">
