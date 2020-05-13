@@ -23,7 +23,7 @@
 							<p class="is-medium">Join the community</p>
 						</div>
 					</div>
-					<form class="has-text-left" method="POST">
+					<form class="has-text-left">
 						@csrf
 						<div class="field">
 							<div id="user-control" class="control has-icons-left">
@@ -71,7 +71,7 @@
 </div>
 
 {{-- Mobile View --}}
-<div class="container is-fluid is-hidden-desktop has-text-centered-mobile mtop">
+<div class="container is-fluid is-hidden-tablet has-text-centered-mobile mtop">
 	<div class="level">
 		<div class="level-item">
 			<figure class="image is-128x128">

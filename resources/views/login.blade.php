@@ -5,13 +5,6 @@
 @endsection
 
 @section('body')
-@if (session('status'))
-<div class="notification is-success">
-	<button class="delete" type="button"></button>
-	{{ session('status') }}
-</div>
-@endif
-
 {{-- Desktop View --}}
 <div class="container is-fluid is-hidden-touch mtop">
 	<div class="columns is-vcentered">

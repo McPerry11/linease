@@ -20,7 +20,6 @@ class UsersController extends Controller
     switch ($request->data) {
       case 'username':
       $identical = User::where('username', $request->username)->get();
-
       if (count($identical) > 0) {
         $response = array(
           'status' => 'error',
@@ -35,7 +34,6 @@ class UsersController extends Controller
 
       case 'email':
       $identical = User::where('email', $request->email)->get();
-
       if (count($identical) > 0) {
         $response = array(
           'status' => 'error',
@@ -88,7 +86,7 @@ class UsersController extends Controller
 
     $user->save();
 
-    return redirect('login')->with('status', 'Unverified Account Registered Successfully');
+    return response()->json(array('msg' => 'Unverified account registered successfully'));
   }
 
   /**
