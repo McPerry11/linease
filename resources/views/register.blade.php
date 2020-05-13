@@ -23,7 +23,7 @@
 							<p class="is-medium">Join the community</p>
 						</div>
 					</div>
-					<form class="has-text-left" method="POST">
+					<form class="has-text-left">
 						@csrf
 						<div class="field">
 							<div id="user-control" class="control has-icons-left">
@@ -58,7 +58,7 @@
 						</div>
 						<button id="create" class="button is-fullwidth is-rounded is-outlined has-text-white" type="submit">CREATE ACCOUNT</button>
 					</form>
-					<small>Already have an account? <a class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
+					<small>Already have an account? <a id="login" class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
 				</div>
 			</div>
 		</div>
@@ -71,7 +71,7 @@
 </div>
 
 {{-- Mobile View --}}
-<div class="container is-fluid is-hidden-desktop has-text-centered-mobile mtop">
+<div class="container is-fluid is-hidden-tablet has-text-centered-mobile mtop">
 	<div class="level">
 		<div class="level-item">
 			<figure class="image is-128x128">
@@ -119,7 +119,7 @@
 		</div>
 		<button id="mcreate" class="button is-fullwidth is-rounded is-outlined has-text-white" type="submit">CREATE ACCOUNT</button>
 	</form>
-	<small class="mbot">Already have an account? <a class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
+	<small class="mbot">Already have an account? <a id="mlogin" class="has-text-success" href="{{ url('login') }}">Sign in</a></small>
 	<footer class="footer">
 		<div class="content has-text-centered has-background-white">
 			<small class="is-size-7">© Copyright</small>

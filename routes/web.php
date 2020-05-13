@@ -17,9 +17,7 @@ Route::post('login', 'LoginController@login');
 Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');
 
-Route::prefix('users')->group(function() {
-	Route::post('', 'UsersController@index');
-});
+Route::post('users', 'UsersController@index');
 
 Route::group(['middleware' => 'auth'], function() {
 	Route::get('', 'IndexController@dashboard');

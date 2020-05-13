@@ -8,10 +8,6 @@ $(function() {
 		}
 	}
 
-	function resetMsg() {
-		$(txtMsg).text('');
-	}
-
 	function ajaxResponse() {
 		$(btnLogin).removeClass('is-loading');
 		$(btnRegister).removeAttr('disabled');
@@ -20,33 +16,25 @@ $(function() {
 		$(inpPassword).removeAttr('readonly');
 	}
 
-	var platform = '', isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
+	var platform = window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
 	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
-	if (isMobile) {
-		platform = 'm';
-	}
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.pageloader').removeClass('is-active');
 
 	$('form').submit(function(e) {
 		e.preventDefault();
-		var username, password;
-
 		if( $(inpPassword).attr('type') == 'text' ) {
 			$(inpPassword).attr('type', 'password');
 			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
+			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
 		}
-
 		$(btnView).attr('disabled', 'disabled');
 		$(btnLogin).addClass('is-loading');
 		$(btnRegister).attr('disabled', 'disabled');
-		$(inpUsername).attr('readonly', 'true');
-		$(inpPassword).attr('readonly', 'true');
-		username = $(inpUsername).val();
-		password = $(inpPassword).val();
-
+		$(inpUsername).attr('readonly', true);
+		$(inpPassword).attr('readonly', true);
+		let username = $(inpUsername).val(), password = $(inpPassword).val();
 		$.ajax({
 			type: 'POST',
 			url: 'login',
@@ -59,7 +47,7 @@ $(function() {
 						type: 'success',
 						title: response.message,
 						showConfirmButton: false,
-						timer: 2500,
+						timer: 2500
 					}).then(function() {
 						$('.title').text('Loading Dashboard');
 						$('.pageloader').addClass('is-active');
@@ -79,15 +67,10 @@ $(function() {
 				Swal.fire({
 					type: 'error',
 					title: 'Cannot Log In to LinEase',
-					text: 'Something went wrong. Please try again later.',
+					text: 'Something went wrong. Please try again later.'
 				});
 			}
 		});
-	});
-
-	$('a.has-text-success').click(function() {
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
 	});
 
 	$(btnView).click(function() {
@@ -111,10 +94,10 @@ $(function() {
 	});
 
 	$(inpUsername).keyup(function() {
-		resetMsg();
+		$(txtMsg).text('');
 	});
 
 	$(inpPassword).keyup(function() {
-		resetMsg();
+		$(txtMsg).text('');
 	});
 });

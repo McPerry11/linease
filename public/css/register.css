@@ -24,6 +24,13 @@ html, body {
 	padding: 0;
 }
 
+@media screen and (min-width: 1024px) {
+	.footer {
+		position: fixed;
+		margin-left: -32px;
+	}
+}
+
 .mtop {
 	margin-top: 10%;
 }

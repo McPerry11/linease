@@ -1,5 +1,5 @@
 .mtop {
-	margin-top: 10%;
+	margin-top: 8%;
 }
 
 .content h1 {
@@ -7,7 +7,7 @@
 }
 
 .is-rounded {
-	width: 175px;
+	width: 160px;
 }
 
 .pass-field {
@@ -35,6 +35,13 @@
 	width: 100%;
 	padding: 0;
 	margin-top: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+	.footer {
+		position: fixed;
+		margin-left: -32px;
+	}
 }
 
 .notification {

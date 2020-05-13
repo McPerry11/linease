@@ -5,15 +5,8 @@
 @endsection
 
 @section('body')
-@if (session('status'))
-<div class="notification is-success">
-	<button class="delete" type="button"></button>
-	{{ session('status') }}
-</div>
-@endif
-
 {{-- Desktop View --}}
-<div id="lmargin" class="container is-fluid is-hidden-touch mtop">
+<div class="container is-fluid is-hidden-touch mtop">
 	<div class="columns is-vcentered">
 		<div class="column is-7">
 			<div class="level">
@@ -90,7 +83,7 @@
 </div>
 
 {{-- Mobile View --}}
-<div class="container is-fluid is-hidden-desktop has-text-centered-mobile mtop">
+<div class="container is-fluid is-hidden-tablet has-text-centered-mobile mtop">
 	<div class="level">
 		<div class="level-item">
 			<figure class="image is-128x128">

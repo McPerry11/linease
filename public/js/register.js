@@ -1,439 +1,281 @@
 $(function() {
-	// Universal
-	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
-	$('.pageloader').removeClass('is-active');
-
-	var error = [true, true, true];
-	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-	function validateUsername(username) {
-		var expr = /^[a-zA-Z0-9._]*$/;
-		if (!expr.test(username)) {
-			return false;
-		} else {
-			return true;
-		}
+	function serverErr(err, input, control) {
+		console.log(err);
+		$(control).removeClass('is-loading');
+		$(input).removeAttr('readonly');
+		validate(error);
+		Swal.fire({
+			type: 'error',
+			title: 'Cannot connect to server',
+			text: 'Something went wrong. Please try again later.'
+		});
 	}
 
 	function validate(check) {
-		$('#create').removeAttr('disabled');
-		$('#mcreate').removeAttr('disabled');
-		for (var i = 0; i < check.length; i++) {
-			if (check[i] == false) {
-				$('#create').attr('disabled', 'disabled');
-				$('#mcreate').attr('disabled', 'disabled');
+		$(btnCreate).removeAttr('disabled');
+		for (let i = 0; i < check.length; i++) {
+			if (check[i]) {
+				$(btnCreate).attr('disabled', 'disabled');
 				break;
 			}
 		}
 	}
 
-	function validatePassword(pass, confirm) {
-		if (pass == confirm) {
-			$('#password').removeClass('is-danger').addClass('is-success');
-			$('#pass-icon').removeClass('has-text-danger').addClass('has-text-success');
-			$("#cpass").removeClass('is-danger').addClass('is-success');
-			$('#cpass-icon').removeClass('has-text-danger').addClass('has-text-success');
-			$('#mpassword').removeClass('is-danger').addClass('is-success');
-			$('#mpass-icon').removeClass('has-text-danger').addClass('has-text-success');
-			$("#mcpass").removeClass('is-danger').addClass('is-success');
-			$('#mcpass-icon').removeClass('has-text-danger').addClass('has-text-success');
-			error[2] = true
-		} else {
-			$('#cpass-warning').text('Passwords do not match');
-			$('#password').removeClass('is-success').addClass('is-danger');
-			$('#pass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$("#cpass").removeClass('is-success').addClass('is-danger');
-			$('#cpass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#mcpass-warning').text('Passwords do not match');
-			$('#mpassword').removeClass('is-success').addClass('is-danger');
-			$('#mpass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$("#mcpass").removeClass('is-success').addClass('is-danger');
-			$('#mcpass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			error[2] = false;
-		}
+	function validateUsername(username) {
+		let expr = /^[a-zA-Z0-9._]*$/;
+		return expr.test(username);
+	}
+
+	function validateEmail(email) {
+		let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		return expr.test(email);
+	}
+
+	function clearResponse(warning, textbox, icon, seq) {
+		$(warning).text('');
+		$(textbox).removeClass('is-success').removeClass('is-danger');
+		$(icon).removeClass('has-text-success').removeClass('has-text-danger');
+		error[seq % 3] = seq > 2;
 		validate(error);
 	}
 
-	$('form').submit(function() {
-		$('#create').addClass('is-loading');
-		$('#mcreate').addClass('is-loading');
-	});
-
-	$('a.has-text-success').click(function() {
-		$('.title').text('Loading Login Module');
-		$('.pageloader').addClass('is-active');
-	});
-
-
-	// Desktop Version
-	$('#username').focusout(function() {
-		var username = $(this).val();
-		if (username.trim() == "") {
-			$(this).removeClass('is-success').addClass('is-danger');
-			$('#user-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#user-warning').text('Username cannot be empty');
-			$('#create').attr('disabled', 'disabled');
-			error[0] = false;
-		} else {
-			$('#user-control').addClass('is-loading');
-			$('#create').attr('disabled', 'disabled');
-			var valid_uname = validateUsername(username);
-			if (valid_uname) {
-				$.ajax({
-					type: 'POST',
-					url: 'users',
-					data: {username:username, data:'username', source:'registration'},
-					datatype: 'JSON',
-					success: function(data) {
-						if (data.status == 'error') {
-							$('#user-warning').text(data.msg);
-							$('#username').removeClass('is-success').addClass('is-danger');
-							$('#user-icon').removeClass('has-text-success').addClass('has-text-danger');
-							error[0] = false;
-						} else {
-							$('#user-warning').text('');
-							$('#username').removeClass('is-danger').addClass('is-success');
-							$('#user-icon').removeClass('has-text-danger').addClass('has-text-success');
-							error[0] = true;
-						}
-					},
-					error: function(err) {
-						console.log(err);
-						error[0] = false;
-						$('#user-control').removeClass('is-loading');
-						alert('Something went wrong. Please try again later.');
-					}
-				}).then(function() {
-					$('#user-control').removeClass('is-loading');
-					validate(error);
-				});
-			} else {
-				$(this).removeClass('is-success').addClass('is-danger');
-				$('#user-icon').removeClass('has-text-success').addClass('has-text-danger');
-				$('#user-control').removeClass('is-loading');
-				$('#user-warning').text('Special characters except . and _ are not allowed');
-				$('#create').attr('disabled', 'disabled');
-				error[0] = false;
-				validate(error);
-			}
-		}
-	});
-
-	$('#username').keyup(function(e) {
-		if (e.which || e.keyCode !== 9) {
-			$('#user-warning').text('');
-			$(this).removeClass('is-success').removeClass('is-danger');
-			$('#user-icon').removeClass('has-text-success').removeClass('has-text-danger');
-			error[0] = true;
+	function checkInputs(input, textbox, icon, warning, warnMsg, valid, invalidMsg, seq) {
+		if (input.trim() == '') {
+			$(textbox).removeClass('is-success').addClass('is-danger');
+			$(icon).removeClass('has-text-success').addClass('has-text-danger');
+			$(warning).text(warnMsg);
+			error[seq] = true;
 			validate(error);
+			return false;
+		} else if (!valid) {
+			$(textbox).removeClass('is-success').addClass('is-danger');
+			$(icon).removeClass('has-text-success').addClass('has-text-danger');
+			$(warning).text(invalidMsg);
+			error[seq] = true;
+			validate(error);
+			return false;
 		}
-	});
+		return true;
+	}
 
-	$('#email').focusout(function() {
-		var email = $(this).val();
-		if (email.trim() == '') {
-			$(this).removeClass('is-success').addClass('is-danger');
-			$('#email-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#email-warning').text('Email Address cannot be empty');
-			$('#create').attr('disabled', 'disabled');
-			error[1] = false;
-		} else if (!email.match(mailformat)) {
-			$(this).removeClass('is-success').addClass('is-danger');
-			$('#email-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#email-warning').text('Invalid format of email address');
-			$('#create').attr('disabled', 'disabled');
-			error[1] = false;
+	function checkResponse(response, warning, input, control, icon, seq) {
+		if (response.status == 'error') {
+			$(warning).text(response.msg);
+			$(input).removeClass('is-success').addClass('is-danger');
+			$(icon).removeClass('has-text-success').addClass('has-text-danger');
+			error[seq] = true;
 		} else {
-			$('#email-control').addClass('is-loading');
-			$('#create').attr('disabled', 'disabled');
-			$.ajax({
-				type: 'POST',
-				url: 'users',
-				data: {email:email, data:'email', source:'registration'},
-				success: function(data) {
-					if (data.status == 'error') {
-						$('#email-warning').text(data.msg);
-						$('#email').removeClass('is-success').addClass('is-danger');
-						$('#email-icon').removeClass('has-text-success').addClass('has-text-danger');
-						error[1] = false;
-					} else {
-						$('#email-warning').text('');
-						$('#email').removeClass('is-danger').addClass('is-success');
-						$('#email-icon').removeClass('has-text-danger').addClass('has-text-success');
-						error[1] = true;
-					}
-				},
-				error: function(err) {
-					console.log(err);
-					error[1] = false;
-					$('#email-control').removeClass('is-loading');
-					alert('Something went wrong. Please try again later.');
-				}
-			}).then(function() {
-				$('#email-control').removeClass('is-loading');
-				validate(error);
-			});
+			$(input).removeClass('is-danger').addClass('is-success');
+			$(icon).removeClass('has-text-danger').addClass('has-text-success');
+			error[seq] = false;
 		}
-	});
-
-	$('#email').keyup(function() {
-		$('#email-warning').text('');
-		$(this).removeClass('is-success').removeClass('is-danger');
-		$('#email-icon').removeClass('has-text-success').removeClass('has-text-danger');
-		error[1] = true;
+		$(control).removeClass('is-loading');
+		$(input).removeAttr('readonly');
 		validate(error);
-	});
+	}
 
-	$('#view').click(function() {
-		if( $('#password').attr('type') == 'password' ) {
-			$('#password').attr('type', 'text');
-			$('#icon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
-		} else {
-			$('#password').attr('type', 'password');
-			$('#icon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
-		}
-	});
-
-	$('#password').focusout(function() {
-		var pass = $(this).val();
-		var confirm = $('#cpass').val();
-		if (pass.length >= 8) {
-			$(this).removeClass('is-danger');
-			$('#pass-warning').text('');
-			$('#create').removeAttr('disabled');
-			if (confirm.trim() != "") {
-				validatePassword(pass, confirm);
-			}
-			validate(error);
-		} else {
-			$(this).addClass('is-danger');
-			$('#create').attr('disabled', 'disabled');
-			$('#pass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#cpass').removeClass('is-success').addClass('is-danger');
-			$('#cpass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#pass-warning').text('Password must be a minimum length of 8');
+	function validatePassword(pass, confirm) {
+		if (pass == confirm) {
+			$(inpPassword).removeClass('is-danger').addClass('is-success');
+			$(icnPassword).removeClass('has-text-danger').addClass('has-text-success');
+			$(inpConfirm).removeClass('is-danger').addClass('is-success');
+			$(icnConfirm).removeClass('has-text-danger').addClass('has-text-success');
 			error[2] = false;
-			validate(error);
-		}
-	});
-
-	$('#password').keyup(function() {
-		$('#pass-warning').text('');
-		$('#cpass-warning').text('');
-		$(this).removeClass('is-danger');
-		$('#cpass').removeClass('is-danger');
-		$('#pass-icon').removeClass('has-text-danger');
-		$('#cpass-icon').removeClass('has-text-danger');
-		error[2] = true;
-		validate(error);
-	});
-
-	$('#cpass').focusout(function() {
-		var pass = $('#password').val();
-		var confirm = $(this).val();
-		if (pass.length >= 8) {
-			validatePassword(pass, confirm);
-		}
-		validate(error);
-	});
-
-	$('#cpass').keyup(function() {
-		var pass = $('#password').val();
-		if (pass.length >= 8) {
-			$('#cpass-warning').text('');
-			$('#password').removeClass('is-success').removeClass('is-danger');
-			$('#pass-icon').removeClass('has-text-success').removeClass('has-text-danger');
-			$(this).removeClass('is-success').removeClass('is-danger');
-			$('#cpass-icon').removeClass('has-text-success').removeClass('has-text-danger');
-			error[2] = true;
-			validate(error);
-		}
-	});
-
-
-	// Mobile Version
-	$('#musername').focusout(function() {
-		var username = $(this).val();
-		if (username.trim() == "") {
-			$(this).removeClass('is-success').addClass('is-danger');
-			$('#muser-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#muser-warning').text('Username cannot be empty');
-			$('#mcreate').attr('disabled', 'disabled');
-			error[0] = false;
 		} else {
-			$('#muser-control').addClass('is-loading');
-			$('#mcreate').attr('disabled', 'disabled');
-			var valid_uname = validateUsername(username);
-			if (valid_uname) {
+			$(txtConfirmWarning).text('Passwords do not match');
+			$(inpPassword).removeClass('is-success').addClass('is-danger');
+			$(icnPassword).removeClass('has-text-success').addClass('has-text-danger');
+			$(inpConfirm).removeClass('is-success').addClass('is-danger');
+			$(icnConfirm).removeClass('has-text-success').addClass('has-text-danger');
+			error[2] = true;
+		}
+		error[2] = pass !== confirm;
+		validate(error);
+	}
+
+	function ajaxResponse() {
+		$(btnCreate).removeClass('is-loading');
+		$(btnView).removeAttr('disabled');
+		$(inpUsername).removeAttr('readonly');
+		$(inpEmail).removeAttr('readonly');
+		$(inpPassword).removeAttr('readonly');
+		$(inpConfirm).removeAttr('readonly');
+		validate(error);
+	}
+
+	var error = [false, false, false], platform = window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
+	var btnCreate = '#' + platform + 'create';
+	var inpUsername = '#' + platform + 'username', icnUsername = '#' + platform + 'user-icon', txtUserWarning = '#' + platform + 'user-warning', inpUserControl = '#' + platform + 'user-control';
+	var inpEmail = '#' + platform + 'email', icnEmail = '#' + platform + 'email-icon', txtEmailWarning = '#' + platform + 'email-warning', inpEmailControl = '#' + platform + 'email-control';
+	var btnView = '#' + platform + 'view', icnEye = '#' + platform + 'icon-pass', inpPassword = '#' + platform + 'password', icnPassword = '#' + platform + 'pass-icon', txtPassWarning = '#' + platform + 'pass-warning';
+	var inpConfirm = '#' + platform + 'cpass', icnConfirm = '#' + platform + 'cpass-icon', txtConfirmWarning = '#' + platform + 'cpass-warning';
+
+	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
+	$('.pageloader').removeClass('is-active');
+
+	$('form').submit(function(e) {
+		e.preventDefault();
+		if ($(inpPassword).attr('type') == 'text') {
+			$(inpPassword).attr('type', 'password');
+			$(icnEye).removeClass('fa-eye-slash').addClass('fa-eye').addClass('has-text-white');
+			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
+		}
+		$(btnCreate).addClass('is-loading');
+		$(btnView).attr('disabled', 'disabled');
+		$(inpUsername).attr('readonly', true);
+		$(inpEmail).attr('readonly', true);
+		$(inpPassword).attr('readonly', true);
+		$(inpConfirm).attr('readonly', true);
+		let username = $(inpUsername).val(), email = $(inpEmail).val(), password = $(inpPassword).val();
+		$.ajax({
+			type: 'POST',
+			url: 'register',
+			data: {username:username, email:email, password:password},
+			datatype: 'JSON',
+			success: function(response) {
+				ajaxResponse();
+				Swal.fire({
+					type: 'success',
+					title: 'Registration Successful',
+					text: response.msg,
+					confirmButtonText: 'Sign In'
+				}).then((result) => {
+					if (result.value) {
+						$('.title').text('Loading Login');
+						$('.pageloader').addClass('is-active');
+						window.location.href = '/linease-alpha/public/login';
+						// Server 
+						// window.location.href = '/linease-alpha/login';
+					}
+				});
+			},
+			error: function(err) {
+				console.log(err);
+				ajaxResponse();
+				Swal.fire({
+					type: 'error',
+					title: 'Cannot connect to server',
+					text: 'Something went wrong. Please try again later.'
+				});
+			}
+		});
+	});
+
+	$('#' + platform + 'login').click(function(e) {
+		if ($(btnCreate).hasClass('is-loading')) {
+			e.preventDefault();
+		} else {
+			$('.title').text('Loading Login');
+			$('.pageloader').addClass('is-active');
+		}
+	});
+
+	$(inpUsername).focusout(function() {
+		var username = $(this).val(), valid = validateUsername(username);
+		let message1 = 'Username cannot be empty', message2 = 'Special characters except . and _ are not allowed';
+		let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
+		if (proceed) {
+			if (!$(inpUserControl).hasClass('is-loading')) {
+				$(inpUserControl).addClass('is-loading');
+				clearResponse(txtUserWarning, inpUsername, icnUsername, 3);
+				$(inpUsername).attr('readonly', true);
 				$.ajax({
 					type: 'POST',
 					url: 'users',
-					data: {username:username, data:'username', source:'registration'},
+					data: {username:username, data:'username'},
 					datatype: 'JSON',
-					success: function(data) {
-						if (data.status == 'error') {
-							$('#muser-warning').text(data.msg);
-							$('#musername').removeClass('is-success').addClass('is-danger');
-							$('#muser-icon').removeClass('has-text-success').addClass('has-text-danger');
-							error[0] = false;
-						} else {
-							$('#muser-warning').text('');
-							$('#musername').removeClass('is-danger').addClass('is-success');
-							$('#muser-icon').removeClass('has-text-danger').addClass('has-text-success');
-							error[0] = true;
-						}
+					success: function(response) {
+						checkResponse(response, txtUserWarning, inpUsername, inpUserControl, icnUsername, 0);
 					},
 					error: function(err) {
-						console.log(err);
-						error[0] = false;
-						$('#muser-control').removeClass('is-loading');
-						alert('Something went wrong. Please try again later.');
+						error[0] = true;
+						serverErr(err, inpUsername, inpUserControl);
 					}
-				}).then(function() {
-					$('#muser-control').removeClass('is-loading');
-					validate(error);
 				});
-			} else {
-				$(this).removeClass('is-success').addClass('is-danger');
-				$('#muser-icon').removeClass('has-text-success').addClass('has-text-danger');
-				$('#muser-control').removeClass('is-loading');
-				$('#muser-warning').text('Special characters except . and _ are not allowed');
-				$('#mcreate').attr('disabled', 'disabled');
-				error[0] = false;
-				validate(error);
 			}
 		}
 	});
 
-	$('#musername').keyup(function(e) {
-		if (e.which || e.keyCode !== 9) {
-			$('#muser-warning').text('');
-			$(this).removeClass('is-success').removeClass('is-danger');
-			$('#muser-icon').removeClass('has-text-success').removeClass('has-text-danger');
-			error[0] = true;
-			validate(error);
-		}
+	$(inpUsername).keyup(function(e) {
+		if (e.which !== 9) clearResponse(txtUserWarning, this, icnUsername, 0);
 	});
 
-	$('#memail').focusout(function() {
-		var email = $(this).val();
-		if (email.trim() == '') {
-			$(this).removeClass('is-success').addClass('is-danger');
-			$('#memail-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#memail-warning').text('Email Address cannot be empty');
-			$('#mcreate').attr('disabled', 'disabled');
-			error[1] = false;
-		} else if (!email.match(mailformat)) {
-			$(this).removeClass('is-success').addClass('is-danger');
-			$('#memail-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#memail-warning').text('Invalid email address format');
-			$('#mcreate').attr('disabled', 'disabled');
-			error[1] = false;
-		} else {
-			$('#memail-control').addClass('is-loading');
-			$('#mcreate').attr('disabled', 'disabled');
-			$.ajax({
-				type: 'POST',
-				url: 'users',
-				data: {email:email, data:'email', source:'registration'},
-				success: function(data) {
-					if (data.status == 'error') {
-						$('#memail-warning').text(data.msg);
-						$('#memail').removeClass('is-success').addClass('is-danger');
-						$('#memail-icon').removeClass('has-text-success').addClass('has-text-danger');
-						error[1] = false;
-					} else {
-						$('#memail-warning').text('');
-						$('#memail').removeClass('is-danger').addClass('is-success');
-						$('#memail-icon').removeClass('has-text-danger').addClass('has-text-success');
+	$(inpEmail).focusout(function() {
+		var email = $(this).val(), valid = validateEmail(email);
+		let message1 = 'Email Address cannot be empty', message2 = 'Invalid format of email address';
+		let proceed = checkInputs(email, this, icnEmail, txtEmailWarning, message1, valid, message2, 1);
+		if (proceed) {
+			if (!$(inpEmailControl).hasClass('is-loading')) {
+				$(inpEmailControl).addClass('is-loading');
+				clearResponse(txtEmailWarning, inpEmail, icnEmail, 4);
+				$(inpEmail).attr('readonly', true);
+				$.ajax({
+					type: 'POST',
+					url: 'users',
+					data: {email:email, data:'email'},
+					success: function(response) {
+						checkResponse(response, txtEmailWarning, inpEmail, inpEmailControl, icnEmail, 1);
+					},
+					error: function(err) {
 						error[1] = true;
+						serverErr(err, inpEmail, inpEmailControl);
 					}
-				},
-				error: function(err) {
-					console.log(err);
-					error[1] = false;
-					$('#memail-control').removeClass('is-loading');
-					alert('Something went wrong. Please try again later.');
-				}
-			}).then(function() {
-				$('#memail-control').removeClass('is-loading');
-				validate(error);
-			});
+				});
+			}
 		}
 	});
 
-	$('#memail').keyup(function(e) {
-		$('#memail-warning').text('');
-		$('#memail').removeClass('is-success').removeClass('is-danger');
-		$('#memail-icon').removeClass('has-text-success').removeClass('has-text-danger');
-		error[1] = true;
-		validate(error);
+	$(inpEmail).keyup(function(e) {
+		if (e.which !== 9) clearResponse(txtEmailWarning, this, icnEmail, 1);
 	});
 
-	$('#mview').click(function() {
-		if( $('#mpassword').attr('type') == 'password' ) {
-			$('#mpassword').attr('type', 'text');
-			$('#micon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
+	$(btnView).click(function() {
+		if( $(inpPassword).attr('type') == 'password' ) {
+			$(inpPassword).attr('type', 'text');
+			$(icnEye).removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
+			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark');
 		} else {
-			$('#mpassword').attr('type', 'password');
-			$('#micon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
+			$(inpPassword).attr('type', 'password');
+			$(icnEye).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
+			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
 		}
 	});
 
-	$('#mpassword').focusout(function() {
-		var pass = $(this).val();
-		var confirm = $('#mcpass').val();
+	$(inpPassword).focusout(function() {
+		var pass = $(this).val(), confirm = $(inpConfirm).val();
 		if (pass.length >= 8) {
-			$(this).removeClass('is-danger');
-			$('#mpass-warning').text('');
-			$('#mcreate').removeAttr('disabled');
 			if (confirm.trim() != "") {
 				validatePassword(pass, confirm);
+			} else {
+				error[2] = false;
+				validate(error);
 			}
-			validate(error);
 		} else {
-			$(this).addClass('is-danger');
-			$('#mcreate').attr('disabled', 'disabled');
-			$('#mpass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#mcpass').removeClass('is-success').addClass('is-danger');
-			$('#mcpass-icon').removeClass('has-text-success').addClass('has-text-danger');
-			$('#mpass-warning').text('Password must be a minimum length of 8');
+			$(this).removeClass('is-success').addClass('is-danger');
+			$(icnPassword).removeClass('has-text-success').addClass('has-text-danger');
+			$(txtPassWarning).text('Password must be a minimum length of 8 characters');
+			clearResponse(txtConfirmWarning, inpConfirm, inpConfirm, 5);
 		}
 	});
 
-	$('#mpassword').keyup(function() {
-		$('#mpass-warning').text('');
-		$('#mcpass-warning').text('');
-		$(this).removeClass('is-danger');
-		$('#mcpass').removeClass('is-danger');
-		$('#mpass-icon').removeClass('has-text-danger');
-		$('#mcpass-icon').removeClass('has-text-danger');
-		error[2] = true;
-		validate(error);
+	$(inpPassword).keyup(function(e) {
+		if (e.which !== 9) {
+			clearResponse(txtPassWarning, this, icnPassword, 2);
+			clearResponse(txtConfirmWarning, inpConfirm, icnConfirm, 2);
+		}
 	});
 
-	$('#mcpass').focusout(function() {
-		var pass = $('#mpassword').val();
-		var confirm = $(this).val();
-		if (pass.length >= 8) {
+	$(inpConfirm).focusout(function() {
+		var pass = $(inpPassword).val(), confirm = $(this).val();
+		if (pass.length > 8) {
 			validatePassword(pass, confirm);
 		}
 	});
 
-	$('#mcpass').keyup(function() {
-		var pass = $('#mpassword').val();
-		if (pass.length >= 8) {
-			$('#mcpass-warning').text('');
-			$('#mpassword').removeClass('is-success').removeClass('is-danger');
-			$('#mpass-icon').removeClass('has-text-success').removeClass('has-text-danger');
-			$(this).removeClass('is-success').removeClass('is-danger');
-			$('#mcpass-icon').removeClass('has-text-success').removeClass('has-text-danger');
-			error[2] = true;
-			validate(error);
+	$(inpConfirm).keyup(function(e) {
+		if ($(inpPassword).val() != '' && e.which !== 9) {
+			clearResponse(txtPassWarning, inpPassword, icnPassword, 2);
+			clearResponse(txtConfirmWarning, this, icnConfirm, 2);
 		}
 	});
 });
