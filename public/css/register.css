@@ -1,10 +1,9 @@
-html, body {
-	overflow-y: overlay;
+body, .columns {
+	height: 100%;
 }
 
-.card {
-	width: 30%;
-	margin-top: 2%;
+.card, .mtop {
+	margin-top: 10%;
 }
 
 .pass-field {
@@ -19,18 +18,8 @@ html, body {
 
 .footer {
 	margin-top: 20px;
+	left: 0;
 	bottom: 0;
 	width: 100%;
 	padding: 0;
-}
-
-@media screen and (min-width: 1024px) {
-	.footer {
-		position: fixed;
-		margin-left: -32px;
-	}
-}
-
-.mtop {
-	margin-top: 10%;
 }

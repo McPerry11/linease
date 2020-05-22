@@ -56,7 +56,7 @@
 								<small id="message" class="has-text-danger"></small>
 							</div>
 							<div id="mright" class="column is-5 has-text-right">
-								<small><a class="has-text-grey">Forgot Password?</a></small>
+								<a class="has-text-grey help">Forgot Password?</a>
 							</div>
 						</div>
 						<div class="level">
@@ -114,7 +114,7 @@
 			</div>
 		</div>
 		<div class="has-text-right">
-			<small><a class="has-text-grey">Forgot Password?</a></small>
+			<a class="has-text-grey help">Forgot Password?</a>
 		</div>
 		<small id="mmessage" class="has-text-danger"></small>
 		<div id="buttons">

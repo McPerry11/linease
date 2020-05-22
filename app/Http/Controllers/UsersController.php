@@ -16,7 +16,6 @@ class UsersController extends Controller
    */
   public function index(Request $request)
   {
-    $identical = false;
     switch ($request->data) {
       case 'username':
       $identical = User::where('username', $request->username)->get();
