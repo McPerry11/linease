@@ -6,9 +6,9 @@
 
 @section('body')
 {{-- Desktop View --}}
-<div class="container is-fluid is-hidden-touch mtop">
-	<div class="columns is-vcentered">
-		<div class="column is-7">
+<div class="container is-fluid is-hidden-mobile">
+	<div class="columns is-vcentered is-centered">
+		<div class="column is-7 is-hidden-tablet-only">
 			<div class="level">
 				<div class="level-item">
 					<div class="content">
@@ -19,7 +19,7 @@
 			</div>
 			<p class="has-text-justified">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet augue facilisis, consectetur dolor nec, sagittis lectus. Duis venenatis lacinia elit, vitae varius sapien dignissim sit amet. Nulla accumsan lectus eu urna semper, id imperdiet justo interdum. Mauris efficitur enim a luctus convallis. Integer in bibendum leo, non vulputate elit. Nullam at mi neque. Aenean sem dui, semper non elit in, dignissim malesuada massa. Praesent eu dapibus orci.</p>
 		</div>
-		<div class="column is-5">
+		<div class="column is-5-desktop is-7-tablet">
 			<div class="card">
 				<div class="card-content">
 					<div class="level">
@@ -52,21 +52,21 @@
 							</div>
 						</div>
 						<div class="columns">
-							<div class="column is-7 has-text-left">
+							<div class="column is-7-widescreen is-8-tablet has-text-left">
 								<small id="message" class="has-text-danger"></small>
 							</div>
-							<div id="mright" class="column is-5 has-text-right">
+							<div id="mright" class="column is-5-widescreen is-4-tablet has-text-right">
 								<a class="has-text-grey help">Forgot Password?</a>
 							</div>
 						</div>
-						<div class="level">
-							<div class="level-item">
+						<div class="columns is-vcentered is-centered">
+							<div id="col-login" class="column is-5">
 								<button type="submit" id="login" class="button is-rounded is-outlined has-text-white">LOG IN</button>
 							</div>
-							<div class="level-item">
+							<div class="column is-2 has-text-centered">
 								<small class="is-size-7">OR</small>
 							</div>
-							<div class="level-item">
+							<div id="col-register" class="column is-5">
 								<a id="register" class="button is-rounded has-background-grey-darker has-text-white" href="{{ url('register') }}">CREATE ACCOUNT</a>
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 </div>
 
 {{-- Mobile View --}}
-<div class="container is-fluid is-hidden-tablet has-text-centered-mobile mtop">
+<div class="container is-fluid is-hidden-tablet has-text-centered">
 	<div class="level">
 		<div class="level-item">
 			<figure class="image is-128x128">
@@ -122,13 +122,9 @@
 				<div class="level-item">
 					<button type="submit" id="mlogin" class="button is-rounded is-outlined has-text-white">LOG IN</button>
 				</div>
-			</div>
-			<div class="level">
 				<div class="level-item">
 					<small class="is-size-7">OR</small>
 				</div>
-			</div>
-			<div class="level">
 				<div class="level-item">
 					<a id="mregister" class="button is-rounded has-background-grey-darker has-text-white" href="{{ asset("register") }}">CREATE ACCOUNT</a>
 				</div>
