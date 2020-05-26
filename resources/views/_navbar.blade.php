@@ -1,10 +1,17 @@
 {{-- Desktop View --}}
 <div class="is-hidden-touch">
-	<nav class="navbar is-fixed-top" role="navigation">
-		<form method="POST">
-			@csrf
-			<button class="button is-danger">Logout</button>
-		</form>
+	<nav class="navbar is-fixed-top is-white" role="navigation">
+		<div class="navbar-brand">
+			<div class="navbar-item">
+				<figure class="image is-24x24">
+					<img src="{{ asset('img/LineaseIcon.PNG') }}" alt="LinEase Logo">
+				</figure>
+				<div class="content">
+					
+				</div>
+				<p class="title is-4">LinEase</p>
+			</div>
+		</div>
 	</nav>
 </div>
 

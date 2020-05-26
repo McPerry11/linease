@@ -20,7 +20,7 @@ $(function() {
 	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
-	$('.pageloader').removeClass('is-active');
+	$('.title').text('Loading Login');
 
 	$('form').submit(function(e) {
 		e.preventDefault();

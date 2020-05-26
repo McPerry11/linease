@@ -108,7 +108,7 @@ $(function() {
 	var inpConfirm = '#' + platform + 'cpass', icnConfirm = '#' + platform + 'cpass-icon', txtConfirmWarning = '#' + platform + 'cpass-warning';
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
-	$('.pageloader').removeClass('is-active');
+	$('.title').text('Loading Registration');
 
 	$('form').submit(function(e) {
 		e.preventDefault();
@@ -273,7 +273,7 @@ $(function() {
 	$(inpConfirm).focusout(function() {
 		if (!$(btnCreate).hasClass('is-loading')) {
 			var pass = $(inpPassword).val(), confirm = $(this).val();
-			if (pass.length > 8) validatePassword(pass, confirm);
+			if (pass.length >= 8) validatePassword(pass, confirm);
 		}
 	});
 

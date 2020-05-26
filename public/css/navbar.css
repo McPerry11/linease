@@ -15,9 +15,14 @@
 }
 
 .navbar.is-fixed-top {
-	background-color: #00C944;
 	box-shadow: 0 3px 15px darkgrey;
 	z-index: 2;
+}
+
+@media screen and (max-width: 1023px) {
+	.navbar.is-fixed-top {
+		background-color: #00C944;
+	}
 }
 
 .navbar-brand .navbar-item {

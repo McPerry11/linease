@@ -43,7 +43,7 @@ body, .container, .columns {
 }
 
 .container.is-hidden-tablet {
-	margin-top: 8%;
+	padding-top: 8%;
 }
 
 @media screen and (min-width: 1024px) {

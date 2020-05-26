@@ -7,12 +7,6 @@
 
 @section('body')
 @include('_navbar')
-{{-- Desktop View --}}
-<div class="is-hidden-touch">
-	Hello World
-</div>
-
-{{-- Mobile View --}}
 <div id="map-container" class="is-hidden-desktop">
 	<div id="map"></div>
 	<div id="legend"></div>
@@ -31,7 +25,7 @@
 			</div>
 		</div>
 	</form>
-	<figure id="center" class="image is-64x64">
+	<figure id="center" class="image is-64x64 is-hidden-desktop">
 		<a href="{{ url('camera') }}">
 			<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
 		</a>
@@ -40,7 +34,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/navbar.js') }}"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcAzZeE0BXSxV_ILbrCgaInLxgeHWKG1k&callback=initMap" type="text/javascript"></script>
+{{-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcAzZeE0BXSxV_ILbrCgaInLxgeHWKG1k&callback=initMap" type="text/javascript"></script> --}}
 @endsection

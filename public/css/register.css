@@ -2,7 +2,11 @@ body, .columns {
 	height: 100%;
 }
 
-.card, .mtop {
+.container.is-fluid {
+	padding-top: 10%;
+}
+
+.card {
 	margin-top: 10%;
 }
 

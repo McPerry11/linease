@@ -69,7 +69,7 @@
 </div>
 
 {{-- Mobile View --}}
-<div class="container is-fluid is-hidden-tablet has-text-centered mtop">
+<div class="container is-fluid is-hidden-tablet has-text-centered">
 	<div class="level">
 		<div class="level-item">
 			<figure class="image is-128x128">
