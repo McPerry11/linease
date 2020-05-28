@@ -25,6 +25,12 @@ p.control {
 	width: 100%;
 }
 
+@media screen and (min-width: 1024px) {
+	p.control {
+		width: 30%;
+	}
+}
+
 #btn-search {
 	background-color: #00C944;
 	color: white;

@@ -231,15 +231,11 @@ $(function() {
 	});
 
 	$(btnView).click(function() {
-		if( $(inpPassword).attr('type') == 'password' ) {
-			$(inpPassword).attr('type', 'text');
-			$(icnEye).removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark');
-		} else {
-			$(inpPassword).attr('type', 'password');
-			$(icnEye).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
-		}
+		$(icnEye).toggleClass('fa-eye-slash').toggleClass('fa-eye').toggleClass('has-text-white');
+		$(this).toggleClass('has-background-grey-dark').toggleClass('has-background-grey-lighter');
+		$(inpPassword).attr('type', function() {
+			return $(this).attr('type') == 'password' ? 'text' : 'password';
+		});
 	});
 
 	$(inpPassword).focusout(function() {

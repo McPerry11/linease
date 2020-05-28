@@ -74,15 +74,11 @@ $(function() {
 	});
 
 	$(btnView).click(function() {
-		if( $(inpPassword).attr('type') == 'password' ) {
-			$(inpPassword).attr('type', 'text');
-			$(icnViewPass).removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
-		} else {
-			$(inpPassword).attr('type', 'password');
-			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
-		}
+		$(icnViewPass).toggleClass('fa-eye').toggleClass('fa-eye-slash').toggleClass('has-text-white');
+		$(this).toggleClass('has-background-grey-dark').toggleClass('has-background-grey-lighter');
+		$(inpPassword).attr('type', function() {
+			return $(this).attr('type') == 'password' ? 'text' : 'password';
+		});
 	});
 
 	$(btnRegister).click(function(e) {

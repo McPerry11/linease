@@ -58,20 +58,20 @@
 // 			for (var i = 0; i < data.length; i++) {
 // 				switch (data[i].severity) {
 // 					case 'CRITICAL':
-// 						pin = 'critical';
-// 						break;
+// 					pin = 'critical';
+// 					break;
 // 					case 'MAJOR':
-// 						pin = 'major';
-// 						break;
+// 					pin = 'major';
+// 					break;
 // 					case 'MODERATE':
-// 						pin = 'moderate';
-// 						break;
+// 					pin = 'moderate';
+// 					break;
 // 					case 'LIGHT':
-// 						pin = 'light';
-// 						break;
+// 					pin = 'light';
+// 					break;
 // 					case 'RESOLVED':
-// 						pin = 'resolved';
-// 						break;
+// 					pin = 'resolved';
+// 					break;
 // 				}
 // 				var marker = new google.maps.Marker({
 // 					position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
@@ -124,7 +124,7 @@
 // }
 
 $(function() {
-	$('.title').text('Loading Dashboard');
+	if ($('.title').text() == '') $('.title').text('Loading Dashboard');
 
 	$('#center').click(function() {
 		$('.title').text('Loading Camera');

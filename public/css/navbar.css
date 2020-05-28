@@ -11,18 +11,16 @@
 
 .content h4 {
 	margin-bottom: 0;
-	color: white;
+}
+
+.subtitle {
+	margin-left: 5px;
 }
 
 .navbar.is-fixed-top {
 	box-shadow: 0 3px 15px darkgrey;
 	z-index: 2;
-}
-
-@media screen and (max-width: 1023px) {
-	.navbar.is-fixed-top {
-		background-color: #00C944;
-	}
+	background-color: #00C944;
 }
 
 .navbar-brand .navbar-item {
@@ -32,14 +30,16 @@
 
 .navbar-burger {
 	color: white;
-	margin: 0;
 }
 
 .navbar-end .navbar-item {
 	color: #00C944;
 }
 
+.navbar-item .icon:only-child {
+	margin-right: 5px;
+}
+
 .navbar-end .navbar-item .fas {
-	width: 25px;
 	text-align: center;
 }

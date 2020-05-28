@@ -7,7 +7,7 @@
 
 @section('body')
 @include('_navbar')
-<div id="map-container" class="is-hidden-desktop">
+<div id="map-container">
 	<div id="map"></div>
 	<div id="legend"></div>
 	<form method="POST">

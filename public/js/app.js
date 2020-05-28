@@ -4,29 +4,19 @@ $.ajaxSetup({
 	}
 });
 
-$(function() {
-	// let isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
-	// if (isMobile) {
-	// 	document.body.requestFullscreen();
-	// }
-	$(window).on('load', function() {
-		$('.title').text('');
-		$('.pageloader').removeClass('is-active');
-	});
+$(window).on('load', function() {
+	$('.title').text('');
+	$('.pageloader').removeClass('is-active');
+});
 
+$(function() {
 	// Mobile Version
 	$('.navbar-burger').click(function() {
-		if ( $(this).hasClass('is-active') ) {
-			$('.navbar-menu').slideToggle('fast', function() {
-				$('.navbar-menu').removeClass('is-active');
-			});
-			$(this).removeClass('is-active').css({'color':'white', 'background-color':'#00C944'});
-		} else {
-			$(this).addClass('is-active');
-			$('.navbar-menu').slideToggle('fast', function() {
-				$('.navbar-menu').addClass('is-active');
-			});
-			$(this).css({'color':'#00C944', 'background-color':'white'});
-		}
+		$(this).toggleClass('is-active').css('color', function() {
+			return $(this).hasClass('is-active') ? '#00C944' : 'white';
+		}).css('background-color', function() {
+			return $(this).hasClass('is-active') ? 'white' : '#00C944';
+		});
+		$('.navbar-menu').slideToggle('fast');
 	});
 });
