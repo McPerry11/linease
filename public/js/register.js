@@ -5,7 +5,7 @@ $(function() {
 		$(input).removeAttr('readonly');
 		validate(error);
 		Swal.fire({
-			type: 'error',
+			icon: 'error',
 			title: 'Cannot connect to server',
 			text: 'Something went wrong. Please try again later.'
 		});
@@ -132,7 +132,7 @@ $(function() {
 			success: function(response) {
 				ajaxResponse();
 				Swal.fire({
-					type: 'success',
+					icon: 'success',
 					title: 'Registration Successful',
 					text: response.msg,
 					confirmButtonText: 'Sign In'
@@ -150,7 +150,7 @@ $(function() {
 				console.log(err);
 				ajaxResponse();
 				Swal.fire({
-					type: 'error',
+					icon: 'error',
 					title: 'Cannot connect to server',
 					text: 'Something went wrong. Please try again later.'
 				});

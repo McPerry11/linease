@@ -14,7 +14,7 @@
 		</div>
 		<div class="navbar-menu">
 			<div class="navbar-end">
-				
+
 			</div>
 		</div>
 	</nav>

@@ -82,7 +82,7 @@
 			<p class="is-size-6">Join the community</p>
 		</div>
 	</div>
-	<form class="has-text-left" method="POST">
+	<form class="has-text-left">
 		@csrf
 		<div class="field">
 			<div id="muser-control" class="control has-icons-left">

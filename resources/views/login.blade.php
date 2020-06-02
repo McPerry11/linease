@@ -96,7 +96,7 @@
 			<p class="is-size-7">NEW TO LINEASE? <a id="mreglink" class="has-text-success" href="{{ asset("register") }}" >SIGN UP FOR FREE</a></p>
 		</div>
 	</div>
-	<form method="POST">
+	<form>
 		@csrf
 		<div class="field">
 			<p class="control has-icons-left">

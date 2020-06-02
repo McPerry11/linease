@@ -18,6 +18,10 @@ $(function() {
 
 	var platform = window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
 	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
+	$(window).resize(function() {
+		window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
+		inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
+	});
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Login');
@@ -44,7 +48,7 @@ $(function() {
 				ajaxResponse();
 				if (response.status == 'success') {
 					Swal.fire({
-						type: 'success',
+						icon: 'success',
 						title: response.message,
 						showConfirmButton: false,
 						timer: 2500
@@ -65,7 +69,7 @@ $(function() {
 				console.log(err);
 				ajaxResponse();
 				Swal.fire({
-					type: 'error',
+					icon: 'error',
 					title: 'Cannot Log In to LinEase',
 					text: 'Something went wrong. Please try again later.'
 				});

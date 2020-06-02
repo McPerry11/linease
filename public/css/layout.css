@@ -6,3 +6,11 @@ html, body {
 html {
 	height: 100vh;
 }
+
+#nojs {
+	display: none;
+}
+
+#nojs .details {
+	font-size: 12px;
+}
