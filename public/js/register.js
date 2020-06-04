@@ -177,30 +177,38 @@ $(function() {
 	});
 
 	$(inpUsername).focusout(function() {
-		if (!$(btnCreate).hasClass('is-loading')) {
-			var username = $(this).val(), valid = validateUsername(username);
-			let message1 = 'Username cannot be empty', message2 = 'Special characters except . and _ are not allowed';
-			let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
-			if (proceed) {
-				if (!$(inpUserControl).hasClass('is-loading')) {
-					$(inpUserControl).addClass('is-loading');
-					clearResponse(txtUserWarning, this, icnUsername, 3);
-					$(this).attr('readonly', true);
-					$.ajax({
-						type: 'POST',
-						url: 'users',
-						data: {username:username, data:'username'},
-						datatype: 'JSON',
-						success: function(response) {
-							checkResponse(response, txtUserWarning, inpUsername, inpUserControl, icnUsername, 0);
-						},
-						error: function(err) {
-							error[0] = true;
-							serverErr(err, inpUsername, inpUserControl);
-						}
-					});
+		if (6 <= $(this).val().trim().length && $(this).val().trim().length <= 30) {
+			if (!$(btnCreate).hasClass('is-loading')) {
+				var username = $(this).val(), valid = validateUsername(username);
+				let message1 = 'Username cannot be empty', message2 = 'Special characters except . and _ are not allowed';
+				let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
+				if (proceed) {
+					if (!$(inpUserControl).hasClass('is-loading')) {
+						$(inpUserControl).addClass('is-loading');
+						clearResponse(txtUserWarning, this, icnUsername, 3);
+						$(this).attr('readonly', true);
+						$.ajax({
+							type: 'POST',
+							url: 'users',
+							data: {username:username, data:'username'},
+							datatype: 'JSON',
+							success: function(response) {
+								checkResponse(response, txtUserWarning, inpUsername, inpUserControl, icnUsername, 0);
+							},
+							error: function(err) {
+								error[0] = true;
+								serverErr(err, inpUsername, inpUserControl);
+							}
+						});
+					}
 				}
 			}
+		} else {
+			$(this).removeClass('is-success').addClass('is-danger');
+			$(icnUsername).removeClass('has-text-success').addClass('has-text-danger');
+			$(txtUserWarning).text('Username must be between 6 to 30 characters');
+			error[0] = true;
+			validate(error);
 		}
 	});
 
@@ -251,7 +259,7 @@ $(function() {
 		if (!$(btnCreate).hasClass('is-loading')) {
 			var pass = $(this).val(), confirm = $(inpConfirm).val();
 			if (pass.length >= 8) {
-				if (confirm.trim() != "") {
+				if (confirm != "") {
 					validatePassword(pass, confirm);
 				} else {
 					error[2] = false;

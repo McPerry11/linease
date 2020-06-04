@@ -25,7 +25,7 @@
 				<form class="has-text-left">
 					<div class="field">
 						<div id="user-control" class="control has-icons-left">
-							<input type="text" id="username" class="input" placeholder="Username" name="username" required>
+							<input type="text" id="username" class="input" placeholder="Username" name="username" minlength="6" maxlength="30" required>
 							<span class="icon is-small is-left"><i id="user-icon" class="fas fa-user"></i></span>
 						</div>
 						<small id="user-warning" class="has-text-danger"></small>
@@ -39,7 +39,7 @@
 					</div>
 					<div class="field has-addons">
 						<p class="control has-icons-left pass-field">
-							<input type="password" id="password" class="input" placeholder="Password" name="password" required>
+							<input type="password" id="password" class="input" placeholder="Password" name="password" minlength="8" required>
 							<span class="icon is-small is-left"><i id="pass-icon" class="fas fa-key"></i></span>
 							<small id="pass-warning" class="has-text-danger"></small>
 						</p>
@@ -84,7 +84,7 @@
 	<form class="has-text-left">
 		<div class="field">
 			<div id="muser-control" class="control has-icons-left">
-				<input type="text" id="musername" class="input" placeholder="Username" name="username" required>
+				<input type="text" id="musername" class="input" placeholder="Username" name="username" minlength="6" maxlength="30" required>
 				<span class="icon is-small is-left"><i id="muser-icon" class="fas fa-user"></i></span>
 			</div>
 			<small id="muser-warning" class="has-text-danger"></small>
@@ -98,7 +98,7 @@
 		</div>
 		<div class="field has-addons">
 			<p class="control has-icons-left pass-field">
-				<input type="password" id="mpassword" class="input" placeholder="Password" name="password" required>
+				<input type="password" id="mpassword" class="input" placeholder="Password" name="password" minlength="8" required>
 				<span class="icon is-small is-left"><i id="mpass-icon" class="fas fa-key"></i></span>
 				<small id="mpass-warning" class="has-text-danger"></small>
 			</p>
