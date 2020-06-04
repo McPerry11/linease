@@ -35,7 +35,6 @@
 						</div>
 					</div>
 					<form>
-						@csrf
 						<div class="field">
 							<p class="control has-icons-left">
 								<input type="text" id="username" class="input" placeholder="Username" name="username" required>
@@ -97,7 +96,6 @@
 		</div>
 	</div>
 	<form>
-		@csrf
 		<div class="field">
 			<p class="control has-icons-left">
 				<input type="text" id="musername" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>

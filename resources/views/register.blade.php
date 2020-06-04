@@ -23,7 +23,6 @@
 					</div>
 				</div>
 				<form class="has-text-left">
-					@csrf
 					<div class="field">
 						<div id="user-control" class="control has-icons-left">
 							<input type="text" id="username" class="input" placeholder="Username" name="username" required>
@@ -83,7 +82,6 @@
 		</div>
 	</div>
 	<form class="has-text-left">
-		@csrf
 		<div class="field">
 			<div id="muser-control" class="control has-icons-left">
 				<input type="text" id="musername" class="input" placeholder="Username" name="username" required>

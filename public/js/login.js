@@ -16,11 +16,15 @@ $(function() {
 		$(inpPassword).removeAttr('readonly');
 	}
 
-	var platform = window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
+	var platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
 	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
 	$(window).resize(function() {
-		window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
-		inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
+		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+		if (newplatform != platform) {
+			$('.title').text('Reloading Viewport');
+			$('.pageloader').addClass('is-active');
+			location.reload();
+		}
 	});
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');

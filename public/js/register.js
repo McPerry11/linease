@@ -100,7 +100,7 @@ $(function() {
 		validate(error);
 	}
 
-	var error = [false, false, false], platform = window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
+	var error = [false, false, false], platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
 	var btnCreate = '#' + platform + 'create';
 	var inpUsername = '#' + platform + 'username', icnUsername = '#' + platform + 'user-icon', txtUserWarning = '#' + platform + 'user-warning', inpUserControl = '#' + platform + 'user-control';
 	var inpEmail = '#' + platform + 'email', icnEmail = '#' + platform + 'email-icon', txtEmailWarning = '#' + platform + 'email-warning', inpEmailControl = '#' + platform + 'email-control';
@@ -109,6 +109,15 @@ $(function() {
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Registration');
+
+	$(window).resize(function() {
+		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+		if (newplatform != platform) {
+			$('.title').text('Reloading Viewport');
+			$('.pageloader').addClass('is-active');
+			location.reload();
+		}
+	});
 
 	$('form').submit(function(e) {
 		e.preventDefault();
@@ -175,8 +184,8 @@ $(function() {
 			if (proceed) {
 				if (!$(inpUserControl).hasClass('is-loading')) {
 					$(inpUserControl).addClass('is-loading');
-					clearResponse(txtUserWarning, inpUsername, icnUsername, 3);
-					$(inpUsername).attr('readonly', true);
+					clearResponse(txtUserWarning, this, icnUsername, 3);
+					$(this).attr('readonly', true);
 					$.ajax({
 						type: 'POST',
 						url: 'users',
@@ -207,9 +216,9 @@ $(function() {
 			if (proceed) {
 				if (!$(inpEmailControl).hasClass('is-loading')) {
 					$(inpEmailControl).addClass('is-loading');
-					clearResponse(txtEmailWarning, inpEmail, icnEmail, 4);
-					$(inpEmail).attr('readonly', true);
-					$.ajax({
+					clearResponse(txtEmailWarning, this, icnEmail, 4);
+					$(this).attr('readonly', true);
+					$.ajax({	
 						type: 'POST',
 						url: 'users',
 						data: {email:email, data:'email'},
