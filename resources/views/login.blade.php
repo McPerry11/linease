@@ -37,13 +37,13 @@
 					<form>
 						<div class="field">
 							<p class="control has-icons-left">
-								<input type="text" id="username" class="input" placeholder="Username" name="username" required>
+								<input type="text" id="username" class="input" placeholder="Username" required>
 								<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 							</p>
 						</div>
 						<div class="field has-addons is-marginless">
 							<p class="control has-icons-left pass-field">
-								<input type="password" id="password" class="input" placeholder="Password" name="password" required>
+								<input type="password" id="password" class="input" placeholder="Password" required>
 								<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
 							</p>
 							<div class="control">
@@ -98,13 +98,13 @@
 	<form>
 		<div class="field">
 			<p class="control has-icons-left">
-				<input type="text" id="musername" class="input" placeholder="Username" name="username" value="{{ $username ?? '' }}" required>
+				<input type="text" id="musername" class="input" placeholder="Username" required>
 				<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 			</p>
 		</div>
 		<div class="field has-addons is-marginless">
 			<p class="control has-icons-left pass-field">
-				<input type="password" id="mpassword" class="input" placeholder="Password" name="password" required>
+				<input type="password" id="mpassword" class="input" placeholder="Password" required>
 				<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
 			</p>
 			<div class="control">

@@ -10,6 +10,7 @@ $(window).on('load', function() {
 });
 
 $(function() {
+	if (localStorage.out) window.location.href('hello-world.com');
 	// Mobile Version
 	$('.navbar-burger').click(function() {
 		$(this).toggleClass('is-active').css('color', function() {

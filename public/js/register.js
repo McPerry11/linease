@@ -22,12 +22,12 @@ $(function() {
 	}
 
 	function validateUsername(username) {
-		let expr = /^[a-zA-Z0-9._]*$/;
+		let expr = /^[\w\.]{6,30}$/;
 		return expr.test(username);
 	}
 
 	function validateEmail(email) {
-		let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
 		return expr.test(email);
 	}
 
@@ -132,28 +132,37 @@ $(function() {
 		$(inpEmail).attr('readonly', true);
 		$(inpPassword).attr('readonly', true);
 		$(inpConfirm).attr('readonly', true);
-		let username = $(inpUsername).val(), email = $(inpEmail).val(), password = $(inpPassword).val();
+		let username = $(inpUsername).val(), email = $(inpEmail).val(), password = $(inpPassword).val(), confirm = $(inpConfirm).val();
 		$.ajax({
 			type: 'POST',
 			url: 'register',
-			data: {username:username, email:email, password:password},
+			data: {username:username, email:email, password:password, confirm:confirm},
 			datatype: 'JSON',
 			success: function(response) {
 				ajaxResponse();
-				Swal.fire({
-					icon: 'success',
-					title: 'Registration Successful',
-					text: response.msg,
-					confirmButtonText: 'Sign In'
-				}).then((result) => {
-					if (result.value) {
-						$('.title').text('Loading Login');
-						$('.pageloader').addClass('is-active');
-						window.location.href = '/linease-alpha/public/login';
-						// Server 
-						// window.location.href = '/linease-alpha/login';
-					}
-				});
+				if (response.status == 'error') {
+					Swal.fire({
+						icon: 'error',
+						title: 'Registration Failed',
+						text: response.msg,
+						confirmButtonText: 'Try Again'
+					});
+				} else {
+					Swal.fire({
+						icon: 'success',
+						title: 'Registration Successful',
+						text: response.msg,
+						confirmButtonText: 'Sign In'
+					}).then((result) => {
+						if (result.value) {
+							$('.title').text('Loading Login');
+							$('.pageloader').addClass('is-active');
+							window.location.href = '/linease-alpha/public/login';
+							// Server 
+							// window.location.href = '/linease-alpha/login';
+						}
+					});
+				}
 			},
 			error: function(err) {
 				console.log(err);
@@ -180,7 +189,7 @@ $(function() {
 		if (6 <= $(this).val().trim().length && $(this).val().trim().length <= 30) {
 			if (!$(btnCreate).hasClass('is-loading')) {
 				var username = $(this).val(), valid = validateUsername(username);
-				let message1 = 'Username cannot be empty', message2 = 'Special characters except . and _ are not allowed';
+				let message1 = 'Username cannot be empty', message2 = 'Invalid format. Use alphanumeric, period, and underscore.';
 				let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
 				if (proceed) {
 					if (!$(inpUserControl).hasClass('is-loading')) {

@@ -70,8 +70,31 @@ class UsersController extends Controller
    */
   public function store(Request $request)
   {
-    $user = new User;
+    $regex = '/^[\w\.]{6,30}$/';
+    if (preg_match($regex, $request->username)) {
+      $identical = User::where('username', $request->username)->get();
+      if (count($identical) > 0)
+        return response()->json(array('status' => 'error', 'msg' => 'Username is already taken.'));
+    } else {
+      return response()->json(array('status' => 'error', 'msg' => 'Invalid format of username'));
+    }
+    
+    $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
+    if (preg_match($regex, $request->email)) {
+      $identical = User::where('email', $request->email)->get();
+      if (count($identical) > 0)
+        return response()->json(array('status' => 'error', 'msg' => 'Email address is already taken.'));
+    } else {
+      return response()->json(array('status' => 'error', 'msg' => 'Invalid format of email address'));
+    }
 
+    if (strlen($request->password) < 8)
+      return response()->json(array('status' => 'error', 'msg' => 'Passwords must be at least 8 characters'));
+
+    if ($request->password != $request->confirm)
+      return response()->json(array('status' => 'error', 'msg' => 'Passwords do not match'));
+
+    $user = new User;
     $user->fill($request->only([
       'username',
       'email',
@@ -79,7 +102,6 @@ class UsersController extends Controller
     ]));
 
     $user->type = 'USER';
-
     $user->created_at = Carbon::now('+8:00');
     $user->updated_at = Carbon::now('+8:00');
 
