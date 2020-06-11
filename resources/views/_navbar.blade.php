@@ -9,12 +9,27 @@
 				<figure class="image is-24x24">
 					<img src="{{ asset('img/LineaseLogo.png') }}" alt="LinEase Logo">
 				</figure>
-				<p class="subtitle is-4 has-text-white">LinEase</p>
+				<p class="subtitle is-5 has-text-white">LinEase</p>
 			</div>
 		</div>
 		<div class="navbar-menu">
 			<div class="navbar-end">
-
+				<div id="profile" class="navbar-item has-dropdown">
+					<a class="navbar-link is-arrowless">
+						<p class="has-text-white">Username</p>
+						<figure id="avatar" class="image is-32x32">
+							<img class="is-rounded" src="{{ asset('img/Blank.JPG') }}" alt="Avatar">
+						</figure>
+					</a>
+					<div class="navbar-dropdown">
+						<a href="{{ url('profile') }}" class="navbar-item"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
+						@if ($user->type == 'ADMIN' || $user->type == 'SUPER')
+						<a href="{{ url('accounts') }}" class="navbar-item"><span class="icon"><i class="fas fa-users"></i></span>Accounts</a>
+						<a href="{{ url('logs') }}" class="navbar-item"><span class="icon"><i class="fas fa-stream"></i></span>Logs</a>
+						@endif
+						<a href="{{ url('settings') }}" class="navbar-item"><span class="icon"><i class="fas fa-cog"></i></span>Settings</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</nav>

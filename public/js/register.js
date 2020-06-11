@@ -21,16 +21,6 @@ $(function() {
 		}
 	}
 
-	function validateUsername(username) {
-		let expr = /^[\w\.]{6,30}$/;
-		return expr.test(username);
-	}
-
-	function validateEmail(email) {
-		let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-		return expr.test(email);
-	}
-
 	function clearResponse(warning, textbox, icon, seq) {
 		$(warning).text('');
 		$(textbox).removeClass('is-success').removeClass('is-danger');
@@ -100,6 +90,14 @@ $(function() {
 		validate(error);
 	}
 
+	function serverValidateError(input, icon, warning, msg, seq) {
+		$(input).addClass('is-danger');
+		$(icon).addClass('has-text-danger');
+		$(warning).text(msg);
+		error[seq] = true;
+		validate(error);
+	}
+
 	var error = [false, false, false], platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
 	var btnCreate = '#' + platform + 'create';
 	var inpUsername = '#' + platform + 'username', icnUsername = '#' + platform + 'user-icon', txtUserWarning = '#' + platform + 'user-warning', inpUserControl = '#' + platform + 'user-control';
@@ -141,6 +139,22 @@ $(function() {
 			success: function(response) {
 				ajaxResponse();
 				if (response.status == 'error') {
+					switch(response.data) {
+						case 'username':
+						serverValidateError(inpUsername, icnUsername, txtUserWarning, response.warn, 0);
+						break;
+						case 'email':
+						serverValidateError(inpEmail, icnEmail, txtEmailWarning, response.warn, 1);
+						break;
+						case 'password':
+						serverValidateError(inpPassword, icnPassword, txtPassWarning, response.warn, 2);
+						break;
+						case 'confirm':
+						serverValidateError(inpPassword, icnPassword, txtPassWarning, '', 2);
+						serverValidateError(inpConfirm, icnConfirm, txtConfirmWarning, response.warn, 2);
+						break;
+					}
+					validate(error);
 					Swal.fire({
 						icon: 'error',
 						title: 'Registration Failed',
@@ -188,8 +202,8 @@ $(function() {
 	$(inpUsername).focusout(function() {
 		if (6 <= $(this).val().trim().length && $(this).val().trim().length <= 30) {
 			if (!$(btnCreate).hasClass('is-loading')) {
-				var username = $(this).val(), valid = validateUsername(username);
-				let message1 = 'Username cannot be empty', message2 = 'Invalid format. Use alphanumeric, period, and underscore.';
+				let expr = /^[\w\.]{6,30}$/, message1 = 'Username cannot be empty', message2 = 'Invalid format. Use alphanumeric characters, period, and underscore';
+				var username = $(this).val(), valid = expr.test(username);;
 				let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
 				if (proceed) {
 					if (!$(inpUserControl).hasClass('is-loading')) {
@@ -227,8 +241,8 @@ $(function() {
 
 	$(inpEmail).focusout(function() {
 		if (!$(btnCreate).hasClass('is-loading')) {
-			var email = $(this).val(), valid = validateEmail(email);
-			let message1 = 'Email Address cannot be empty', message2 = 'Invalid format of email address';
+			let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message1 = 'Email Address cannot be empty', message2 = 'Invalid format of email address';
+			var email = $(this).val(), valid = expr.test(email);;
 			let proceed = checkInputs(email, this, icnEmail, txtEmailWarning, message1, valid, message2, 1);
 			if (proceed) {
 				if (!$(inpEmailControl).hasClass('is-loading')) {

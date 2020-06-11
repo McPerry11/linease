@@ -74,25 +74,25 @@ class UsersController extends Controller
     if (preg_match($regex, $request->username)) {
       $identical = User::where('username', $request->username)->get();
       if (count($identical) > 0)
-        return response()->json(array('status' => 'error', 'msg' => 'Username is already taken.'));
+        return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken'));
     } else {
-      return response()->json(array('status' => 'error', 'msg' => 'Invalid format of username'));
+      return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Invalid format. Use alphanumeric characters, period, and underscore'));
     }
     
     $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
     if (preg_match($regex, $request->email)) {
       $identical = User::where('email', $request->email)->get();
       if (count($identical) > 0)
-        return response()->json(array('status' => 'error', 'msg' => 'Email address is already taken.'));
+        return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Email address is already taken.', 'warn' => 'Email address is already taken'));
     } else {
-      return response()->json(array('status' => 'error', 'msg' => 'Invalid format of email address'));
+      return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Invalid format of email address', 'warn' => 'Invalid format of email address'));
     }
 
     if (strlen($request->password) < 8)
-      return response()->json(array('status' => 'error', 'msg' => 'Passwords must be at least 8 characters'));
+      return response()->json(array('status' => 'error', 'data' => 'password', 'msg' => 'Password must be at least 8 characters', 'warn' => 'Password must be a minimum length of 8 characters'));
 
     if ($request->password != $request->confirm)
-      return response()->json(array('status' => 'error', 'msg' => 'Passwords do not match'));
+      return response()->json(array('status' => 'error', 'data' => 'confirm', 'msg' => 'Passwords do not match', 'warn' => 'Passwords do not match.'));
 
     $user = new User;
     $user->fill($request->only([

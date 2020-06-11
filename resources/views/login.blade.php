@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<p class="has-text-justified">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet augue facilisis, consectetur dolor nec, sagittis lectus. Duis venenatis lacinia elit, vitae varius sapien dignissim sit amet. Nulla accumsan lectus eu urna semper, id imperdiet justo interdum. Mauris efficitur enim a luctus convallis. Integer in bibendum leo, non vulputate elit. Nullam at mi neque. Aenean sem dui, semper non elit in, dignissim malesuada massa. Praesent eu dapibus orci.</p>
+			<p class="has-text-justified">LinEase is a land pollution action network created to monitor and spread awareness on land pollution while simultaneously serving as a platform to contribute in solving the issue on land pollution and the prevention of it. LinEase gathers data from individual people whom have reported or issued polluted areas using images with descriptive captions. LinEase intends to serve those who understand the importance of the environment and keeping it as healthy as possible and hope to have a platform for them to spread awareness and/or even contribute on by reporting any issue regarding land pollution in certain areas themselves.</p>
 		</div>
 		<div class="column is-5-desktop is-7-tablet">
 			<div class="card">

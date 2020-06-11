@@ -132,8 +132,14 @@ $(function() {
 	});
 
 	$('.navbar-item').click(function() {
-		var page = $(this).text();
-		$('.title').text('Loading ' + page);
-		$('.pageloader').addClass('is-active');
+		if ($(this).attr('id') == 'profile') {
+			$('#profile .navbar-dropdown').slideToggle('fast', function() {
+				$(this).toggleClass('is-active');
+			});
+		} else {
+			var page = $(this).text();
+			$('.title').text('Loading ' + page);
+			$('.pageloader').addClass('is-active');
+		}
 	});
 });

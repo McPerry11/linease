@@ -6,26 +6,31 @@
 	margin: auto;
 	width: fit-content;
 	text-align: center;
-	z-index: 3;
+	z-index: 31;
 }
 
 .content h4 {
 	margin-bottom: 0;
 }
 
-.subtitle {
+p.subtitle.is-5, #avatar {
 	margin-left: 5px;
 }
 
 .navbar.is-fixed-top {
 	box-shadow: 0 3px 15px darkgrey;
-	z-index: 2;
 	background-color: #00C944;
 }
 
 .navbar-brand .navbar-item {
 	margin: auto;
 	justify-content: center;
+}
+
+#avatar img {
+	object-fit: cover;
+	height: 100%;
+	max-height: 100%;
 }
 
 .navbar-burger {
