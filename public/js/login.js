@@ -16,11 +16,19 @@ $(function() {
 		$(inpPassword).removeAttr('readonly');
 	}
 
-	var platform = window.matchMedia('only screen and (max-width: 760px)').matches ? 'm' : '';
+	var platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
 	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
+	$(window).resize(function() {
+		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+		if (newplatform != platform) {
+			$('.title').text('Reloading Viewport');
+			$('.pageloader').addClass('is-active');
+			location.reload();
+		}
+	});
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
-	$('.pageloader').removeClass('is-active');
+	$('.title').text('Loading Login');
 
 	$('form').submit(function(e) {
 		e.preventDefault();
@@ -44,7 +52,7 @@ $(function() {
 				ajaxResponse();
 				if (response.status == 'success') {
 					Swal.fire({
-						type: 'success',
+						icon: 'success',
 						title: response.message,
 						showConfirmButton: false,
 						timer: 2500
@@ -65,7 +73,7 @@ $(function() {
 				console.log(err);
 				ajaxResponse();
 				Swal.fire({
-					type: 'error',
+					icon: 'error',
 					title: 'Cannot Log In to LinEase',
 					text: 'Something went wrong. Please try again later.'
 				});
@@ -74,15 +82,11 @@ $(function() {
 	});
 
 	$(btnView).click(function() {
-		if( $(inpPassword).attr('type') == 'password' ) {
-			$(inpPassword).attr('type', 'text');
-			$(icnViewPass).removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
-		} else {
-			$(inpPassword).attr('type', 'password');
-			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
-		}
+		$(icnViewPass).toggleClass('fa-eye').toggleClass('fa-eye-slash').toggleClass('has-text-white');
+		$(this).toggleClass('has-background-grey-dark').toggleClass('has-background-grey-lighter');
+		$(inpPassword).attr('type', function() {
+			return $(this).attr('type') == 'password' ? 'text' : 'password';
+		});
 	});
 
 	$(btnRegister).click(function(e) {

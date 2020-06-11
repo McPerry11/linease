@@ -7,19 +7,13 @@
 
 @section('body')
 @include('_navbar')
-{{-- Desktop View --}}
-<div class="is-hidden-touch">
-	Hello World
-</div>
-
-{{-- Mobile View --}}
-<div id="map-container" class="is-hidden-desktop">
+<div id="map-container">
 	<div id="map"></div>
 	<div id="legend"></div>
-	<form method="POST">
+	<form>
 		<div class="field has-addons">
 			<p class="control has-icons-left">
-				<input id="search" class="input is-rounded" type="text" name="search" value="" placeholder="Search Address, City, or District">
+				<input id="search" class="input is-rounded" type="text" name="search" placeholder="Search Address, City, or District">
 				<span class="icon is-left">
 					<i class="image is-24x24">
 						<img src="{{ asset('img/LineaseIcon.PNG') }}" alt="LinEase Pin">
@@ -31,7 +25,7 @@
 			</div>
 		</div>
 	</form>
-	<figure id="center" class="image is-64x64">
+	<figure id="center" class="image is-64x64 is-hidden-desktop">
 		<a href="{{ url('camera') }}">
 			<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
 		</a>
@@ -40,7 +34,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/navbar.js') }}"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcAzZeE0BXSxV_ILbrCgaInLxgeHWKG1k&callback=initMap" type="text/javascript"></script>
+{{-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcAzZeE0BXSxV_ILbrCgaInLxgeHWKG1k&callback=initMap" type="text/javascript"></script> --}}
 @endsection

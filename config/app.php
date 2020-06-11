@@ -228,7 +228,7 @@ return [
 
     ],
 
-    'debug_blaclist' => [
+    'debug_blacklist' => [
         '_ENV' => [
             'APP_KEY',
             'DB_PASSWORD',

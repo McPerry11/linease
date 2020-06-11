@@ -4,12 +4,20 @@ $.ajaxSetup({
 	}
 });
 
+$(window).on('load', function() {
+	$('.title').text('');
+	$('.pageloader').removeClass('is-active');
+});
+
 $(function() {
-	// let isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
-	// if (isMobile) {
-	// 	document.body.requestFullscreen();
-	// }
-	$(window).on('load', function() {
-		$('.pageloader').removeClass('is-active');
+	if (localStorage.out) window.location.href('hello-world.com');
+	// Mobile Version
+	$('.navbar-burger').click(function() {
+		$(this).toggleClass('is-active').css('color', function() {
+			return $(this).hasClass('is-active') ? '#00C944' : 'white';
+		}).css('background-color', function() {
+			return $(this).hasClass('is-active') ? 'white' : '#00C944';
+		});
+		$('.navbar-menu').slideToggle('fast');
 	});
 });
