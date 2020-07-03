@@ -6,7 +6,6 @@
 @endsection
 
 @section('body')
-@include('_navbar')
 <div id="map-container">
 	<div id="map"></div>
 	<div id="legend"></div>

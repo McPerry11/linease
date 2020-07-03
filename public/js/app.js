@@ -17,6 +17,20 @@ $(function() {
 		}).css('background-color', function() {
 			return $(this).hasClass('is-active') ? 'white' : '#00C944';
 		});
-		$('.navbar-menu').slideToggle('fast');
+		$('#nb-mobile').slideToggle('fast');
+	});
+
+	$('.navbar-item').click(function() {
+		if ($(this).attr('id') == 'profile') {
+			$('.navbar-link').toggleClass('navlink-inactive');
+			$('#profile p').toggleClass('has-text-white').toggleClass('has-text-success');
+			$('#profile .navbar-dropdown').slideToggle('fast', function() {
+				$(this).toggleClass('is-active');
+			});
+		} else {
+			var page = $(this).text();
+			$('.title').text('Loading ' + page);
+			$('.pageloader').addClass('is-active');
+		}
 	});
 });

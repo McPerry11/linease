@@ -91,14 +91,14 @@
 		</div>
 		<div class="field">
 			<div id="memail-control" class="control has-icons-left">
-				<input type="email" id="memail" class="input" placeholder="Email Address" name="email" required>
+				<input type="email" id="memail" class="input" placeholder="Email Address" required>
 				<span class="icon is-small is-left"><i id="memail-icon" class="fas fa-at"></i></span>
 			</div>
 			<small id="memail-warning" class="has-text-danger"></small>
 		</div>
 		<div class="field has-addons">
 			<p class="control has-icons-left pass-field">
-				<input type="password" id="mpassword" class="input" placeholder="Password" name="password" minlength="8" required>
+				<input type="password" id="mpassword" class="input" placeholder="Password" minlength="8" required>
 				<span class="icon is-small is-left"><i id="mpass-icon" class="fas fa-key"></i></span>
 				<small id="mpass-warning" class="has-text-danger"></small>
 			</p>

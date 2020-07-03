@@ -41,6 +41,10 @@ p.subtitle.is-5, #avatar {
 	color: #00C944;
 }
 
+.navbar-item.has-dropdown .navbar-link.navlink-inactive {
+	background-color: transparent;
+}
+
 .navbar-item .icon:only-child {
 	margin-right: 5px;
 }

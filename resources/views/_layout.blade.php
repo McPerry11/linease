@@ -13,11 +13,14 @@
 <body ondragstart="return false;" ondrop="return false;">
 	<div class="pageloader is-success is-bottom-to-top is-active">
 		<span class="title"></span>
-		<span id="nojs" class="title has-text-centered nojs">JavaScript is off
+		<span id="nojs" class="title has-text-centered">JavaScript is off
 			<br><span class="details">LinEase requires JavaScript to fully operate.</span>
 			<br><span class="details">Turn on JavaScript and try again.</span>
 		</span>
 	</div>
+	@if (!Request::is('login') || !Request::is('register') || !Request::is('camera'))
+	@include('_navbar')
+	@endif
 	@yield('body')
 
 	@include('_scripts')

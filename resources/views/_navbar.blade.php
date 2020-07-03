@@ -15,7 +15,7 @@
 		<div class="navbar-menu">
 			<div class="navbar-end">
 				<div id="profile" class="navbar-item has-dropdown">
-					<a class="navbar-link is-arrowless">
+					<a class="navbar-link is-arrowless navlink-inactive">
 						<p class="has-text-white">Username</p>
 						<figure id="avatar" class="image is-32x32">
 							<img class="is-rounded" src="{{ asset('img/Blank.JPG') }}" alt="Avatar">
@@ -49,7 +49,7 @@
 				<span></span>
 			</a>
 		</div>
-		<div class="navbar-menu">
+		<div id="nb-mobile" class="navbar-menu">
 			<div class="navbar-end">
 				<a class="navbar-item" href="{{ url($user->username) }}"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
 				@if ($user->type == 'ADMIN' || $user->type == 'SUPER')
