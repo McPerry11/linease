@@ -1,3 +1,4 @@
+@if (Request::is(''))
 {{-- Desktop View --}}
 <div class="is-hidden-touch">
 	<div class="content">
@@ -22,7 +23,7 @@
 						</figure>
 					</a>
 					<div class="navbar-dropdown">
-						<a href="{{ url('profile') }}" class="navbar-item"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
+						<a href="{{ url('$user->username') }}" class="navbar-item"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
 						@if ($user->type == 'ADMIN' || $user->type == 'SUPER')
 						<a href="{{ url('accounts') }}" class="navbar-item"><span class="icon"><i class="fas fa-users"></i></span>Accounts</a>
 						<a href="{{ url('logs') }}" class="navbar-item"><span class="icon"><i class="fas fa-stream"></i></span>Logs</a>
@@ -61,3 +62,17 @@
 		</div>
 	</nav>
 </div>
+
+@else
+<nav class="navbar">
+	<div class="navbar-brand">
+		<a href="{{ url('') }}" id="back" class="navbar-item has-text-white">
+			<i class="fas fa-arrow-left"></i>
+		</a>
+		<div class="content navbar-item">
+			<h3 class="has-text-white"></h3>
+		</div>
+	</div>
+</nav>
+
+@endif
