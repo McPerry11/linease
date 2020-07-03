@@ -1,16 +1,15 @@
 html {
-	height: 100vh;
-	width: 100vw;
 	overflow-y: hidden;
 }
 
-body, #map-container, #map {
+body, #map-container {
 	height: 100%;
 }
 
 #map {
 	background-color: grey;
 	width: 100vw;
+	height: 100%;
 	z-index: 0;
 }
 
@@ -25,6 +24,12 @@ form {
 
 p.control {
 	width: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+	p.control {
+		width: 30%;
+	}
 }
 
 #btn-search {

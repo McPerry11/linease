@@ -5,9 +5,7 @@
 @endsection
 
 @section('body')
-@include('_navbar_acc')
 <figure class="image is-96x96 has-background-white">
-
 </figure>
 <div id="name">
   <div class="content">

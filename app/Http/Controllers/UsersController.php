@@ -16,48 +16,37 @@ class UsersController extends Controller
    */
   public function index(Request $request)
   {
-    $users = User::all();
-    if ($request->source == 'registration') {
-      $identical = 0;
-      if ($request->data == 'username') {
-        foreach ($users as $user) {
-          if ($user->username == $request->username) {
-            $identical++;
-          }
-        }
-
-        if ($identical > 0) {
-          $response = array(
-            'status' => 'error',
-            'msg' => 'Username is already taken',
-          );
-        } else {
-          $response = array(
-            'status' => 'success',
-          );
-        }
-
-      } else if ($request->data == 'email') {
-        foreach ($users as $user) {
-          if ($user->email == $request->email) {
-            $identical++;
-          }
-        }
-
-        if ($identical > 0) {
-          $response = array(
-            'status' => 'error',
-            'msg' => 'Email Address is already taken',
-          );
-        } else {
-          $response = array(
-            'status' => 'success',
-          );
-        }
-
+    switch ($request->data) {
+      case 'username':
+      $identical = User::where('username', $request->username)->get();
+      if (count($identical) > 0) {
+        $response = array(
+          'status' => 'error',
+          'msg' => 'Username is already taken'
+        );
+      } else {
+        $response = array(
+          'status' => 'success'
+        );
       }
-      return response()->json($response);
+      break;
+
+      case 'email':
+      $identical = User::where('email', $request->email)->get();
+      if (count($identical) > 0) {
+        $response = array(
+          'status' => 'error',
+          'msg' => 'Email address is already taken'
+        );
+      } else {
+        $response = array(
+          'status' => 'success'
+        );
+      }
+      break;
     }
+
+    return response()->json($response);
   }
 
   /**
@@ -81,8 +70,31 @@ class UsersController extends Controller
    */
   public function store(Request $request)
   {
-    $user = new User;
+    $regex = '/^[\w\.]{6,30}$/';
+    if (preg_match($regex, $request->username)) {
+      $identical = User::where('username', $request->username)->get();
+      if (count($identical) > 0)
+        return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken'));
+    } else {
+      return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Invalid format. Use alphanumeric characters, period, and underscore'));
+    }
+    
+    $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
+    if (preg_match($regex, $request->email)) {
+      $identical = User::where('email', $request->email)->get();
+      if (count($identical) > 0)
+        return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Email address is already taken.', 'warn' => 'Email address is already taken'));
+    } else {
+      return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Invalid format of email address', 'warn' => 'Invalid format of email address'));
+    }
 
+    if (strlen($request->password) < 8)
+      return response()->json(array('status' => 'error', 'data' => 'password', 'msg' => 'Password must be at least 8 characters', 'warn' => 'Password must be a minimum length of 8 characters'));
+
+    if ($request->password != $request->confirm)
+      return response()->json(array('status' => 'error', 'data' => 'confirm', 'msg' => 'Passwords do not match', 'warn' => 'Passwords do not match.'));
+
+    $user = new User;
     $user->fill($request->only([
       'username',
       'email',
@@ -90,13 +102,12 @@ class UsersController extends Controller
     ]));
 
     $user->type = 'USER';
-
     $user->created_at = Carbon::now('+8:00');
     $user->updated_at = Carbon::now('+8:00');
 
     $user->save();
 
-    return redirect('login')->with('status', 'Unverified Account Registered Successfully');
+    return response()->json(array('msg' => 'Unverified account registered successfully'));
   }
 
   /**

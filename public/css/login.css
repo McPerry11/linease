@@ -1,21 +1,25 @@
-.mtop {
-	margin-top: 10%;
+body, .container, .columns {
+	height: 100%;
 }
 
 .content h1 {
 	margin-bottom: 0;
 }
 
-.is-rounded {
-	width: 175px;
-}
-
-.pass-field {
+.pass-field, .is-rounded {
 	width: 100%;
 }
 
 #login, #mlogin {
 	background-color: #00C944;
+}
+
+#col-login {
+	padding-right: 0;
+}
+
+#col-register {
+	padding-left: 0;
 }
 
 #mregister, #mlogin {
@@ -26,22 +30,28 @@
 	margin-top: 20px;
 }
 
-#buttons .level{
+#buttons .level-item{
 	margin-bottom: 10px;
 }
 
 .footer {
 	bottom: 0;
+	left: 0;
 	width: 100%;
 	padding: 0;
 	margin-top: 20px;
 }
 
-.notification {
-	position: fixed;
-	right: 0;
-	top: 10px;
-	z-index: 1;
-	margin-right: 10px;
-	margin-left: 10px;
+.container.is-hidden-tablet {
+	padding-top: 8%;
+}
+
+@media screen and (min-width: 1024px) {
+	html, body {
+		overflow-y: hidden;
+	}
+
+	.footer {
+		position: fixed;
+	}
 }

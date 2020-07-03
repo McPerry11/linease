@@ -1,39 +1,61 @@
 $(function() {
-	// Univeral
+	function registerBtn(event) {
+		if ($(btnLogin).hasClass('is-loading')) {
+			event.preventDefault();
+		} else {
+			$('.title').text('Loading Registration');
+			$('.pageloader').addClass('is-active');
+		}
+	}
+
+	function ajaxResponse() {
+		$(btnLogin).removeClass('is-loading');
+		$(btnRegister).removeAttr('disabled');
+		$(btnView).removeAttr('disabled');
+		$(inpUsername).removeAttr('readonly');
+		$(inpPassword).removeAttr('readonly');
+	}
+
+	var platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
+	$(window).resize(function() {
+		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+		if (newplatform != platform) {
+			$('.title').text('Reloading Viewport');
+			$('.pageloader').addClass('is-active');
+			location.reload();
+		}
+	});
+
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
-	$('.pageloader').removeClass('is-active');
+	$('.title').text('Loading Login');
 
 	$('form').submit(function(e) {
 		e.preventDefault();
-		var username, password;
-		$('#login').addClass('is-loading');
-		$('#mlogin').addClass('is-loading');
-		$('#register').attr('disabled', 'disabled');
-		$('#mregister').attr('disabled', 'disabled');
-		if ($('#username').val()) {
-			username = $('#username').val();
-			password = $('#password').val();
-		} else {
-			username = $('#musername').val();
-			password = $('#mpassword').val();
+		if( $(inpPassword).attr('type') == 'text' ) {
+			$(inpPassword).attr('type', 'password');
+			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
+			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
 		}
-
+		$(btnView).attr('disabled', 'disabled');
+		$(btnLogin).addClass('is-loading');
+		$(btnRegister).attr('disabled', 'disabled');
+		$(inpUsername).attr('readonly', true);
+		$(inpPassword).attr('readonly', true);
+		let username = $(inpUsername).val(), password = $(inpPassword).val();
 		$.ajax({
 			type: 'POST',
 			url: 'login',
 			data: {username:username, password:password},
 			datatype: 'JSON',
 			success: function(response) {
-				$('#login').removeClass('is-loading');
-				$('#mlogin').removeClass('is-loading');
-				$('#register').removeAttr('disabled');
-				$('#mregister').removeAttr('disabled');
+				ajaxResponse();
 				if (response.status == 'success') {
 					Swal.fire({
-						type: 'success',
+						icon: 'success',
 						title: response.message,
 						showConfirmButton: false,
-						timer: 2500,
+						timer: 2500
 					}).then(function() {
 						$('.title').text('Loading Dashboard');
 						$('.pageloader').addClass('is-active');
@@ -42,100 +64,44 @@ $(function() {
 						// window.location.href = "/linease-alpha";
 					});
 				} else if (response.status == 'error') {
-					$('#message').text(response.message);
-					$('#mmessage').text(response.message);
-					$('#password').val('');
-					$('#mpassword').val('');
-					$('#username').val('');
-					$('#musername').val('');
+					$(txtMsg).text(response.message);
+					$(inpPassword).val('');
+					$(inpUsername).val('');
 				}
 			},
 			error: function(err) {
 				console.log(err);
-				$('#login').removeClass('is-loading');
-				$('#mlogin').removeClass('is-loading');
-				$('#register').removeAttr('disabled');
-				$('#mregister').removeAttr('disabled');
+				ajaxResponse();
 				Swal.fire({
-					type: 'error',
+					icon: 'error',
 					title: 'Cannot Log In to LinEase',
-					text: 'Something went wrong. Please try again later.',
+					text: 'Something went wrong. Please try again later.'
 				});
 			}
 		});
 	});
 
-	$('a.has-text-success').click(function() {
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
+	$(btnView).click(function() {
+		$(icnViewPass).toggleClass('fa-eye').toggleClass('fa-eye-slash').toggleClass('has-text-white');
+		$(this).toggleClass('has-background-grey-dark').toggleClass('has-background-grey-lighter');
+		$(inpPassword).attr('type', function() {
+			return $(this).attr('type') == 'password' ? 'text' : 'password';
+		});
 	});
 
-	$('.delete').click(function() {
-		$('.notification').fadeOut();
-		setTimeout(function() {
-			$('.notification').remove();
-		}, 1000);
+	$(btnRegister).click(function(e) {
+		registerBtn(e);
 	});
 
-
-	// Desktop Version
-	$('#view').click(function() {
-		if( $('#password').attr('type') == 'password' ) {
-			$('#password').attr('type', 'text');
-			$('#icon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
-		} else {
-			$('#password').attr('type', 'password');
-			$('#icon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
-		}
+	$('#' + platform + 'reglink').click(function(e) {
+		registerBtn(e);
 	});
 
-	$('#register').click(function() {
-		var attr = $('#register').attr('disabled');
-		if (typeof attr !== typeof undefined && attr !== false) {
-			return false;
-		}
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
+	$(inpUsername).keyup(function() {
+		$(txtMsg).text('');
 	});
 
-	$('#username').keyup(function() {
-		$('#message').text('');
-	});
-
-	$('#password').keyup(function() {
-		$('#message').text('');
-	})
-
-
-	// Mobile Version
-	$('#mview').click(function() {
-		if( $('#mpassword').attr('type') == 'password' ) {
-			$('#mpassword').attr('type', 'text');
-			$('#micon-pass').removeClass('fa-eye').addClass('fa-eye-slash').addClass('has-text-white');
-			$(this).removeClass('has-background-grey-lighter').addClass('has-background-grey-dark').addClass('is-selected');
-		} else {
-			$('#mpassword').attr('type', 'password');
-			$('#micon-pass').removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
-			$(this).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter').removeClass('is-selected');
-		}
-	});
-
-	$('#mregister').click(function(e) {
-		var attr = $('#mregister').attr('disabled');
-		if (typeof attr !== typeof undefined && attr !== false) {
-			return false;
-		}
-		$('.title').text('Loading Registration');
-		$('.pageloader').addClass('is-active');
-	});
-
-	$('#musername').keyup(function() {
-		$('#mmessage').text('');
-	});
-
-	$('#mpassword').keyup(function() {
-		$('#mmessage').text('');
+	$(inpPassword).keyup(function() {
+		$(txtMsg).text('');
 	});
 });
