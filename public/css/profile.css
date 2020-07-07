@@ -1,5 +1,5 @@
 body {
-  height: 100vh;
+  height: 100%;
 }
 
 .navbar {
@@ -8,11 +8,15 @@ body {
   z-index: 0;
 }
 
+#back {
+  padding-left: 20px;
+}
+
 .content h3 {
   margin: auto;
 }
 
-figure.image {
+figure {
   top: -50px;
   margin: auto;
   z-index: 1;
@@ -28,8 +32,9 @@ figure.image {
   margin-bottom: 0;
 }
 
-aside.menu {
+aside {
   margin-left: 15px;
+  margin-top: 10px;
   width: 100%;
 }
 
@@ -37,25 +42,26 @@ aside.menu {
   width: 100%;
 }
 
-.menu-list i {
-  margin-right: 10px;
+.menu-list .icon {
   width: 20px;
   color: #00C944;
 }
 
-.menu-list span {
+.menu-list span:nth-child(2) {
   display: inline-block;
   width: 89%;
   padding-bottom: 3px;
   border-bottom: 1px solid lightgrey;
+  margin-left: 10px;
 }
 
-.level {
-  margin-top: 25px;
-  width: 100%;
+form {
+  position: sticky;
+  top: 100%;
 }
 
-#logout.button {
+#logout {
   background-color: #00C944;
   color: white;
+  margin-top: 20px;
 }

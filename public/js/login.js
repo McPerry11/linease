@@ -27,7 +27,7 @@ $(function() {
 		}
 	});
 
-	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
+	$('html').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Login');
 
 	$('form').submit(function(e) {
