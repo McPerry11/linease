@@ -35,11 +35,9 @@ body, .container, .columns {
 }
 
 .footer {
-	bottom: 0;
-	left: 0;
-	width: 100%;
 	padding: 0;
-	margin-top: 20px;
+	position: sticky;
+	top: 100%;
 }
 
 .container.is-hidden-tablet {

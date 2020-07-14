@@ -63,5 +63,10 @@ form {
 #logout {
   background-color: #00C944;
   color: white;
-  margin-top: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+  .navbar-brand {
+    height: fit-content;
+  }
 }

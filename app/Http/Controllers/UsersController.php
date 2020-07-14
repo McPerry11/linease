@@ -6,6 +6,7 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
 
 class UsersController extends Controller
 {
@@ -148,6 +149,7 @@ class UsersController extends Controller
     $user = $user[0];
     return view('accdetails', [
       'user' => $user,
+      'back' => url($user->username)
     ]);
   }
 

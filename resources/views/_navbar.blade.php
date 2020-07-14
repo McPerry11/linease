@@ -1,8 +1,8 @@
-@if (Request::is($user->username))
+@if (Request::is($user->username) || Request::is($user->username . '/*'))
 {{-- Profile Navbar --}}
-<nav class="navbar">
+<nav class="navbar is-fixed-top">
 	<div class="navbar-brand">
-		<a href="{{ url('') }}" id="back" class="navbar-item has-text-white">
+		<a href="{{ $back ?? url('') }}" id="back" class="navbar-item has-text-white">
 			<i class="fas fa-chevron-left"></i>
 		</a>
 		<div class="content navbar-item">

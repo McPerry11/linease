@@ -1,23 +1,28 @@
 $(function() {
-  $('.title').text('Loading Profile');
+  $('.pageloader .title').text('Loading Profile');
   $('html').removeClass('has-navbar-fixed-top');
+  $('.navbar').removeClass('is-fixed-top');
   $('.content.navbar-item h3').text('Profile');
-  $('.title').text('');
-  $('.pageloader').removeClass('is-active');
+  $('#back').attr('title', 'Go back to dashboard');
+
+  $('#back').click(function() {
+    $('.pageloader .title').text('Loading Dashboard');
+    $('.pageloader').addClass('is-active');
+  });
 
   $('.menu-list a').click(function() {
     var page = $(this).text();
     switch(page) {
       case 'Account Details':
-      $('.title').text('Loading Details');
+      $('.pageloader .title').text('Loading Details');
       break;
 
       case 'Your Reports':
-      $('.title').text('Loading Reports');
+      $('.pageloader .title').text('Loading Reports');
       break;
 
       default:
-      $('.title').text('Loading Page');
+      $('.pageloader .title').text('Loading Page');
       break;
     }
     $('.pageloader').addClass('is-active');
@@ -25,7 +30,7 @@ $(function() {
 
   $('form').submit(function() {
     $('#logout').addClass('is-loading');
-    $('.title').text('Logging Out');
+    $('.pageloader .title').text('Logging Out');
     $('.pageloader').addClass('is-active');
   });
 });

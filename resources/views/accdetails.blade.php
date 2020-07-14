@@ -5,7 +5,6 @@
 @endsection
 
 @section('body')
-@include('_navbar_acc')
 @endsection
 
 @section('scripts')
