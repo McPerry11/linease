@@ -19,7 +19,7 @@ class UsersController extends Controller
   {
     switch ($request->data) {
       case 'username':
-      $identical = User::where('username', $request->username)->get();
+      $identical = User::where('username', $request->username)->value('username');
       if (count($identical) > 0) {
         $response = array(
           'status' => 'error',
@@ -33,7 +33,7 @@ class UsersController extends Controller
       break;
 
       case 'email':
-      $identical = User::where('email', $request->email)->get();
+      $identical = User::where('email', $request->email)->value('email');
       if (count($identical) > 0) {
         $response = array(
           'status' => 'error',
@@ -73,7 +73,7 @@ class UsersController extends Controller
   {
     $regex = '/^[\w\.]{6,30}$/';
     if (preg_match($regex, $request->username)) {
-      $identical = User::where('username', $request->username)->get();
+      $identical = User::where('username', $request->username)->value('username');
       if (count($identical) > 0)
         return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken'));
     } else {
@@ -82,7 +82,7 @@ class UsersController extends Controller
     
     $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
     if (preg_match($regex, $request->email)) {
-      $identical = User::where('email', $request->email)->get();
+      $identical = User::where('email', $request->email)->value('email');
       if (count($identical) > 0)
         return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Email address is already taken.', 'warn' => 'Email address is already taken'));
     } else {
@@ -121,7 +121,7 @@ class UsersController extends Controller
   {
     $user = User::where('username', $username)->get();
     $user = $user[0];
-    $name = null;
+    $name = $username;
     if ($user->firstname) {
       $name = $user->firstname;
     }
@@ -132,7 +132,7 @@ class UsersController extends Controller
       $name = $name . ' ' . $user->lastname;
     }
     return view('profile', [
-      'user' => $user,
+      'username' => $username,
       'name' => $name,
     ]);
   }
@@ -145,12 +145,7 @@ class UsersController extends Controller
    */
   public function edit($username)
   {
-    $user = User::where('username', $username)->get();
-    $user = $user[0];
-    return view('accdetails', [
-      'user' => $user,
-      'back' => url($user->username)
-    ]);
+    //
   }
 
   /**

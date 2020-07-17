@@ -9,8 +9,8 @@
 </figure>
 <div id="name">
   <div class="content">
-    <h4 class="has-text-centered">{{ $name ?? $user->username }}</h4>
-    <p class="has-text-centered">&#65312;{{ $user->username }}</p>
+    <h4 class="has-text-centered">{{ $name }}</h4>
+    <p class="has-text-centered">&#65312;{{ $username }}</p>
   </div>
 </div>
 <aside class="menu">
@@ -18,7 +18,7 @@
     PROFILE
   </strong>
   <ul class="menu-list">
-    <li><a href="{{ url($user->username . '/details') }}"><span class="icon"><i class="fas fa-user"></i></span><span>Account Details</span></a></li>
+    <li><a href="{{ url($username . '/details') }}"><span class="icon"><i class="fas fa-user"></i></span><span>Account Details</span></a></li>
     <li><a href=""><span class="icon"><i class="fas fa-chart-bar"></i></span><span>Your Reports</span></a></li>
   </ul>
   <strong class="menu-label">

@@ -2,6 +2,10 @@ body, .columns {
 	height: 100%;
 }
 
+.column {
+	padding-bottom: 0;
+}
+
 .container.is-fluid {
 	padding-top: 10%;
 	height: 100%;

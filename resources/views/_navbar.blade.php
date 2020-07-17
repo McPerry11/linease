@@ -1,8 +1,8 @@
-@if (Request::is($user->username) || Request::is($user->username . '/*'))
+@if (Request::is($username))
 {{-- Profile Navbar --}}
 <nav class="navbar is-fixed-top">
 	<div class="navbar-brand">
-		<a href="{{ $back ?? url('') }}" id="back" class="navbar-item has-text-white">
+		<a href="{{ url('') }}" id="back" class="navbar-item has-text-white">
 			<i class="fas fa-chevron-left"></i>
 		</a>
 		<div class="content navbar-item">
@@ -31,14 +31,14 @@
 			<div class="navbar-end">
 				<div id="profile" class="navbar-item has-dropdown">
 					<a class="navbar-link is-arrowless navlink-inactive">
-						<p class="has-text-white">Username</p>
+						<p class="has-text-white">{{ $username }}</p>
 						<figure id="avatar" class="image is-32x32">
 							<img class="is-rounded" src="{{ asset('img/Blank.JPG') }}" alt="Avatar">
 						</figure>
 					</a>
 					<div class="navbar-dropdown">
-						<a href="{{ url($user->username) }}" class="navbar-item"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
-						@if ($user->type == 'ADMIN' || $user->type == 'SUPER')
+						<a href="{{ url($username) }}" class="navbar-item"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
+						@if ($type == 'ADMIN' || $type == 'SUPER')
 						<a href="{{ url('accounts') }}" class="navbar-item"><span class="icon"><i class="fas fa-users"></i></span>Accounts</a>
 						<a href="{{ url('logs') }}" class="navbar-item"><span class="icon"><i class="fas fa-stream"></i></span>Logs</a>
 						@endif
@@ -66,8 +66,8 @@
 		</div>
 		<div id="nb-mobile" class="navbar-menu">
 			<div class="navbar-end">
-				<a class="navbar-item" href="{{ url($user->username) }}"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
-				@if ($user->type == 'ADMIN' || $user->type == 'SUPER')
+				<a class="navbar-item" href="{{ url($username) }}"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
+				@if ($type == 'ADMIN' || $type == 'SUPER')
 				<a class="navbar-item" href="{{ url('accounts') }}"><span class="icon"><i class="fas fa-users"></i></span>Accounts</a>
 				<a class="navbar-item" href="{{ url('logs') }}"><span class="icon"><i class="fas fa-stream"></i></span>Logs</a>
 				@endif
