@@ -171,9 +171,9 @@ $(function() {
 						if (result.value) {
 							$('.title').text('Loading Login');
 							$('.pageloader').addClass('is-active');
-							window.location.href = '/linease-alpha/public/login';
+							// window.location.href = '/linease-alpha/public/login';
 							// Server 
-							// window.location.href = '/linease-alpha/login';
+							window.location.href = '/linease/login';
 						}
 					});
 				}
