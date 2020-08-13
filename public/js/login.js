@@ -59,9 +59,9 @@ $(function() {
 					}).then(function() {
 						$('.title').text('Loading Dashboard');
 						$('.pageloader').addClass('is-active');
-						window.location.href = "/linease-alpha/public";
+						// window.location.href = "/linease-alpha/public";
 						// Server
-						// window.location.href = "/linease-alpha";
+						window.location.href = "/linease";
 					});
 				} else if (response.status == 'error') {
 					$(txtMsg).text(response.message);

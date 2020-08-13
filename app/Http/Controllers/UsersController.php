@@ -17,10 +17,9 @@ class UsersController extends Controller
    */
   public function index(Request $request)
   {
-    switch ($request->data) {
-      case 'username':
-      $identical = User::where('username', $request->username)->value('username');
-      if (count($identical) > 0) {
+    if ($request->data == 'username') {
+      $identical = User::where('username', $request->username)->count();
+      if ($identical > 0) {
         $response = array(
           'status' => 'error',
           'msg' => 'Username is already taken'
@@ -30,11 +29,9 @@ class UsersController extends Controller
           'status' => 'success'
         );
       }
-      break;
-
-      case 'email':
-      $identical = User::where('email', $request->email)->value('email');
-      if (count($identical) > 0) {
+    } else if ($request->data == 'email') {
+      $identical = User::where('email', $request->email)->count();
+      if ($identical > 0) {
         $response = array(
           'status' => 'error',
           'msg' => 'Email address is already taken'
@@ -44,11 +41,10 @@ class UsersController extends Controller
           'status' => 'success'
         );
       }
-      break;
     }
-
-    return response()->json($response);
+    return $response;
   }
+
 
   /**
    * Show the form for creating a new resource.
