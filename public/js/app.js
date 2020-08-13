@@ -20,7 +20,7 @@ $(function() {
 		$('#nb-mobile').slideToggle('fast');
 	});
 
-	$('.navbar-item').click(function() {
+	$('.navbar-menu .navbar-item').click(function() {
 		if ($(this).attr('id') == 'profile') {
 			$('.navbar-link').toggleClass('navlink-inactive');
 			$('#profile p').toggleClass('has-text-white').toggleClass('has-text-success');
@@ -32,5 +32,10 @@ $(function() {
 			$('.title').text('Loading ' + page);
 			$('.pageloader').addClass('is-active');
 		}
+	});
+
+	$('#back').click(function() {
+		$('.pageloader .title').text('Loading Dashboard');
+		$('.pageloader').addClass('is-active');
 	});
 });

@@ -27,7 +27,7 @@ $(function() {
 		}
 	});
 
-	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
+	$('html').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Login');
 
 	$('form').submit(function(e) {
@@ -72,11 +72,19 @@ $(function() {
 			error: function(err) {
 				console.log(err);
 				ajaxResponse();
-				Swal.fire({
-					icon: 'error',
-					title: 'Cannot Log In to LinEase',
-					text: 'Something went wrong. Please try again later.'
-				});
+				if (err.status == 429) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Too Many Login Attempts',
+						text: 'Try again in a few minutes.'
+					});
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Cannot Log In to LinEase',
+						text: 'Something went wrong. Please try again later.'
+					});
+				}
 			}
 		});
 	});

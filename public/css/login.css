@@ -1,5 +1,9 @@
 body, .container, .columns {
-	height: 100%;
+	height: 99%;
+}
+
+.columns:not(:last-child) {
+	margin-bottom: 0;
 }
 
 .content h1 {
@@ -35,23 +39,17 @@ body, .container, .columns {
 }
 
 .footer {
-	bottom: 0;
-	left: 0;
-	width: 100%;
 	padding: 0;
-	margin-top: 20px;
+	position: sticky;
+	top: 100%;
 }
 
 .container.is-hidden-tablet {
 	padding-top: 8%;
 }
 
-@media screen and (min-width: 1024px) {
-	html, body {
-		overflow-y: hidden;
-	}
-
-	.footer {
-		position: fixed;
+@media screen and (max-height: 480px) {
+	html {
+		height: auto;
 	}
 }
