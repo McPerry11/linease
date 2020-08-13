@@ -69,8 +69,8 @@ class UsersController extends Controller
   {
     $regex = '/^[\w\.]{6,30}$/';
     if (preg_match($regex, $request->username)) {
-      $identical = User::where('username', $request->username)->value('username');
-      if (count($identical) > 0)
+      $identical = User::where('username', $request->username)->count();
+      if ($identical > 0)
         return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken'));
     } else {
       return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Invalid format. Use alphanumeric characters, period, and underscore'));
@@ -78,8 +78,8 @@ class UsersController extends Controller
     
     $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
     if (preg_match($regex, $request->email)) {
-      $identical = User::where('email', $request->email)->value('email');
-      if (count($identical) > 0)
+      $identical = User::where('email', $request->email)->count();
+      if ($identical > 0)
         return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Email address is already taken.', 'warn' => 'Email address is already taken'));
     } else {
       return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Invalid format of email address', 'warn' => 'Invalid format of email address'));
@@ -92,11 +92,9 @@ class UsersController extends Controller
       return response()->json(array('status' => 'error', 'data' => 'confirm', 'msg' => 'Passwords do not match', 'warn' => 'Passwords do not match.'));
 
     $user = new User;
-    $user->fill($request->only([
-      'username',
-      'email',
-      'password'
-    ]));
+    $user->username = strip_tags($request->username);
+    $user->email = strip_tags($request->email);
+    $user->password = strip_tags($request->password);
 
     $user->type = 'USER';
     $user->created_at = Carbon::now('+8:00');
