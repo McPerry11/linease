@@ -12,7 +12,7 @@
 */
 
 Route::get('login', 'IndexController@login')->name('login');
-Route::post('login', 'LoginController@login');
+Route::post('login', 'LoginController@login')->middleware('throttle:10,3');
 
 Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');
