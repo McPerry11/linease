@@ -1,4 +1,4 @@
-# LinEase
+# LinEase: A Land Pollution Action Network Application
 LinEase is a land pollution action network created to monitor and spread awareness on land pollution while simultaneously serving as a platform to contribute in solving the issue on land pollution and the prevention of it. LinEase gathers data from individual people who have reported or issued polluted areas using images with descriptive captions. LinEase intends to serve those who understand the importance of the environment and keeping it as healthy as possible and hope to have a platform for them to spread awareness and/or even contribute by reporting any issue regarding land pollution in certain areas themselves. LinEase intends to include the cooperation of local government units (LGU) to provide an effective solution in land pollution, wherein the LGUs respond towards the reports provided by the users or citizens through the LinEase application.
 
 ## Collaborators
