@@ -6,7 +6,7 @@ LinEase is a land pollution action network created to monitor and spread awarene
  - Kaye Ysabelle Rosacia
  - Jobert Fernandez
  - August Christopher Tela
- - Justin Philip Guiang
+ - Philip Justin Guiang
 
 Copyright © 2020 LinEase
 
