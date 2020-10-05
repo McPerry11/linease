@@ -20,7 +20,7 @@ Route::post('register', 'UsersController@store');
 Route::post('users', 'UsersController@index');
 
 Route::group(['middleware' => 'auth'], function() {
-	Route::get('', 'IndexController@dashboard');
+	Route::get('', 'IndexController@dashboard')->name('dashboard');
 	Route::post('markers', 'ReportController@index');
 
 	Route::get('camera', 'ReportController@create');

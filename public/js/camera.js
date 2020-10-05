@@ -149,21 +149,6 @@ $(function() {
     }
   });
 
-  $('#left').click(function() {
-    if ( $('#licon').hasClass('fa-times') ) {
-      // Localhost Computer
-      $('.pageloader').addClass('is-active');
-      $('.title').text('Loading Dashboard');
-      window.location.href = "/linease-alpha/public/";
-      // Server
-      // window.location.href = "/linease-alpha/";
-    } else {
-      camera();
-      $('#licon').removeClass('fa-redo-alt').addClass('fa-times');
-      $('#right').addClass('inactive');
-    }
-  });
-
   $('#right').click(function() {
     if ( $('#right').hasClass('inactive') ) {
       return false;

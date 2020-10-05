@@ -12,20 +12,28 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-    	$user = new User;
+        $data = [
+            'username' => ['McPerry_', 'seamonster618', 'jbrtfrnndz', 'youngG', 'kaysabelle'],
+            'email' => ['mack.perry.co@gmail.com', 'acvtela@yahoo.com', 'jbrtfrnndz@gmail.com', 'guiang.justing@gmail.com', 'kaye.rosacia@gmail.com'],
+            'password' => ['237845691', 'cuteasianboi', 'hentaihart', 'Justin23', 'Awitser13']
+        ];
+        $types = ['SUPER', 'ADMIN', 'FACIL', 'USER'];
 
-    	$user->username = 'rndunit';
-    	$user->firstname = 'Research';
-    	$user->middlename = 'and';
-    	$user->lastname = 'Development';
-    	$user->email = 'rndccss.ue@gmail.com';
-        $user->phone = '';
-        $user->city = 'Manila';
-        $user->birthdate = '2007-11-1';
-        $user->type = 'SUPER';
-        $user->password = 'rndccss2008';
-        $user->avatar_id = NULL;
+        for ($i = 0; $i < 5; $i++) {
+            foreach ($types as $type) {
+                $user = new User;
 
-        $user->save();
+                if ($type == 'SUPER') {
+                    $user->username = $data['username'][$i];
+                    $user->email = $data['email'][$i];
+                } else {
+                    $user->username = $data['username'][$i] . '_' . $type;
+                    $user->email = $type . '_' . $data['email'][$i];
+                }
+                $user->type = $type;
+                $user->password = $data['password'][$i];
+                $user->save();
+            }
+        }
     }
 }

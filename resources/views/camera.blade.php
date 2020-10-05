@@ -29,4 +29,20 @@
 <script src="{{ asset('js/modernizr-custom.js') }}"></script>
 <script src="{{ asset('js/camera.js') }}"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<script>
+	$('#left').click(function() {
+		if ( $('#licon').hasClass('fa-times') ) {
+      // Localhost Computer
+      $('.pageloader').addClass('is-active');
+      $('.title').text('Loading Dashboard');
+      window.location.href = {{ route('dashboard') }};
+      // Server
+      // window.location.href = "/linease-alpha/";
+    } else {
+    	camera();
+    	$('#licon').removeClass('fa-redo-alt').addClass('fa-times');
+    	$('#right').addClass('inactive');
+    }
+  });
+</script>
 @endsection
