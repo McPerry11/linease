@@ -12,7 +12,8 @@
 */
 
 Route::get('login', 'IndexController@login')->name('login');
-Route::post('login', 'LoginController@login')->middleware('throttle:10,3');
+Route::post('login', 'LoginController@login')->middleware('throttle:10,3')->name('login_post');
+Route::post('logout', 'LoginController@logout')->name('logout');
 
 Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');
@@ -33,7 +34,6 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('logs', 'IndexController@logs');
 
   Route::get('{username}', 'UsersController@show');
-  Route::post('{username}', 'LoginController@logout');
   Route::get('{username}/details', 'UsersController@edit');
 });
 

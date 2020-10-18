@@ -9,10 +9,10 @@
 <div id="map-container">
 	<div id="map"></div>
 	<div id="legend"></div>
-	<form>
+	<form id="search">
 		<div class="field has-addons">
 			<p class="control has-icons-left">
-				<input id="search" class="input is-rounded" type="text" name="search" placeholder="Search Address, City, or District">
+				<input class="input is-rounded" type="text" name="search" placeholder="Search Address, City, or District">
 				<span class="icon is-left">
 					<i class="image is-24x24">
 						<img src="{{ asset('img/LineaseIcon.PNG') }}" alt="LinEase Pin">

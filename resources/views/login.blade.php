@@ -138,5 +138,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/login.js') }}"></script>
+<script src="{{ asset('js/login.js') }}" id="js" data-link="{{ route('login_post') }}"></script>
 @endsection

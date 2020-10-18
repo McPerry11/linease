@@ -130,4 +130,10 @@ $(function() {
 		$('.title').text('Loading Camera');
 		$('.pageloader').addClass('is-active');
 	});
+
+	$('#logout').submit(function() {
+		$('#logout button').addClass('is-loading');
+		$('.pageloader .title').text('Logging Out');
+		$('.pageloader').addClass('is-active');
+	});
 });

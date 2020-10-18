@@ -13,7 +13,7 @@ body, #map-container {
 	z-index: 0;
 }
 
-form {
+#search {
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -24,12 +24,6 @@ form {
 
 p.control {
 	width: 100%;
-}
-
-@media screen and (min-width: 1024px) {
-	form {
-		width: 30%;
-	}
 }
 
 #btn-search {

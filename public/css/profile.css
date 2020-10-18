@@ -12,6 +12,10 @@ body {
   padding-left: 20px;
 }
 
+.content.navbar-item {
+  margin: auto 0;
+}
+
 .content h3 {
   margin: auto;
 }
@@ -32,41 +36,43 @@ figure {
   margin-bottom: 0;
 }
 
-aside {
-  margin-left: 15px;
-  margin-top: 10px;
+.tabs li {
   width: 100%;
 }
 
-.menu-list, li {
-  width: 100%;
+.tabs.is-boxed li.is-active a {
+  color: #00C944;
+  border-top: 2px solid #00C944;
 }
 
-.menu-list .icon {
-  width: 20px;
+.tabs a {
+  display: block;
+}
+
+.tabs .icon:first-child, .tabs div:last-child {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.container.is-fluid {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+#edit {
   color: #00C944;
 }
 
-.menu-list span:nth-child(2) {
-  display: inline-block;
-  width: 89%;
-  padding-bottom: 3px;
-  border-bottom: 1px solid lightgrey;
-  margin-left: 10px;
+.level-right {
+  max-width: 50vw;
 }
 
-form {
-  position: sticky;
-  top: 100%;
+.field-body, #actions {
+  display: none;
 }
 
-#logout {
+#submit {
   background-color: #00C944;
   color: white;
-}
-
-@media screen and (min-width: 1024px) {
-  .navbar-brand {
-    height: fit-content;
-  }
 }

@@ -45,10 +45,6 @@ p.subtitle.is-5, #avatar {
 	background-color: white;
 }
 
-.navbar-item.has-dropdown .navbar-link.navlink-inactive {
-	background-color: transparent;
-}
-
 .navbar-item .icon:only-child {
 	margin-right: 5px;
 }

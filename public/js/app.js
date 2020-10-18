@@ -10,7 +10,6 @@ $(window).on('load', function() {
 });
 
 $(function() {
-	// Mobile Version
 	$('.navbar-burger').click(function() {
 		$(this).toggleClass('is-active').css('color', function() {
 			return $(this).hasClass('is-active') ? '#00C944' : 'white';
@@ -21,12 +20,8 @@ $(function() {
 	});
 
 	$('.navbar-menu .navbar-item').click(function() {
-		if ($(this).attr('id') == 'profile') {
-			$('.navbar-link').toggleClass('navlink-inactive');
-			$('#profile p').toggleClass('has-text-white').toggleClass('has-text-success');
-			$('#profile .navbar-dropdown').slideToggle('fast', function() {
-				$(this).toggleClass('is-active');
-			});
+		if ($(this).data('id') == 'logout') {
+			$('#logout').submit();
 		} else {
 			var page = $(this).text();
 			$('.title').text('Loading ' + page);

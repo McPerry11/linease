@@ -10,27 +10,38 @@ $(function() {
     $('.pageloader').addClass('is-active');
   });
 
-  $('.menu-list a').click(function() {
-    var page = $(this).text();
-    switch(page) {
-      case 'Account Details':
-      $('.pageloader .title').text('Loading Details');
+  $('.tabs a').click(function() {
+    let content = $(this).parent().attr('id');
+    if (!$('#' + content).hasClass('is-active')) {
+      $('.tabs li').removeClass('is-active');
+      $('#' + content).addClass('is-active');
+    }
+    switch (content){
+      case 'profile':
+      $('#profile_content').removeClass('is-hidden');
       break;
 
-      case 'Your Reports':
-      $('.pageloader .title').text('Loading Reports');
+      case 'security':
+      $('#profile_content').addClass('is-hidden');
       break;
 
-      default:
-      $('.pageloader .title').text('Loading Page');
+      case 'reports':
+      $('#profile_content').addClass('is-hidden');
       break;
     }
-    $('.pageloader').addClass('is-active');
   });
 
-  $('form').submit(function() {
-    $('#logout').addClass('is-loading');
-    $('.pageloader .title').text('Logging Out');
-    $('.pageloader').addClass('is-active');
+  $('#edit').click(function() {
+    $(this).slideUp();
+    $('.level-right').slideUp();
+    $('.field-body').slideDown();
+    $('#actions').slideDown().css('display', 'flex');
+  });
+
+  $('#cancel').click(function() {
+    $('#edit').slideDown();
+    $('.level-right').slideDown();
+    $('.field-body').slideUp();
+    $('#actions').slideUp();
   });
 });
