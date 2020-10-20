@@ -36,6 +36,14 @@ figure {
   margin-bottom: 0;
 }
 
+.tabs {
+  position: sticky;
+  top: 0;
+  padding-top: 5px;
+  background-color: white;
+  z-index: 1;
+}
+
 .tabs li {
   width: 100%;
 }
@@ -64,8 +72,10 @@ figure {
   color: #00C944;
 }
 
-.level-right {
+.level-right p {
   max-width: 50vw;
+  overflow-wrap: break-word;
+  text-align: end;
 }
 
 .field-body, #actions {

@@ -67,7 +67,7 @@ class UsersController extends Controller
    */
   public function store(Request $request)
   {
-    $regex = '/^[\w\.]{6,30}$/';
+    $regex = '/^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i';
     if (preg_match($regex, $request->username)) {
       $identical = User::where('username', $request->username)->count();
       if ($identical > 0)
@@ -113,21 +113,15 @@ class UsersController extends Controller
    */
   public function show($username)
   {
-    $user = User::where('username', $username)->get();
-    $user = $user[0];
-    $name = $username;
-    if ($user->firstname) {
-      $name = $user->firstname;
-    }
-    if ($user->middlename) {
-      $name = $name . ' ' . $user->middlename;
-    }
-    if ($user->lastname) {
-      $name = $name . ' ' . $user->lastname;
-    }
+    $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'phone', 'city', 'birthdate', 'avatar_id')
+    ->where('username', $username)->get()[0];
+    $name = null;
+    if ($user->firstname && $user->lastname)
+      $name = $user->firstname . $user->middlename ?? '' . $user->lastname;
     return view('profile', [
       'username' => $username,
-      'name' => $name,
+      'user' => $user,
+      'name' => $name
     ]);
   }
 

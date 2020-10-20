@@ -110,14 +110,13 @@ $(function() {
 
 	$(inpUsername).bind({
 		keydown: function(e) {
-			console.log(e.which);
 			if (e.shiftKey == true) {
 				if (e.which == 189)
 					return true;
 			} else if (((e.which > 47 && e.which < 58) || e.which == 190) && e.shiftKey == false) {
 				return true;
 			}
-			if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160))
+			if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160) || (e.which < 41 && e.which > 34))
 				return true;
 			return false;
 		}
@@ -125,14 +124,13 @@ $(function() {
 
 	$(inpEmail).bind({
 		keydown: function(e) {
-			console.log(e.which);
 			if (e.shiftKey == true) {
 				if (e.which == 189 || e.which == 50)
 					return true;
 			} else if (((e.which > 47 && e.which < 58) || e.which == 190) && e.shiftKey == false) {
 				return true;
 			}
-			if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160))
+			if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160) || (e.which < 41 && e.which > 34))
 				return true;
 			return false;
 		}
@@ -230,7 +228,7 @@ $(function() {
 	$(inpUsername).focusout(function() {
 		if (6 <= $(this).val().trim().length && $(this).val().trim().length <= 30) {
 			if (!$(btnCreate).hasClass('is-loading')) {
-				let expr = /^[\w\.]{6,30}$/, message1 = 'Username cannot be empty', message2 = 'Invalid format. Use alphanumeric characters, period, and underscore';
+				let expr = /^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i, message1 = 'Username cannot be empty', message2 = 'Invalid format. Use alphanumeric characters, period, and underscore';
 				var username = $(this).val(), valid = expr.test(username);;
 				let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
 				if (proceed) {
