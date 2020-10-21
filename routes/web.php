@@ -34,7 +34,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('logs', 'IndexController@logs');
 
   Route::get('{username}', 'UsersController@show');
-  Route::get('{username}/details', 'UsersController@edit');
+  Route::post('{username}/profile', 'UsersController@edit');
+  Route::post('{username}/profile/update', 'UsersController@update');
 });
 
 // Route::fallback(function() {

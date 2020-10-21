@@ -1,5 +1,6 @@
 body {
-  height: 100%;
+  max-height: none;
+  height: auto;
 }
 
 .navbar {
@@ -37,11 +38,12 @@ figure {
 }
 
 .tabs {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   padding-top: 5px;
   background-color: white;
-  z-index: 1;
+  z-index: 5;
 }
 
 .tabs li {
@@ -76,6 +78,14 @@ figure {
   max-width: 50vw;
   overflow-wrap: break-word;
   text-align: end;
+}
+
+#username-warning {
+  margin-left: -50px;
+}
+
+#phone-warning {
+  margin-left: -62px;
 }
 
 .field-body, #actions {

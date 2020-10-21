@@ -117,7 +117,7 @@ class UsersController extends Controller
     ->where('username', $username)->get()[0];
     $name = null;
     if ($user->firstname && $user->lastname)
-      $name = $user->firstname . $user->middlename ?? '' . $user->lastname;
+      $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
     return view('profile', [
       'username' => $username,
       'user' => $user,
@@ -131,9 +131,30 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($username)
+  public function edit($username, Request $request)
   {
-    //
+    if ($request->data == 'username') {
+      if ($request->username != $username) {
+        $count = User::where('username', $request->username)->count();
+        if ($count > 0)
+          return response()->json(['msg' => 'Username is already taken']);
+      }
+    } else if ($request->data == 'email') {
+      $user = User::where('username', $username)->get()[0];
+      if ($request->email != $user->email) {
+        $count = User::where('email', $request->email)->count();
+        if ($count > 0)
+          return response()->json(['msg' => 'Email address is already taken']);
+      }
+    } else if ($request->data == 'phone') {
+      $user = User::where('username', $username)->get()[0];
+      if ($request->phone != $user->phone) {
+        $count = User::where('phone', $request->phone)->count();
+        if ($count > 0)
+          return response()->json(['msg' => 'Phone number is already taken']);
+      }
+    }
+    return response()->json(['status' => 'success']);
   }
 
   /**
@@ -143,9 +164,61 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, $username)
   {
-    //
+    $user = User::where('username', $username)->get()[0];
+
+    if ($request->tab == 'profile') {
+      $regex = '/^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i';
+      if (preg_match($regex, $request->data['username'])) {
+        if ($request->data['username'] != $username) {
+          $identical = User::where('username', $request->data['username'])->count();
+          if ($identical > 0)
+            return response()->json(['status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken']);
+        }
+      } else {
+        return response()->json(['status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Username must be between 5 to 30 characters with at least 1 alphabetical character']);
+      }
+
+      $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
+      if (preg_match($regex, $request->data['email'])) {
+        if ($request->data['email'] != $user->email) {
+          $identical = User::where('email', $request->data['email'])->count();
+          if ($identical > 0)
+            return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Email address is already taken.', 'warn' => 'Email address is already taken'));
+        }
+      } else {
+        return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Invalid email address', 'warn' => 'Invalid email address'));
+      }
+
+      $regex = '/^[0-9]{10}$/';
+      if (preg_match($regex, $request->data['phone'])) {
+        if ($request->data['phone'] != $user->phone) {
+          $identical = User::where('phone', $request->data['phone'])->where('phone', '<>', $user->phone)->count();
+          if ($identical > 0)
+            return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Phone number is already taken.', 'warn' => 'Phone number is already taken'));
+        }
+      } else {
+        return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Invalid phone number.', 'warn' => 'Invalid phone number'));
+      }
+
+      $user->username = strip_tags($request->data['username']);
+      $user->firstname = strip_tags($request->data['firstname']);
+      $user->lastname = strip_tags($request->data['lastname']);
+      $user->middlename = strip_tags($request->data['middlename']);
+      $user->email = strip_tags($request->data['email']);
+      $user->phone = strip_tags($request->data['phone']);
+      $user->city = strip_tags($request->data['city']);
+      $user->birthdate = strip_tags($request->data['birthdate']);
+      $user->updated_at = Carbon::now('+8:00');
+
+      $user->save();
+      $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'phone', 'city', 'birthdate')->where('username', $user->username)->get()[0];
+      $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
+      $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
+      $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
+      return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
+    }
   }
 
   /**

@@ -6,7 +6,7 @@ $(function() {
 		validate(error);
 		Swal.fire({
 			icon: 'error',
-			title: 'Cannot connect to server',
+			title: 'Cannot Connect to server',
 			text: 'Something went wrong. Please try again later.'
 		});
 	}
@@ -228,7 +228,7 @@ $(function() {
 	$(inpUsername).focusout(function() {
 		if (6 <= $(this).val().trim().length && $(this).val().trim().length <= 30) {
 			if (!$(btnCreate).hasClass('is-loading')) {
-				let expr = /^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i, message1 = 'Username cannot be empty', message2 = 'Invalid format. Use alphanumeric characters, period, and underscore';
+				let expr = /^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i, message1 = 'Username cannot be empty', message2 = 'Username must be between 5 to 30 characters with at least 1 alphabetical character';
 				var username = $(this).val(), valid = expr.test(username);;
 				let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
 				if (proceed) {
@@ -255,7 +255,7 @@ $(function() {
 		} else {
 			$(this).removeClass('is-success').addClass('is-danger');
 			$(icnUsername).removeClass('has-text-success').addClass('has-text-danger');
-			$(txtUserWarning).text('Username must be between 6 to 30 characters');
+			$(txtUserWarning).text('Username must be between 5 to 30 characters with at least 1 alphabetical character');
 			error[0] = true;
 			validate(error);
 		}
@@ -267,7 +267,7 @@ $(function() {
 
 	$(inpEmail).focusout(function() {
 		if (!$(btnCreate).hasClass('is-loading')) {
-			let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message1 = 'Email Address cannot be empty', message2 = 'Invalid format of email address';
+			let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message1 = 'Email Address cannot be empty', message2 = 'Invalid email address';
 			var email = $(this).val(), valid = expr.test(email);;
 			let proceed = checkInputs(email, this, icnEmail, txtEmailWarning, message1, valid, message2, 1);
 			if (proceed) {

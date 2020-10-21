@@ -62,7 +62,7 @@
           </div>
           <div class="level-right">
             <div class="level item">
-              <p>{{ $name ?? '' }}</p>
+              <p id="name-label">{{ $name ?? '' }}</p>
             </div>
           </div>
         </div>
@@ -70,17 +70,17 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="lastname" class="input" placeholder="Last Name" value="{{ $user->lastname }}" required>
+            <input type="text" id="lastname" class="input" name="lastname" placeholder="Last Name" value="{{ $user->lastname }}" required>
           </div>
         </div>
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="firstname" class="input" placeholder="First Name" value="{{ $user->firstname }}" required>
+            <input type="text" id="firstname" class="input" name="firstname" placeholder="First Name" value="{{ $user->firstname }}" required>
           </div>
         </div>
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="middlename" class="input" placeholder="Middle Initial" value="{{ $user->middlename }}">
+            <input type="text" id="middlename" class="input" name="middlename" placeholder="Middle Initial" value="{{ $user->middlename }}">
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <p>&#65312;{{ $user->username }}</p>
+              <p id="username-label">&#65312;{{ $user->username }}</p>
             </div>
           </div>
         </div>
@@ -105,8 +105,9 @@
           <div class="control">
             <a class="button is-static">&#65312;</a>
           </div>
-          <div class="control is-expanded">
-            <input type="text" id="username" class="input" value="{{ $user->username }}" required>
+          <div id="username" class="control is-expanded">
+            <input type="text" class="input" value="{{ $user->username }}" name="username" required>
+            <div id="username-warning" class="help has-text-danger"></div>
           </div>
         </div>
       </div>
@@ -124,15 +125,16 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <p>{{ $user->email }}</p>
+              <p id="email-label">{{ $user->email }}</p>
             </div>
           </div>
         </div>
       </div>
       <div class="field-body">
         <div class="field">
-          <div class="control is-expanded">
-            <input type="email" id="email" class="input" value="{{ $user->email }}" required>
+          <div id="email" class="control is-expanded">
+            <input type="email" class="input" value="{{ $user->email }}" name="email" required>
+            <div id="email-warning" class="help has-text-danger"></div>
           </div>
         </div>
       </div>
@@ -147,7 +149,7 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <p>{{ $user->city }}</p>
+              <p id="city-label">{{ $user->city }}</p>
             </div>
           </div>
         </div>
@@ -155,7 +157,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="city" class="input" value="{{ $user->city }}" required>
+            <input type="text" id="city" class="input" value="{{ $user->city }}" name="city" required>
           </div>
         </div>
       </div>
@@ -170,15 +172,19 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <p>{{ $user->phone }}</p>
+              <p id="phone-label">{{ $user->phone }}</p>
             </div>
           </div>
         </div>
       </div>
       <div class="field-body">
-        <div class="field">
-          <div class="control is-expanded">
-            <input type="text" id="phone" class="input" value="{{ $user->phone }}" required>
+        <div class="field has-addons">
+          <div class="control">
+            <a class="button is-static">+63</a>
+          </div>
+          <div id="phone" class="control is-expanded">
+            <input type="tel" class="input" value="{{ $user->phone }}" maxlength="10" name="phone" required>
+            <div id="phone-warning" class="help has-text-danger"></div>
           </div>
         </div>
       </div>
@@ -193,7 +199,7 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <p>{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY') : '' }}</p>
+              <p id="birthdate-label">{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY') : '' }}</p>
             </div>
           </div>
         </div>
@@ -201,7 +207,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="date" id="birthdate" class="input" value="{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD') : '' }}" required>
+            <input type="date" id="birthdate" class="input" value="{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD') : '' }}" name="birthdate" required>
           </div>
         </div>
       </div>
@@ -215,5 +221,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/profile.js') }}"></script>
+<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}"></script>
 @endsection
