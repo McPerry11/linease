@@ -116,7 +116,6 @@ class UsersController extends Controller
     $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'phone', 'city', 'birthdate', 'avatar_id')
     ->where('username', $username)->get()[0];
     $name = null;
-    $user->phone = '0' . $user->phone;
     if ($user->firstname && $user->lastname)
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
     return view('profile', [

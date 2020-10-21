@@ -172,7 +172,7 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <p id="phone-label">{{ $user->phone }}</p>
+              <p id="phone-label">{{ $user->phone != '' ? 0 . $user->phone : $user->phone }}</p>
             </div>
           </div>
         </div>
