@@ -25,7 +25,7 @@
 				<form class="has-text-left">
 					<div class="field">
 						<div id="user-control" class="control has-icons-left">
-							<input type="text" id="username" class="input" placeholder="Username" minlength="6" maxlength="30" required>
+							<input type="text" id="username" class="input" placeholder="Username" minlength="5" maxlength="20" required>
 							<span class="icon is-small is-left"><i id="user-icon" class="fas fa-user"></i></span>
 						</div>
 						<small id="user-warning" class="has-text-danger"></small>
@@ -84,7 +84,7 @@
 	<form class="has-text-left">
 		<div class="field">
 			<div id="muser-control" class="control has-icons-left">
-				<input type="text" id="musername" class="input" placeholder="Username" minlength="6" maxlength="30" required>
+				<input type="text" id="musername" class="input" placeholder="Username" minlength="5" maxlength="20" required>
 				<span class="icon is-small is-left"><i id="muser-icon" class="fas fa-user"></i></span>
 			</div>
 			<small id="muser-warning" class="has-text-danger"></small>

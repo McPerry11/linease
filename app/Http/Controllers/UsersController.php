@@ -67,7 +67,7 @@ class UsersController extends Controller
    */
   public function store(Request $request)
   {
-    $regex = '/^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i';
+    $regex = '/^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i';
     if (preg_match($regex, $request->username)) {
       $identical = User::where('username', $request->username)->count();
       if ($identical > 0)
@@ -169,7 +169,7 @@ class UsersController extends Controller
     $user = User::where('username', $username)->get()[0];
 
     if ($request->tab == 'profile') {
-      $regex = '/^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i';
+      $regex = '/^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i';
       if (preg_match($regex, $request->data['username'])) {
         if ($request->data['username'] != $username) {
           $identical = User::where('username', $request->data['username'])->count();

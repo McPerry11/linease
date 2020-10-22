@@ -121,7 +121,7 @@ $(function() {
     $('#username input').val(username);
     $('#email input').val(email);
     $('#city').val(city);
-    $('#phone input').val(phone);
+    $('#phone input').val('0' + phone);
     $('#birthdate').val(birthdate);
     $('input').removeClass('is-success').removeClass('is-danger').removeAttr('readonly');
     $('#submit').removeAttr('disabled');
@@ -145,7 +145,7 @@ $(function() {
     if (!$('#submit').hasClass('is-loading')) {
       $('#username').addClass('is-loading');
       $(this).attr('readonly', true);
-      let expr = /^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i, username = $(this).val();
+      let expr = /^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i, username = $(this).val();
       inputs['username'] = false;
       checkInputs();
       if (username == '') {
@@ -344,7 +344,7 @@ $(function() {
               $('#email input').val(data.data.email);
               $('#city-label').text(data.data.city);
               $('#city').val(data.data.city);
-              $('#phone-label').text(data.data.phone);
+              $('#phone-label').text('0' + data.data.phone);
               $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);
               $('#birthdate').val(data.data.birthdate);

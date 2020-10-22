@@ -106,7 +106,7 @@
             <a class="button is-static">&#65312;</a>
           </div>
           <div id="username" class="control is-expanded">
-            <input type="text" class="input" value="{{ $user->username }}" name="username" required>
+            <input type="text" class="input" value="{{ $user->username }}" minlength="5" maxlength="20" name="username" required>
             <div id="username-warning" class="help has-text-danger"></div>
           </div>
         </div>
