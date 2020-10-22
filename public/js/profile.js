@@ -121,7 +121,7 @@ $(function() {
     $('#username input').val(username);
     $('#email input').val(email);
     $('#city').val(city);
-    $('#phone input').val('0' + phone);
+    $('#phone input').val(phone);
     $('#birthdate').val(birthdate);
     $('input').removeClass('is-success').removeClass('is-danger').removeAttr('readonly');
     $('#submit').removeAttr('disabled');
