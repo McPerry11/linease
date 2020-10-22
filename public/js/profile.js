@@ -178,7 +178,7 @@ $(function() {
           }
         });
       } else {
-        $('#username-warning').text('Username must be between 5 to 30 characters with at least 1 alphabetical character');
+        $('#username-warning').text('Username must be between 5 to 20 characters with at least 1 alphabetical character');
         $(this).addClass('is-danger').removeAttr('readonly');
         $('#username').removeClass('is-loading');
       }
