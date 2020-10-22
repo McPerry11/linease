@@ -73,7 +73,7 @@ class UsersController extends Controller
       if ($identical > 0)
         return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken'));
     } else {
-      return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Username must be between 5 to 20 characters with at least 1 alphabetical character'));
+      return response()->json(array('status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Username must be between 5 to 20 characters with at least 1 alphanumeric character'));
     }
     
     $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
@@ -177,7 +177,7 @@ class UsersController extends Controller
             return response()->json(['status' => 'error', 'data' => 'username', 'msg' => 'Username is already taken.', 'warn' => 'Username is already taken']);
         }
       } else {
-        return response()->json(['status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Username must be between 5 to 20 characters with at least 1 alphabetical character']);
+        return response()->json(['status' => 'error', 'data' => 'username', 'msg' => 'Invalid format of username', 'warn' => 'Username must be between 5 to 20 characters with at least 1 alphanumeric character']);
       }
 
       $regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/';
