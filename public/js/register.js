@@ -228,7 +228,7 @@ $(function() {
 	$(inpUsername).focusout(function() {
 		if (6 <= $(this).val().trim().length && $(this).val().trim().length <= 30) {
 			if (!$(btnCreate).hasClass('is-loading')) {
-				let expr = /^(?=.{5,30})[\w\.]*[a-z0-9]+[\w\.]*$/i, message1 = 'Username cannot be empty', message2 = 'Username must be between 5 to 20 characters with at least 1 alphanumeric character';
+				let expr = /^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i, message1 = 'Username cannot be empty', message2 = 'Username must be between 5 to 20 characters with at least 1 alphanumeric character';
 				var username = $(this).val(), valid = expr.test(username);;
 				let proceed = checkInputs(username, this, icnUsername, txtUserWarning, message1, valid, message2, 0);
 				if (proceed) {
