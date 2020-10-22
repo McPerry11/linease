@@ -255,7 +255,7 @@ $(function() {
 		} else {
 			$(this).removeClass('is-success').addClass('is-danger');
 			$(icnUsername).removeClass('has-text-success').addClass('has-text-danger');
-			$(txtUserWarning).text('Username must be between 5 to 30 characters with at least 1 alphabetical character');
+			$(txtUserWarning).text('Username must be between 5 to 20 characters with at least 1 alphabetical character');
 			error[0] = true;
 			validate(error);
 		}
