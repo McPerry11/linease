@@ -13,3 +13,12 @@
 .content h3 {
 	margin: auto;
 }
+
+.tabs li {
+	width: 100%;
+}
+
+.tabs.is-boxed li.is-active a {
+	color: #00C944;
+	border-top: 2px solid #00C944;
+}

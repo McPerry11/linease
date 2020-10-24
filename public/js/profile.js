@@ -72,19 +72,19 @@ $(function() {
     if (!$('#' + content).hasClass('is-active')) {
       $('.tabs li').removeClass('is-active');
       $('#' + content).addClass('is-active');
-    }
-    switch (content){
-      case 'profile':
-      $('#profile_content').removeClass('is-hidden');
-      break;
+      switch (content){
+        case 'profile':
+        $('#profile_content').removeClass('is-hidden');
+        break;
 
-      case 'security':
-      $('#profile_content').addClass('is-hidden');
-      break;
+        case 'security':
+        $('#profile_content').addClass('is-hidden');
+        break;
 
-      case 'reports':
-      $('#profile_content').addClass('is-hidden');
-      break;
+        case 'reports':
+        $('#profile_content').addClass('is-hidden');
+        break;
+      }
     }
   });
 

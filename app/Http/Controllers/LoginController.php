@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -11,6 +13,13 @@ class LoginController extends Controller
 		$credentials = $request->only(['username', 'password']);
 
 		if (Auth::attempt($credentials)) {
+			Log::create([
+				'user_id' => Auth::id(),
+				'description' => Auth::user()->username . ' has logged in.',
+				'ip_address' => $request->ip(),
+				'created_at' => Carbon::now('+8:00'),
+				'updated_at' => Carbon::now('+8:00')
+			]);
 			return response()->json([
 				'status' => 'success',
 				'message' => 'Logged In Successfully',
@@ -23,6 +32,13 @@ class LoginController extends Controller
 	}
 
 	public function logout(Request $request) {
+		Log::create([
+			'user_id' => Auth::id(),
+			'description' => Auth::user()->username . ' has logged out.',
+			'ip_address' => $request->ip(),
+			'created_at' => Carbon::now('+8:00'),
+			'updated_at' => Carbon::now('+8:00')
+		]);
 		Auth::logout();
 		return redirect('login');
 	}
