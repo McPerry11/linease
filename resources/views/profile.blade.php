@@ -212,7 +212,7 @@
         </div>
       </div>
     </div>
-    <div id="actions" class="buttons is-centered">
+    <div id="actions" class="buttons is-centered mt-5">
       <button id="cancel" class="button" type="button">Cancel</button>
       <button id="submit" class="button" type="submit">Submit</button>
     </div>

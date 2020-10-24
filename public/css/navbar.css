@@ -47,4 +47,5 @@ p.subtitle.is-5, #avatar {
 
 .navbar-item .icon:only-child {
 	margin-right: 5px;
+	vertical-align: bottom;
 }

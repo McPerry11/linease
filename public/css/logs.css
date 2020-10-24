@@ -1,0 +1,15 @@
+.navbar {
+	background-color: #00C944;
+}
+
+#back {
+	padding-left: 20px;
+}
+
+.content.navbar-item {
+	margin: auto 0;
+}
+
+.content h3 {
+	margin: auto;
+}

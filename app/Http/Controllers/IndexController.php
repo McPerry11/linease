@@ -17,10 +17,7 @@ class IndexController extends Controller
 
 	public function dashboard() {
 		$user = Auth::user();
-		return view('dashboard', [
-			'username' => $user->username,
-			'type' => $user->type,
-		]);
+		return view('dashboard');
 	}
 
 	public function accounts() {
