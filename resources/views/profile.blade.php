@@ -70,17 +70,17 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="lastname" class="input" name="lastname" placeholder="Last Name" value="{{ $user->lastname }}" required>
+            <input type="text" id="lastname" class="input" name="lastname" placeholder="Last Name" value="{{ $user->lastname }}"  data-val="{{ $user->lastname }}" required>
           </div>
         </div>
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="firstname" class="input" name="firstname" placeholder="First Name" value="{{ $user->firstname }}" required>
+            <input type="text" id="firstname" class="input" name="firstname" placeholder="First Name" value="{{ $user->firstname }}" data-val="{{ $user->firstname }}" required>
           </div>
         </div>
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="middlename" class="input" name="middlename" placeholder="Middle Initial" value="{{ $user->middlename }}">
+            <input type="text" id="middlename" class="input" name="middlename" placeholder="Middle Initial" value="{{ $user->middlename }}" data-val="{{ $user->middlename }}">
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@
             <a class="button is-static">&#65312;</a>
           </div>
           <div id="username" class="control is-expanded">
-            <input type="text" class="input" value="{{ $user->username }}" minlength="5" maxlength="20" name="username" required>
+            <input type="text" class="input" value="{{ $user->username }}" data-val="{{ $user->username }}" minlength="5" maxlength="20" name="username" required>
             <div id="username-warning" class="help has-text-danger"></div>
           </div>
         </div>
@@ -133,7 +133,7 @@
       <div class="field-body">
         <div class="field">
           <div id="email" class="control is-expanded">
-            <input type="email" class="input" value="{{ $user->email }}" name="email" required>
+            <input type="email" class="input" value="{{ $user->email }}" data-val="{{ $user->email }}" name="email" required>
             <div id="email-warning" class="help has-text-danger"></div>
           </div>
         </div>
@@ -157,7 +157,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="city" class="input" value="{{ $user->city }}" name="city" required>
+            <input type="text" id="city" class="input" value="{{ $user->city }}" data-val="{{ $user->city }}" name="city" required>
           </div>
         </div>
       </div>
@@ -183,7 +183,7 @@
             <a class="button is-static">+63</a>
           </div>
           <div id="phone" class="control is-expanded">
-            <input type="tel" class="input" value="{{ $user->phone }}" maxlength="10" name="phone" required>
+            <input type="tel" class="input" value="{{ $user->phone }}" data-val="{{ $user->phone }}" maxlength="10" name="phone" required>
             <div id="phone-warning" class="help has-text-danger"></div>
           </div>
         </div>
@@ -207,7 +207,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="date" id="birthdate" class="input" value="{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD') : '' }}" name="birthdate" required>
+            <input type="date" id="birthdate" class="input" value="{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD') : '' }}" data-val="{{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD') : '' }}" name="birthdate" required>
           </div>
         </div>
       </div>

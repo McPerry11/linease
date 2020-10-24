@@ -8,7 +8,7 @@ $(function() {
     });
   }
 
-  function checkInputs() {
+  function checkInputs(inputs) {
     $('#submit').removeAttr('disabled');
     for (let i in inputs) {
       if (inputs[i] == false) {
@@ -18,7 +18,6 @@ $(function() {
     }
   }
 
-  var lastname = $('#lastname').val(), firstname = $('#firstname').val(), middlename = $('#middlename').val(), username = $('#username input').val(), email = $('#email input').val(), city = $('#city').val(), phone = $('#phone input').val(), birthdate = $('#birthdate').val();
   var inputs = {'username':true, 'email':true, 'phone':true};
 
   $('.pageloader .title').text('Loading Profile');
@@ -63,20 +62,6 @@ $(function() {
     }
   });
 
-  // $('body').bind({
-  //   keydown: function(e) {
-  //     if (!$('input').is(':focus')) {
-  //       if (e.which == 80) {
-  //         $('#profile a').click();
-  //       } else if (e.which == 83) {
-  //         $('#security a').click();
-  //       } else if (e.which == 82) {
-  //         $('#reports a').click();
-  //       }
-  //     }
-  //   }
-  // });
-
   $('#back').click(function() {
     $('.pageloader .title').text('Loading Dashboard');
     $('.pageloader').addClass('is-active');
@@ -115,14 +100,14 @@ $(function() {
     $('.level-right').slideDown();
     $('.field-body').slideUp();
     $('#actions').slideUp();
-    $('#lastname').val(lastname);
-    $('#firstname').val(firstname);
-    $('#middlename').val(middlename);
-    $('#username input').val(username);
-    $('#email input').val(email);
-    $('#city').val(city);
-    $('#phone input').val(phone);
-    $('#birthdate').val(birthdate);
+    $('#lastname').val($('#lastname').attr('data-val'));
+    $('#firstname').val($('#firstname').attr('data-val'));
+    $('#middlename').val($('#middlename').attr('data-val'));
+    $('#username input').val($('#username input').attr('data-val'));
+    $('#email input').val($('#email input').attr('data-val'));
+    $('#city').val($('#city').attr('data-val'));
+    $('#phone input').val($('#phone input').attr('data-val'));
+    $('#birthdate').val($('#birthdate').attr('data-val'));
     $('input').removeClass('is-success').removeClass('is-danger').removeAttr('readonly');
     $('#submit').removeAttr('disabled');
     $('control').removeClass('is-loading');
@@ -147,7 +132,7 @@ $(function() {
       $(this).attr('readonly', true);
       let expr = /^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i, username = $(this).val();
       inputs['username'] = false;
-      checkInputs();
+      checkInputs(inputs);
       if (username == '') {
         $('#username-warning').text('Username cannot be empty');
         $(this).addClass('is-danger').removeAttr('readonly');
@@ -168,13 +153,13 @@ $(function() {
               $('#username input').addClass('is-danger').removeAttr('readonly');
               $('#username-warning').text(response.msg);
             }
-            checkInputs();
+            checkInputs(inputs);
           },
           error: function(err) {
             ajaxError(err);
             $('#username input').removeAttr('readonly');
             $('#username').removeClass('is-loading');
-            checkInputs();
+            checkInputs(inputs);
           }
         });
       } else {
@@ -201,7 +186,7 @@ $(function() {
       $(this).attr('readonly', true);
       let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, email = $(this).val();
       inputs['email'] = false;
-      checkInputs();
+      checkInputs(inputs);
       if (email == '') {
         $('#email-warning').text('Email Address cannot be empty');
         $(this).addClass('is-danger').removeAttr('readonly');
@@ -222,13 +207,13 @@ $(function() {
               $('#email input').addClass('is-danger').removeAttr('readonly');
               $('#email-warning').text(response.msg);
             }
-            checkInputs();
+            checkInputs(inputs);
           },
           error: function(err) {
             ajaxError(err);
             $('#email input').removeAttr('readonly');
             $('#email').removeClass('is-loading');
-            checkInputs();
+            checkInputs(inputs);
           }
         });
       } else {
@@ -255,7 +240,7 @@ $(function() {
       $(this).attr('readonly', true);
       let expr = /^[0-9]{10}$/, phone = $(this).val();
       inputs['phone'] = false;
-      checkInputs();
+      checkInputs(inputs);
       if (phone == '') {
         $('#phone-warning').text('Email Address cannot be empty');
         $(this).addClass('is-danger').removeAttr('readonly');
@@ -276,13 +261,13 @@ $(function() {
               $('#phone input').addClass('is-danger').removeAttr('readonly');
               $('#phone-warning').text(response.msg);
             }
-            checkInputs();
+            checkInputs(inputs);
           },
           error: function(err) {
             ajaxError(err);
             $('#phone input').removeAttr('readonly');
             $('#phone').removeClass('is-loading');
-            checkInputs();
+            checkInputs(inputs);
           }
         });
       } else {
@@ -318,7 +303,7 @@ $(function() {
           $('#' + data.data + ' input').addClass('is-danger').focus();
           $('#' + data.data + '-warning').text(data.warn);
           inputs[data.data] = false;
-          checkInputs();
+          checkInputs(inputs);
         } else {
           Swal.fire({
             icon: 'success',
@@ -348,6 +333,15 @@ $(function() {
               $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);
               $('#birthdate').val(data.data.birthdate);
+
+              $('#lastname').attr('data-val', data.data.lastname);
+              $('#firstname').attr('data-val', data.data.firstname);
+              $('#middlename').attr('data-val', data.data.middlename);
+              $('#username input').attr('data-val', data.data.username);
+              $('#email input').attr('data-val', data.data.email);
+              $('#phone input').attr('data-val', data.data.phone);
+              $('#city').attr('data-val', data.data.city);
+              $('#birthdate').attr('data-val', data.data.birthdate);
 
               $('#edit').slideDown();
               $('.level-right').slideDown();
