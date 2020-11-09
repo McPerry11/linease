@@ -14,6 +14,7 @@
     <p class="has-text-centered">&#65312;{{ $user->username }}</p>
   </div>
 </div>
+@if (Auth::user()->username == $user->username)
 <div class="tabs is-boxed mt-4 mb-3">
   <ul>
     <li id="profile" class="is-active">
@@ -218,6 +219,7 @@
     </div>
   </form>
 </div>
+@endif
 @endsection
 
 @section('scripts')

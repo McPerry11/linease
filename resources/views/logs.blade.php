@@ -25,20 +25,26 @@
 	$previousDate = "";
 	@endphp
 	@foreach ($logs as $log)
+	@if (Auth::user()->type == 'ADMIN')
+	@if ($log->user->type != 'USER' && $log->user->type != 'SUPER')
 	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
 	@php
 	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
 	@endphp
 	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
 	@endif
-	@if (Auth::user()->type == 'ADMIN')
-	@if ($log->user->type != 'USER' || $log->user->type != 'SUPER')
 	<a class="box" href="{{ $log->user->username }}">
 		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
 	</a>
 	@endif
 	@else
+	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
+	@php
+	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
+	@endphp
+	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+	@endif
 	<a class="box" href="{{ $log->user->username }}">
 		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
@@ -47,7 +53,7 @@
 	@endif
 	@endforeach
 	@else
-	<div class="help is-centered">No logs found.</div>
+	<div class="has-text-centered">No logs found.</div>
 	@endif
 </div>
 @endsection
