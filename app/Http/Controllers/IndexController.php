@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
+use App\Log;
 
 class IndexController extends Controller
 {
@@ -33,6 +34,9 @@ class IndexController extends Controller
 	}
 
 	public function logs() {
-		return view('logs');
+		$logs = Log::orderBy('created_at', 'desc')->get();
+		return view('logs', [
+			'logs' => $logs
+		]);
 	}
 }

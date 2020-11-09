@@ -1,8 +1,8 @@
-@if (Request::is(Auth::user()->username) || Request::is('logs'))
+@if (isset($username) || Request::is('logs'))
 {{-- Profile Navbar & Logs Navbar --}}
 <nav class="navbar is-fixed-top">
 	<div class="navbar-brand">
-		<a href="{{ url('') }}" id="back" class="navbar-item has-text-white">
+		<a href="{{ Request::is('logs') ? route('dashboard') : $previousPage }}" id="back" class="navbar-item has-text-white">
 			<i class="fas fa-chevron-left"></i>
 		</a>
 		<div class="content navbar-item">
@@ -42,4 +42,10 @@
 <form action="{{ route('logout') }}" method="POST" id="logout" class="navbar-item">
 	@csrf
 </form>
+@endif
+
+@if (isset($previousPage))
+@if ($previousPage == url('logs'))
+<script id="navbar-back" data-link="Logs"></script>
+@endif
 @endif

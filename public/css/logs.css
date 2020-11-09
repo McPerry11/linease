@@ -22,3 +22,12 @@
 	color: #00C944;
 	border-top: 2px solid #00C944;
 }
+
+.container.is-fluid {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.box:not(:last-child) {
+	margin-bottom: 15px;
+}

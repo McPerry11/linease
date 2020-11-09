@@ -7,6 +7,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\URL;
 
 class UsersController extends Controller
 {
@@ -116,12 +117,14 @@ class UsersController extends Controller
     $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'phone', 'city', 'birthdate', 'avatar_id')
     ->where('username', $username)->get()[0];
     $name = null;
+    $link = URL::previous() == url('logs') ? URL::previous() : route('dashboard');
     if ($user->firstname && $user->lastname)
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
     return view('profile', [
       'username' => $username,
       'user' => $user,
-      'name' => $name
+      'name' => $name,
+      'previousPage' => $link
     ]);
   }
 
