@@ -11,14 +11,17 @@
 		<li id="reports" class="is-active">
 			<a>Report Logs</a>
 		</li>
+		@if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER')
 		<li id="admin">
 			<a>Admin Logs</a>
 		</li>
+		@endif
 	</ul>
 </div>
 <div id="reports_content" class="container is-fluid">
 	Reports
 </div>
+@if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER')
 <div id="admin_content" class="container is-fluid is-hidden">
 	@if (count($logs) > 0)
 	@php
@@ -56,6 +59,7 @@
 	<div class="has-text-centered">No logs found.</div>
 	@endif
 </div>
+@endif
 @endsection
 
 @section('scripts')
