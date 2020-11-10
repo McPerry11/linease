@@ -7,6 +7,7 @@
 
 @section('body')
 <figure class="image is-96x96 has-background-white">
+  <img src="{{ asset('img/profilePlaceholder.jpg') }}" alt="Profile Placeholder">
 </figure>
 <div id="name">
   <div class="content">
@@ -221,6 +222,7 @@
 </div>
 <div id="security_content" class="container is-fluid">
   <form id="security_form">
+    <div class="divider is-left">Change Password</div>
     
   </form>
 </div>

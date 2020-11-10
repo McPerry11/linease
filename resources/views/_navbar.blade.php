@@ -29,8 +29,10 @@
 		<div id="nb-mobile" class="navbar-menu">
 			<div class="navbar-end">
 				<a class="navbar-item" href="{{ url(Auth::user()->username) }}"><span class="icon"><i class="fas fa-user"></i></span>Profile</a>
+				@if (Auth::user()->type != 'USER')
 				@if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER')
 				<a class="navbar-item" href="{{ url('accounts') }}"><span class="icon"><i class="fas fa-users"></i></span>Accounts</a>
+				@endif
 				<a class="navbar-item" href="{{ url('logs') }}"><span class="icon"><i class="fas fa-stream"></i></span>Logs</a>
 				@endif
 				<a class="navbar-item" href="{{ url('settings') }}"><span class="icon"><i class="fas fa-cog"></i></span>Settings</a>

@@ -29,6 +29,10 @@ figure {
   border: 1px solid grey;
 }
 
+figure img {
+  border-radius:10px;
+}
+
 #name {
   margin-top: -40px;
 }
