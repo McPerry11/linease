@@ -99,9 +99,7 @@ class UsersController extends Controller
     $user->password = strip_tags($request->password);
 
     $user->type = 'USER';
-    $user->created_at = Carbon::now('+8:00');
-    $user->updated_at = Carbon::now('+8:00');
-
+    
     $user->save();
 
     return response()->json(array('msg' => 'Unverified account registered successfully'));
@@ -119,6 +117,9 @@ class UsersController extends Controller
     ->where('username', $username)->get()[0];
     $name = null;
     $link = URL::previous() == url('logs') ? URL::previous() : route('dashboard');
+    // $user = User::find('1');
+    // $user->password = Hash::make('123456789');
+    // $user->save();
     if ($user->firstname && $user->lastname)
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
     return view('profile', [
@@ -224,8 +225,7 @@ class UsersController extends Controller
       // $user->phone = strip_tags($request->data['phone']);
       $user->city = strip_tags($request->data['city']);
       $user->birthdate = strip_tags($request->data['birthdate']);
-      $user->updated_at = Carbon::now('+8:00');
-
+      
       $user->save();
       $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'city', 'birthdate')->where('username', $user->username)->get()[0];
       $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
@@ -236,7 +236,10 @@ class UsersController extends Controller
     } else {
       $user = User::where('username', $username)->get()[0];
 
-      $user->password = $request->new;
+      $user->password = Hash::make($request->new);
+      $user->save();
+      Auth::login($user, true);
+
       return response()->json(['msg' => 'Password Updated']);
     }
   }

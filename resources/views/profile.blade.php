@@ -227,10 +227,11 @@
   </form>
 </div>
 <div id="security_content" class="container is-fluid is-hidden">
-  <form id="security_form">
+  <form id="security_form" autocomplete="off">
     <div class="divider is-left">Change Password</div>
     <button id="change" class="button is-fullwidth is-danger" type="button">Change Password</button>
     <div id="change-pass-form">
+
       <div class="field is-horizontal">
         <div class="field-label">
           <label class="label">Current Password</label>
@@ -271,13 +272,40 @@
           </div>
         </div>
       </div>
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <label class="label">Confirm New Password</label>
+        </div>
+        <div class="field-body">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="confirm" type="password" class="input" required>
+              <div class="help has-text-danger"></div>
+            </div>
+            <div class="control">
+              <button type="button" class="button has-background-grey-lighter view">
+                <span class="icon">
+                  <i class="fas fa-eye"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="help">Changing password will log you out from other devices with your account</div>
       <div id="sec-actions" class="buttons is-centered mt-5">
         <button class="button is-success" type="submit">Submit</button>
         <button class="button is-danger is-outlined" type="button">Cancel</button>
       </div>
     </div>
   </form>
+  <form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button id="logout" type="submit" hidden></button>
+  </form>
 </div>
+@else
+
 @endif
 @endsection
 

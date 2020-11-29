@@ -23,7 +23,7 @@ $(function() {
   }
 
   var inputs = {'username':true, 'email':true, 'phone':true};
-  var passwords = {'current':true, 'new':true};
+  var passwords = {'current':true, 'new':true, 'confirm':true};
 
   $('.pageloader .title').text('Loading Profile');
   $('html').removeClass('has-navbar-fixed-top');
@@ -386,9 +386,10 @@ $(function() {
     $('#security_form .control').removeClass('is-loading');
     $('#security_form .help').text('');
     $('#security_form input').val('');
-    if ($('#current').attr('type') == 'text' || $('#new').attr('type') == 'text') {
+    if ($('#current').attr('type') == 'text' || $('#new').attr('type') == 'text' || $('#confirm').attr('type') == 'text') {
       $('#current').attr('type', 'password');
       $('#new').attr('type', 'password');
+      $('#confirm').attr('type', 'password');
       $('.view').addClass('has-background-grey-light').removeClass('has-background-grey-dark');
       $('.view').find('.icon').removeClass('has-text-white');
       $('.view').find('svg').removeClass('fa-eye-slash').addClass('fa-eye');
@@ -502,11 +503,30 @@ $(function() {
     }
   });
 
+  $('#confirm').focusout(function() {
+    if ($('#confirm').val() != $('#new').val()) {
+      $(this).addClass('is-danger');
+      $(this).next().text('Passwords don\'t match');
+      passwords['confirm'] = false;
+      checkInputs(passwords);
+    } else {
+      $(this).addClass('is-success');
+    }
+  });
+
+  $('#confirm').keyup(function() {
+    $(this).removeClass('is-danger').removeClass('is-success');
+    $(this).next().text('');
+    passwords['confirm'] = true;
+    checkInputs(passwords);
+  });
+
   $('#security_form').submit(function(e) {
     e.preventDefault();
-    if ($('#current').attr('type') == 'text' || $('#new').attr('type') == 'text') {
+    if ($('#current').attr('type') == 'text' || $('#new').attr('type') == 'text' || $('#confirm').attr('type') == 'text') {
       $('#current').attr('type', 'password');
       $('#new').attr('type', 'password');
+      $('#confirm').attr('type', 'password');
       $('.view').addClass('has-background-grey-light').removeClass('has-background-grey-dark');
       $('.view').find('.icon').removeClass('has-text-white');
       $('.view').find('svg').removeClass('fa-eye-slash').addClass('fa-eye');
@@ -514,10 +534,11 @@ $(function() {
     $('#sec-actions button[type="submit"]').addClass('is-loading');
     $('#security_form button').attr('disabled', true);
     $('#security_form input').attr('readonly', true);
+    var newpass = $('#new').val();
     $.ajax({
       type: 'POST',
       url: $('#js').data('user') + '/update',
-      data: {tab:'security', new:$('#new').val()},
+      data: {tab:'security', new:newpass},
       datatype: 'JSON',
       success: function(response) {
         $('#sec-actions button[type="submit"]').removeClass('is-loading');
@@ -530,6 +551,20 @@ $(function() {
           timer: 2500
         }).then(function() {
           $('#sec-actions button[type="button"]').click();
+          Swal.fire({
+            icon: 'question',
+            title: 'Want to try out your new password?',
+            confirmButtonText: 'Yes, log out',
+            showCancelButton: true,
+            cancelButtonText: 'No, stay logged in'
+          }).then((result) => {
+            console.log(result.isConfirmed);
+            if (result.isConfirmed) {
+              $('#logout').click();
+              $('.pageloader .title').text('Logging Out');
+              $('.pageloader').addClass('is-active');
+            }
+          });
         });
       },
       error: function(err) {

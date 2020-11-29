@@ -34,7 +34,7 @@
 							<p class="is-medium">NEW TO LINEASE? <a id="reglink" class="has-text-success" href="{{ url('register') }}">SIGN UP FOR FREE</a></p>
 						</div>
 					</div>
-					<form>
+					<form autocomplete="off">
 						<div class="field">
 							<p class="control has-icons-left">
 								<input type="text" id="username" class="input" placeholder="Username" required>
@@ -103,7 +103,7 @@
 			<p class="is-size-7">NEW TO LINEASE? <a id="mreglink" class="has-text-success" href="{{ asset("register") }}" >SIGN UP FOR FREE</a></p>
 		</div>
 	</div>
-	<form>
+	<form autocomplete="off">
 		<div class="field">
 			<p class="control has-icons-left">
 				<input type="text" id="musername" class="input" placeholder="Username" required>
