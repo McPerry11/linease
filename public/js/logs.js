@@ -23,4 +23,9 @@ $(function() {
 			}
 		}
 	});
+
+	$('a.box').click(function() {
+		$('.pageloader .title').text('Loading ' + $(this).attr('data-user') + '\'s Profile');
+		$('.pageloader').addClass('is-active');
+	});
 });

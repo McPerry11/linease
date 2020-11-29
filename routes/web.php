@@ -14,6 +14,7 @@
 Route::get('login', 'IndexController@login')->name('login');
 Route::post('login', 'LoginController@login')->middleware('throttle:10,3')->name('login_post');
 Route::post('logout', 'LoginController@logout')->name('logout');
+route::post('logout/all', 'LoginController@logoutall')->name('logout-all');
 
 Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');

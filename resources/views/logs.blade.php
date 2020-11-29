@@ -36,7 +36,7 @@
 	@endphp
 	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
 	@endif
-	<a class="box" href="{{ $log->user->username }}">
+	<a class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
 		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
 	</a>
@@ -48,7 +48,7 @@
 	@endphp
 	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
 	@endif
-	<a class="box" href="{{ $log->user->username }}">
+	<a class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
 		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
 		<div class="help has-text-grey">{{ $log->ip_address }}</div>
