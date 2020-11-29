@@ -7,6 +7,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
 class UsersController extends Controller
@@ -156,6 +157,16 @@ class UsersController extends Controller
         if ($count > 0)
           return response()->json(['msg' => 'Phone number is already taken']);
       }
+    } else if ($request->data == 'current') {
+      $user = User::where('username', $username)->get()[0];
+      if (Hash::check($request->password, $user->password))
+        return response()->json(['status' => 'success']);
+      return response()->json(['status' => 'error', 'msg' => 'Incorrect Password']);
+    } else {
+      $user = User::where('username', $username)->get()[0];
+      if (Hash::check($request->password, $user->password))
+        return response()->json(['status' => 'error', 'msg' => 'New password should not be the same as previous one']);
+      return response()->json(['status' => 'success']);
     }
     return response()->json(['status' => 'success']);
   }
@@ -194,23 +205,23 @@ class UsersController extends Controller
         return response()->json(array('status' => 'error', 'data' => 'email', 'msg' => 'Invalid email address', 'warn' => 'Invalid email address'));
       }
 
-      $regex = '/^[0-9]{10}$/';
-      if (preg_match($regex, $request->data['phone'])) {
-        if ($request->data['phone'] != $user->phone) {
-          $identical = User::where('phone', $request->data['phone'])->where('phone', '<>', $user->phone)->count();
-          if ($identical > 0)
-            return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Phone number is already taken.', 'warn' => 'Phone number is already taken'));
-        }
-      } else {
-        return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Invalid phone number.', 'warn' => 'Invalid phone number'));
-      }
+      // $regex = '/^[0-9]{10}$/';
+      // if (preg_match($regex, $request->data['phone'])) {
+      //   if ($request->data['phone'] != $user->phone) {
+      //     $identical = User::where('phone', $request->data['phone'])->where('phone', '<>', $user->phone)->count();
+      //     if ($identical > 0)
+      //       return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Phone number is already taken.', 'warn' => 'Phone number is already taken'));
+      //   }
+      // } else {
+      //   return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Invalid phone number.', 'warn' => 'Invalid phone number'));
+      // }
 
       $user->username = strip_tags($request->data['username']);
       $user->firstname = strip_tags($request->data['firstname']);
       $user->lastname = strip_tags($request->data['lastname']);
       $user->middlename = strip_tags($request->data['middlename']);
       $user->email = strip_tags($request->data['email']);
-      $user->phone = strip_tags($request->data['phone']);
+      // $user->phone = strip_tags($request->data['phone']);
       $user->city = strip_tags($request->data['city']);
       $user->birthdate = strip_tags($request->data['birthdate']);
       $user->updated_at = Carbon::now('+8:00');
@@ -221,6 +232,12 @@ class UsersController extends Controller
       $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
       return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
+
+    } else {
+      $user = User::where('username', $username)->get()[0];
+
+      $user->password = $request->new;
+      return response()->json(['msg' => 'Password Updated']);
     }
   }
 

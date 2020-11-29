@@ -46,12 +46,18 @@
 </div>
 <div id="profile_content" class="container is-fluid">
   <form id="profile_form">
-    <div class="buttons is-right mb-0">
-      <button id="edit" class="button is-text mb-0" type="button" title="Edit your profile">
-        <span class="icon">
-          <i class="fas fa-edit"></i>
-        </span>
-      </button>
+    <div class="level is-mobile mb-0 pt-2">
+      <div class="level-left"></div>
+      <div class="level-right">
+        <div class="level-item">
+          <a id="edit" class="mt-2" title="Edit your profile">
+            <span class="icon">
+              <i class="fas fa-edit"></i>
+            </span>
+            <span>Edit Profile</span>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="divider is-left mt-0">BASIC INFORMATION</div>
     <div class="field is-horizontal">
@@ -164,7 +170,7 @@
         </div>
       </div>
     </div>
-    <div class="field is-horizontal">
+    {{-- <div class="field is-horizontal">
       <div class="field-label">
         <div class="level is-mobile">
           <div class="level-left">
@@ -190,7 +196,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
     <div class="field is-horizontal">
       <div class="field-label">
         <div class="level is-mobile">
@@ -215,15 +221,61 @@
       </div>
     </div>
     <div id="actions" class="buttons is-centered mt-5">
-      <button id="submit" class="button" type="submit">Submit</button>
-      <button id="cancel" class="button" type="button">Cancel</button>
+      <button id="submit" class="button is-success" type="submit">Submit</button>
+      <button id="cancel" class="button is-danger is-outlined" type="button">Cancel</button>
     </div>
   </form>
 </div>
-<div id="security_content" class="container is-fluid">
+<div id="security_content" class="container is-fluid is-hidden">
   <form id="security_form">
     <div class="divider is-left">Change Password</div>
-    
+    <button id="change" class="button is-fullwidth is-danger" type="button">Change Password</button>
+    <div id="change-pass-form">
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <label class="label">Current Password</label>
+        </div>
+        <div class="field-body">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="current" type="password" class="input" required>
+              <div class="help has-text-danger"></div>
+            </div>
+            <div class="control">
+              <button type="button" class="button has-background-grey-lighter view">
+                <span class="icon">
+                  <i class="fas fa-eye"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <label class="label">New Password</label>
+        </div>
+        <div class="field-body">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="new" type="password" class="input" required>
+              <div class="help has-text-danger"></div>
+            </div>
+            <div class="control">
+              <button type="button" class="button has-background-grey-lighter view">
+                <span class="icon">
+                  <i class="fas fa-eye"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sec-actions" class="buttons is-centered mt-5">
+        <button class="button is-success" type="submit">Submit</button>
+        <button class="button is-danger is-outlined" type="button">Cancel</button>
+      </div>
+    </div>
   </form>
 </div>
 @endif

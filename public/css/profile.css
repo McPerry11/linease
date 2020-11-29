@@ -1,6 +1,7 @@
 body {
   max-height: none;
   height: auto;
+  padding-bottom: 20px;
 }
 
 .navbar {
@@ -76,6 +77,7 @@ figure img {
 
 #edit {
   color: #00C944;
+  text-decoration: none;
 }
 
 .level-right p {
@@ -92,7 +94,7 @@ figure img {
   margin-left: -62px;
 }
 
-.field-body, #actions {
+#profile_content .field-body, #actions, #change-pass-form {
   display: none;
 }
 

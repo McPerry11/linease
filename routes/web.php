@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
 
   Route::get('{username}', 'UsersController@show');
   Route::post('{username}/profile', 'UsersController@edit');
-  Route::post('{username}/profile/update', 'UsersController@update');
+  Route::post('{username}/update', 'UsersController@update');
 });
 
 // Route::fallback(function() {

@@ -38,16 +38,24 @@
 						<div class="field">
 							<p class="control has-icons-left">
 								<input type="text" id="username" class="input" placeholder="Username" required>
-								<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+								<span class="icon is-small is-left">
+									<i class="fas fa-user"></i>
+								</span>
 							</p>
 						</div>
 						<div class="field has-addons is-marginless">
 							<p class="control has-icons-left pass-field">
 								<input type="password" id="password" class="input" placeholder="Password" required>
-								<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+								<span class="icon is-small is-left">
+									<i class="fas fa-key"></i>
+								</span>
 							</p>
 							<div class="control">
-								<button type="button" id="view" class="button has-background-grey-lighter"><i id="icon-pass" class="fas fa-eye"></i></button>
+								<button type="button" id="view" class="button has-background-grey-lighter">
+									<span class="icon">
+										<i id="icon-pass" class="fas fa-eye"></i>
+									</span>
+								</button>
 							</div>
 						</div>
 						<div class="columns">
