@@ -115,7 +115,7 @@ class UsersController extends Controller
    */
   public function show($username)
   {
-    $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'phone', 'city', 'birthdate', 'avatar_id')
+    $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
     ->where('username', $username)->get()[0];
     $name = null;
     $link = URL::previous() == url('logs') ? URL::previous() : route('dashboard');
