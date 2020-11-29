@@ -227,7 +227,7 @@ class UsersController extends Controller
       $user->updated_at = Carbon::now('+8:00');
 
       $user->save();
-      $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'phone', 'city', 'birthdate')->where('username', $user->username)->get()[0];
+      $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'city', 'birthdate')->where('username', $user->username)->get()[0];
       $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
       $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;

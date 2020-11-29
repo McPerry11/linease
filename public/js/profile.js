@@ -137,7 +137,7 @@ $(function() {
 
   $('#username input').focusout(function() {
     if (!$('#submit').hasClass('is-loading')) {
-      if (!$('#username').hasclass('is-loading')) {
+      if (!$('#username').hasClass('is-loading')) {
         $('#username').addClass('is-loading');
         $(this).attr('readonly', true);
         let expr = /^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i, username = $(this).val();
