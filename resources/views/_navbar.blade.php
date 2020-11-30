@@ -47,11 +47,5 @@
 @endif
 
 @section('scripts')
-@if (isset($previousPage))
-@if ($previousPage == url('logs'))
-<script id="navbar-back" data-link="Logs"></script>
-@elseif ($previousPage == url('accounts'))
-<script id="navbar-back" data-link="Accounts"></script>
-@endif
-@endif
+<script id="navbar-back" data-link="{{ $page }}"></script>
 @endsection

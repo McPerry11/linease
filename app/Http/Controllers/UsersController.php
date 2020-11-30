@@ -116,17 +116,25 @@ class UsersController extends Controller
     $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
     ->where('username', $username)->get()[0];
     $name = null;
-    $link = URL::previous() == url('logs') ? URL::previous() : route('dashboard');
-    // $user = User::find('1');
-    // $user->password = Hash::make('123456789');
-    // $user->save();
+    if (URL::previous() == url('logs') || URL::previous() == url('accounts')) {
+      $link = URL::previous();
+      if (URL::previous() == url('logs'))
+        $page = 'Logs';
+      else
+        $page = 'Accounts';
+    } else {
+      $link = route('dashboard');
+      $page = 'Dashboard';
+    }
+
     if ($user->firstname && $user->lastname)
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
     return view('profile', [
       'username' => $username,
       'user' => $user,
       'name' => $name,
-      'previousPage' => $link
+      'previousPage' => $link,
+      'page' => $page
     ]);
   }
 
