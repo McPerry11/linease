@@ -117,10 +117,11 @@ $(function() {
     $('#middlename').val($('#middlename').attr('data-val'));
     $('#username input').val($('#username input').attr('data-val'));
     $('#email input').val($('#email input').attr('data-val'));
-    if ($('#city').data('val').length) {
-      $('#city').find('option[value="' + $('#city').attr('data-val') + '"]').attr('selected', true);
+    if ($('#city').attr('data-val').length) {
+      $('#city option[value="' + $('#city').attr('data-val') + '"]').prop('selected', true);
     } else {
       $('#city').prepend(`<option value="" selected disabled>Choose your city</option>`);
+      $('#city option[value=""]').prop('selected', true);
     }
     // $('#phone input').val($('#phone input').attr('data-val'));
     $('#birthdate').val($('#birthdate').attr('data-val'));
@@ -353,7 +354,7 @@ $(function() {
               $('#email input').val(data.data.email);
               $('#city-label').text(data.data.city);
               $('#city').attr('data-val', data.data.city);
-              $('#city').find('option[value="' + data.data.city + '"]').attr('selected', true);
+              $('#city').find('option[value="' + data.data.city + '"]').prop('selected', true);
               // $('#phone-label').text('0' + data.data.phone);
               // $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);
