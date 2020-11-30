@@ -46,8 +46,6 @@
 </form>
 @endif
 
-@section('scripts')
 @if(isset($page))
 <script id="navbar-back" data-link="{{ $page }}"></script>
 @endif
-@endsection

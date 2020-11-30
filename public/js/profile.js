@@ -73,8 +73,7 @@ $(function() {
   // });
 
   $('#back').click(function() {
-    let title = $('#navbar-back').data('link') ?? 'Dashboard';
-    $('.pageloader .title').text('Loading ' + title);
+    $('.pageloader .title').text('Loading ' + $('#navbar-back').data('link'));
     $('.pageloader').addClass('is-active');
   });
 
