@@ -78,17 +78,17 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="lastname" class="input" name="lastname" placeholder="Last Name" value="{{ $user->lastname }}"  data-val="{{ $user->lastname }}" required>
+            <input type="text" id="lastname" class="input" name="lastname" maxlength="30" placeholder="Last Name" value="{{ $user->lastname }}"  data-val="{{ $user->lastname }}" required>
           </div>
         </div>
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="firstname" class="input" name="firstname" placeholder="First Name" value="{{ $user->firstname }}" data-val="{{ $user->firstname }}" required>
+            <input type="text" id="firstname" class="input" name="firstname" maxlength="30" placeholder="First Name" value="{{ $user->firstname }}" data-val="{{ $user->firstname }}" required>
           </div>
         </div>
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="middlename" class="input" name="middlename" placeholder="Middle Initial" value="{{ $user->middlename }}" data-val="{{ $user->middlename }}">
+            <input type="text" id="middlename" class="input" name="middlename" maxlength="30" placeholder="Middle Initial" value="{{ $user->middlename }}" data-val="{{ $user->middlename }}">
           </div>
         </div>
       </div>
@@ -141,7 +141,7 @@
       <div class="field-body">
         <div class="field">
           <div id="email" class="control is-expanded">
-            <input type="email" class="input" value="{{ $user->email }}" data-val="{{ $user->email }}" name="email" required>
+            <input type="email" class="input" value="{{ $user->email }}" data-val="{{ $user->email }}" name="email" maxlength="320" required>
             <div id="email-warning" class="help has-text-danger"></div>
           </div>
         </div>
@@ -165,7 +165,27 @@
       <div class="field-body">
         <div class="field">
           <div class="control is-expanded">
-            <input type="text" id="city" class="input" value="{{ $user->city }}" data-val="{{ $user->city }}" name="city" required>
+            <div class="select is-fullwidth">
+              <select id="city" required data-val="{{ $user->city }}">
+                <option value="" selected disabled>Choose your city</option>
+                <option value="Caloocan">Caloocan</option>
+                <option value="Las Piñas">Las Piñas</option>
+                <option value="Makati">Makati</option>
+                <option value="Malabon">Malabon</option>
+                <option value="Mandaluyong">Mandaluyong</option>
+                <option value="Manila">Manila</option>
+                <option value="Marikina">Marikina</option>
+                <option value="Muntinlupa">Muntinlupa</option>
+                <option value="Navotas">Navotas</option>
+                <option value="Parañaque">Parañaque</option>
+                <option value="Pasay">Pasay</option>
+                <option value="Pasig">Pasig</option>
+                <option value="Quezon City">Quezon City</option>
+                <option value="San Juan">San Juan</option>
+                <option value="Taguig">Taguig</option>
+                <option value="Valenzuela">Valenzuela</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -231,7 +251,6 @@
     <div class="divider is-left">Change Password</div>
     <button id="change" class="button is-fullwidth is-danger" type="button">Change Password</button>
     <div id="change-pass-form">
-
       <div class="field is-horizontal">
         <div class="field-label">
           <label class="label">Current Password</label>
@@ -299,16 +318,17 @@
       </div>
     </div>
   </form>
-  <form action="{{ route('logout') }}" method="POST">
+  <form action="{{ route('logout') }}" method="POST" id="logout" hidden>
     @csrf
-    <button id="logout" type="submit" hidden></button>
   </form>
 </div>
+<div id="reports_content" class="container is-fluid is-hidden">
+  {{-- Reports Here --}}
+</div>
 @else
-
+{{-- Reports Here --}}
 @endif
 @endsection
-
 @section('scripts')
 <script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}"></script>
 @endsection

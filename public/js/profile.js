@@ -29,7 +29,10 @@ $(function() {
   $('html').removeClass('has-navbar-fixed-top');
   $('.navbar').removeClass('is-fixed-top');
   $('.content.navbar-item h3').text('Profile');
-  $('#back').attr('title', 'Go back to dashboard');
+  if ($('#city').data('val').length) {
+    $('#city').find('option[value="' + $('#city').data('val') + '"]').attr('selected', true);
+    $('#city').find('option[value=""]').remove();
+  }
 
   $('#username input').bind({
     keydown: function(e) {
@@ -114,7 +117,11 @@ $(function() {
     $('#middlename').val($('#middlename').attr('data-val'));
     $('#username input').val($('#username input').attr('data-val'));
     $('#email input').val($('#email input').attr('data-val'));
-    $('#city').val($('#city').attr('data-val'));
+    if ($('#city').data('val').length) {
+      $('#city').find('option[value="' + $('#city').attr('data-val') + '"]').attr('selected', true);
+    } else {
+      $('#city').prepend(`<option value="" selected disabled>Choose your city</option>`);
+    }
     // $('#phone input').val($('#phone input').attr('data-val'));
     $('#birthdate').val($('#birthdate').attr('data-val'));
     $('input').removeClass('is-success').removeClass('is-danger').removeAttr('readonly');
@@ -237,6 +244,10 @@ $(function() {
     }
   });
 
+  $('#city').change(function() {
+    $(this).find('option[value=""]').remove();
+  });
+
   // $('#phone input').keyup(function() {
   //   if (!$('#submit').hasClass('is-loading')) {
   //     if (!$('#phone').hasClass('is-loading')) {
@@ -341,7 +352,8 @@ $(function() {
               $('#email-label') .text(data.data.email);
               $('#email input').val(data.data.email);
               $('#city-label').text(data.data.city);
-              $('#city').val(data.data.city);
+              $('#city').attr('data-val', data.data.city);
+              $('#city').find('option[value="' + data.data.city + '"]').attr('selected', true);
               // $('#phone-label').text('0' + data.data.phone);
               // $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);
@@ -459,35 +471,42 @@ $(function() {
   $('#new').focusout(function() {
     if (!$('#sec-actions button[type="submit]').hasClass('is-loading')) {
       if (!$(this).parent().hasClass('is-loading')) {
-        $(this).parent().addClass('is-loading');
-        $(this).attr('readonly', true);
-        let pass = $(this).val(), elem = this;
-        passwords['new'] = false;
-        checkInputs(passwords);
-        $.ajax({
-          type: 'POST',
-          url: $('#js').data('user') + '/profile',
-          data: {data:'new', password:pass},
-          datatype: 'JSON',
-          success: function(response) {
-            $(elem).parent().removeClass('is-loading');
-            $(elem).removeAttr('readonly');
-            if (response.status == 'success') {
-              $(elem).addClass('is-success');
+        if ($(this).val().length >= 8) {
+          $(this).parent().addClass('is-loading');
+          $(this).attr('readonly', true);
+          let pass = $(this).val(), elem = this;
+          passwords['new'] = false;
+          checkInputs(passwords);
+          $.ajax({
+            type: 'POST',
+            url: $('#js').data('user') + '/profile',
+            data: {data:'new', password:pass},
+            datatype: 'JSON',
+            success: function(response) {
+              $(elem).parent().removeClass('is-loading');
+              $(elem).removeAttr('readonly');
+              if (response.status == 'success') {
+                $(elem).addClass('is-success');
+                passwords['new'] = true;
+                checkInputs(passwords);
+              } else {
+                $(elem).addClass('is-danger');
+                $(elem).next().text(response.msg);
+              }
+            },
+            error: function(err) {
+              $(elem).parent().removeClass('is-loading');
               passwords['new'] = true;
               checkInputs(passwords);
-            } else {
-              $(elem).addClass('is-danger');
-              $(elem).next().text(response.msg);
+              ajaxError(err);
             }
-          },
-          error: function(err) {
-            $(elem).parent().removeClass('is-loading');
-            passwords['new'] = true;
-            checkInputs(passwords);
-            ajaxError(err);
-          }
-        });
+          });
+        } else {
+          $(this).addClass('is-danger');
+          $(this).next().text('Password must be a minimum length of 8 characters');
+          passwords['new'] = false;
+          checkInputs(passwords);
+        }
       }
     }
   });
@@ -560,7 +579,7 @@ $(function() {
           }).then((result) => {
             console.log(result.isConfirmed);
             if (result.isConfirmed) {
-              $('#logout').click();
+              $('#logout').submit();
               $('.pageloader .title').text('Logging Out');
               $('.pageloader').addClass('is-active');
             }

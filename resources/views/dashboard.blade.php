@@ -1,7 +1,6 @@
 @extends('_layout')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @endsection
 
@@ -20,7 +19,11 @@
 				</span>
 			</p>
 			<div class="control">
-				<button type="submit" id="btn-search" class="button is-rounded" title="Search"><i class="fas fa-search"></i></button>
+				<button type="submit" id="btn-search" class="button is-rounded" title="Search">
+					<span class="icon">
+						<i class="fas fa-search"></i>
+					</span>
+				</button>
 			</div>
 		</div>
 	</form>
