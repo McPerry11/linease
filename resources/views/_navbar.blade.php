@@ -46,6 +46,7 @@
 </form>
 @endif
 
+@section('scripts')
 @if (isset($previousPage))
 @if ($previousPage == url('logs'))
 <script id="navbar-back" data-link="Logs"></script>
@@ -53,3 +54,4 @@
 <script id="navbar-back" data-link="Accounts"></script>
 @endif
 @endif
+@endsection
