@@ -14,7 +14,6 @@
 Route::get('login', 'IndexController@login')->name('login');
 Route::post('login', 'LoginController@login')->middleware('throttle:10,3')->name('login_post');
 Route::post('logout', 'LoginController@logout')->name('logout');
-route::post('logout/all', 'LoginController@logoutall')->name('logout-all');
 
 Route::get('register', 'UsersController@create');
 Route::post('register', 'UsersController@store');
@@ -28,11 +27,11 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('camera', 'ReportController@create');
 	Route::post('camera', 'ReportController@store');
 
-  Route::get('accounts', 'IndexController@accounts');
+  Route::get('logs', 'IndexController@logs')->middleware('access:logs');
+
+  Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
 
   Route::get('settings', 'IndexController@settings');
-
-  Route::get('logs', 'IndexController@logs');
 
   Route::get('{username}', 'UsersController@show');
   Route::post('{username}/profile', 'UsersController@edit');

@@ -131,6 +131,16 @@ $(function() {
 		$('.pageloader').addClass('is-active');
 	});
 
+	$('.navbar-menu .navbar-item').click(function() {
+		if ($(this).data('id') == 'logout') {
+			$('#logout').submit();
+		} else {
+			var page = $(this).text();
+			$('.title').text('Loading ' + page);
+			$('.pageloader').addClass('is-active');
+		}
+	});
+
 	$('#logout').submit(function() {
 		$('#logout button').addClass('is-loading');
 		$('.pageloader .title').text('Logging Out');

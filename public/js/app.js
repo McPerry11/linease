@@ -19,16 +19,6 @@ $(function() {
 		$('#nb-mobile').slideToggle('fast');
 	});
 
-	$('.navbar-menu .navbar-item').click(function() {
-		if ($(this).data('id') == 'logout') {
-			$('#logout').submit();
-		} else {
-			var page = $(this).text();
-			$('.title').text('Loading ' + page);
-			$('.pageloader').addClass('is-active');
-		}
-	});
-
 	$('#back').click(function() {
 		$('.pageloader .title').text('Loading Dashboard');
 		$('.pageloader').addClass('is-active');
