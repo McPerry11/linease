@@ -10,7 +10,7 @@ use App\Log;
 class IndexController extends Controller
 {
 	public function login() {
-		if (Auth::user()) {
+		if (Auth::check()) {
 			return redirect('');
 		}	
 		return view('login');
@@ -23,7 +23,10 @@ class IndexController extends Controller
 
 	public function accounts() {
 		if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER') {
-			return view('accounts');
+			$users = User::whereIn('type', ['FACIL', 'ADMIN', 'SUPER'])->get();
+			return view('accounts', [
+				'users' => $users
+			]);
 		} else {
 			return redirect('');
 		}
