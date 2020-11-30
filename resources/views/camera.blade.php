@@ -73,8 +73,8 @@
 					</div>
 				</div>
 				<div class="buttons is-centered mt-5">
-					<button id="submit" class="button is-pulled-right is-white has-text-success" type="submit">SUBMIT</button>
 					<button id="cancel" class="button is-pulled-right is-white is-outlined" type="button">CANCEL</button>
+					<button id="submit" class="button is-pulled-right is-white has-text-success" type="submit">SUBMIT</button>
 				</div>
 			</form>
 		</section>

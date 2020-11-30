@@ -55,7 +55,7 @@ class UsersController extends Controller
    */
   public function create()
   {
-    if (Auth::user()) {
+    if (Auth::check()) {
       return redirect('');
     }
     return view('register');
@@ -238,7 +238,7 @@ class UsersController extends Controller
 
       $user->password = Hash::make($request->new);
       $user->save();
-      Auth::login($user, true);
+      Auth::login($user);
 
       return response()->json(['msg' => 'Password Updated']);
     }
