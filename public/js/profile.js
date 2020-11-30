@@ -29,9 +29,11 @@ $(function() {
   $('html').removeClass('has-navbar-fixed-top');
   $('.navbar').removeClass('is-fixed-top');
   $('.content.navbar-item h3').text('Profile');
-  if ($('#city').data('val').length) {
-    $('#city').find('option[value="' + $('#city').data('val') + '"]').attr('selected', true);
-    $('#city').find('option[value=""]').remove();
+  if ($('#js').data('user') == $('#js').data('auth')) {
+    if ($('#city').data('val').length) {
+      $('#city').find('option[value="' + $('#city').data('val') + '"]').attr('selected', true);
+      $('#city').find('option[value=""]').remove();
+    }
   }
 
   $('#username input').bind({

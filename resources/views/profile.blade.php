@@ -330,5 +330,5 @@
 @endif
 @endsection
 @section('scripts')
-<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}"></script>
+<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}"></script>
 @endsection
