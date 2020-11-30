@@ -108,33 +108,33 @@ $(function() {
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Registration');
 
-	$(inpUsername).bind({
-		keydown: function(e) {
-			if (e.shiftKey == true) {
-				if (e.which == 189 || (e.which >= 65 && e.which <= 90) || e.which <= 40)
-					return true;
-			} else if (e.shiftKey == false && ((e.which >= 48 && e.which <= 57) || e.which == 190)) {
-				return true;
-			} else if ((e.which >= 65 && e.which <= 90) || e.which <= 40 || (e.which >= 96 && e.which <= 105) || (e.which >= 112 && e.which <= 123)) {
-				return true;
-			}
-			return false;
-		}
-	});
+	// $(inpUsername).bind({
+	// 	keydown: function(e) {
+	// 		if (e.shiftKey == true) {
+	// 			if (e.which == 189 || (e.which >= 65 && e.which <= 90) || e.which <= 40)
+	// 				return true;
+	// 		} else if (e.shiftKey == false && ((e.which >= 48 && e.which <= 57) || e.which == 190)) {
+	// 			return true;
+	// 		} else if ((e.which >= 65 && e.which <= 90) || e.which <= 40 || (e.which >= 96 && e.which <= 105) || (e.which >= 112 && e.which <= 123)) {
+	// 			return true;
+	// 		}
+	// 		return false;
+	// 	}
+	// });
 
-	$(inpEmail).bind({
-		keydown: function(e) {
-			if (e.shiftKey == true) {
-				if (e.which == 189 || e.which == 50)
-					return true;
-			} else if (((e.which > 47 && e.which < 58) || e.which == 190) && e.shiftKey == false) {
-				return true;
-			}
-			if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160) || (e.which < 41 && e.which > 34))
-				return true;
-			return false;
-		}
-	});
+	// $(inpEmail).bind({
+	// 	keydown: function(e) {
+	// 		if (e.shiftKey == true) {
+	// 			if (e.which == 189 || e.which == 50)
+	// 				return true;
+	// 		} else if (((e.which > 47 && e.which < 58) || e.which == 190) && e.shiftKey == false) {
+	// 			return true;
+	// 		}
+	// 		if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160) || (e.which < 41 && e.which > 34))
+	// 			return true;
+	// 		return false;
+	// 	}
+	// });
 
 	$(window).resize(function() {
 		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';

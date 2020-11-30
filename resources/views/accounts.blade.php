@@ -12,7 +12,7 @@
 				<input type="text" class="input" placeholder="Search username or name...">
 			</div>
 			<div class="control">
-				<button class="button is-success">
+				<button class="button is-success" type="button">
 					<span class="icon is-left">
 						<i class="fas fa-search"></i>
 					</span>
