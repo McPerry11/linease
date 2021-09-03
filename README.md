@@ -8,7 +8,7 @@ LinEase is a land pollution action network created to monitor and spread awarene
  - August Christopher Tela
  - Philip Justin Guiang
 
-Copyright © 2020 LinEase
+Copyright © 2021 LinEase
 
 # Framework Used
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
