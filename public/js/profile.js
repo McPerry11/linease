@@ -36,33 +36,33 @@ $(function() {
     }
   }
 
-  $('#username input').bind({
-    keydown: function(e) {
-      if (e.shiftKey == true) {
-        if (e.which == 189 || (e.which >= 65 && e.which <= 90) || e.which <= 40)
-          return true;
-      } else if (e.shiftKey == false && ((e.which >= 48 && e.which <= 57) || e.which == 190)) {
-        return true;
-      } else if ((e.which >= 65 && e.which <= 90) || e.which <= 40 || (e.which >= 96 && e.which <= 105) || (e.which >= 112 && e.which <= 123)) {
-        return true;
-      }
-      return false;
-    }
-  });
+  // $('#username input').bind({
+  //   keydown: function(e) {
+  //     if (e.shiftKey == true) {
+  //       if (e.which == 189 || (e.which >= 65 && e.which <= 90) || e.which <= 40)
+  //         return true;
+  //     } else if (e.shiftKey == false && ((e.which >= 48 && e.which <= 57) || e.which == 190)) {
+  //       return true;
+  //     } else if ((e.which >= 65 && e.which <= 90) || e.which <= 40 || (e.which >= 96 && e.which <= 105) || (e.which >= 112 && e.which <= 123)) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+  // });
 
-  $('#email input').bind({
-    keydown: function(e) {
-      if (e.shiftKey) {
-        if (e.which == 189 || e.which == 50)
-          return true;
-      } else if (((e.which > 47 && e.which < 58) || e.which == 190) && e.shiftKey == false) {
-        return true;
-      }
-      if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160) || (e.which < 41 && e.which > 32))
-        return true;
-      return false;
-    }
-  });
+  // $('#email input').bind({
+  //   keydown: function(e) {
+  //     if (e.shiftKey) {
+  //       if (e.which == 189 || e.which == 50)
+  //         return true;
+  //     } else if (((e.which > 47 && e.which < 58) || e.which == 190) && e.shiftKey == false) {
+  //       return true;
+  //     }
+  //     if ((e.which > 96 && e.which < 123) || (e.which > 64 && e.which < 90) || e.which < 32 || (e.which > 126 && e.which < 160) || (e.which < 41 && e.which > 32))
+  //       return true;
+  //     return false;
+  //   }
+  // });
 
   // $('#phone input').bind({
   //   keydown: function(e) {
@@ -73,8 +73,7 @@ $(function() {
   // });
 
   $('#back').click(function() {
-    let title = $('#navbar-back').data('link') ?? 'Dashboard';
-    $('.pageloader .title').text('Loading ' + title);
+    $('.pageloader .title').text('Loading ' + $('#navbar-back').data('link'));
     $('.pageloader').addClass('is-active');
   });
 
