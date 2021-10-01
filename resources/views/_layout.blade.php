@@ -18,7 +18,7 @@
 			<br><span class="details">Turn on JavaScript and try again.</span>
 		</span>
 	</div>
-	@if (!Request::is('login') && !Request::is('register') && !Request::is('camera'))
+	@if (!Request::is('login') && !Request::is('register') && !Request::is('camera') && !Request::is('not_found') && !Request::is('desktop'))
 	@include('_navbar')
 	@endif
 	@yield('body')

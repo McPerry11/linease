@@ -42,4 +42,12 @@ class IndexController extends Controller
 			'logs' => $logs
 		]);
 	}
+
+	public function desktop() {
+		return view('desktop');
+	}
+
+	public function notfound() {
+		return view('notfound');
+	}
 }
