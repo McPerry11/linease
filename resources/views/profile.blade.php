@@ -15,6 +15,8 @@
     <p class="has-text-centered">&#65312;{{ $user->username }}</p>
   </div>
 </div>
+
+{{-- TABS --}}
 @if (Auth::user()->username == $user->username)
 <div class="tabs is-boxed mt-4 mb-3">
   <ul>
@@ -44,6 +46,8 @@
     </li>
   </ul>
 </div>
+
+{{-- PROFILE --}}
 <div id="profile_content" class="container is-fluid">
   <form id="profile_form">
     <div class="level is-mobile mb-0 pt-2">
@@ -246,6 +250,8 @@
     </div>
   </form>
 </div>
+
+{{-- SECURITY --}}
 <div id="security_content" class="container is-fluid is-hidden">
   <form id="security_form" autocomplete="off">
     <div class="divider is-left">Change Password</div>
@@ -322,7 +328,9 @@
     @csrf
   </form>
 </div>
-<div id="reports_content" class="container is-fluid is-hidden">
+
+{{-- REPORTS --}}
+<div id="reports_content" class="container is-fluid">
   {{-- Reports Here --}}
 </div>
 @else
