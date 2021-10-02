@@ -322,8 +322,9 @@
     @csrf
   </form>
 </div>
-<div id="reports_content" class="container is-fluid is-hidden">
+<div id="reports_content" class="container is-fluid">
   {{-- Reports Here --}}
+  <p> Hello Word! </p>
 </div>
 @else
 {{-- Reports Here --}}
