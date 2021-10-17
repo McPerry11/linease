@@ -17,7 +17,7 @@ class CheckDesktop
     public function handle($request, Closure $next)
     {
         $agent = new Agent();
-        if ($agent->isDesktop()) {
+        if ($agent->isDesktop() && !$request->is('desktop')) {
             return redirect('desktop');
         } else if ($agent->isPhone() && $request->is('desktop')) {
             return redirect('login');
