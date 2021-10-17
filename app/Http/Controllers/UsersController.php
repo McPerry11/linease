@@ -114,7 +114,11 @@ class UsersController extends Controller
   public function show($username)
   {
     $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
-    ->where('username', $username)->get()[0];
+    ->where('username', $username)->get();
+    if (count($user) == 0)
+      return redirect('not_found');
+    else
+      $user = $user[0];
     $name = null;
     if (URL::previous() == url('logs') || URL::previous() == url('accounts')) {
       $link = URL::previous();

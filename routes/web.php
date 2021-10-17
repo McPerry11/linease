@@ -36,7 +36,7 @@ Route::middleware(['desktop'])->group(function() {
 
     Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
 
-    Route::get('settings', 'IndexController@settings');
+    // Route::get('settings', 'IndexController@settings');
 
     Route::get('{username}', 'UsersController@show');
     Route::post('{username}/profile', 'UsersController@edit');
