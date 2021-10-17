@@ -2,9 +2,11 @@ try {
 	var map = tt.map({
 		key: 'Laa6q2wr1ucatY7wmfHlvq4tgaDnpyR1',
 		container: 'map',
-		// style: 'tomtom://vector/1/basic-main'
+		center: [120.99835708124482, 14.59468687747799],
+		zoom: 14,
 	});
 } catch(err) {
+	console.log(err);
 	Swal.fire({
 		icon: 'error',
 		title: 'Cannot load map',
@@ -16,7 +18,13 @@ try {
 }
 
 $(function() {
-	if ($('.title').text() == '') $('.title').text('Loading Dashboard');
+	$('.title').text('Loading Dashboard');
+	while(true) {
+		if (map.areTilesLoaded() && map.isStyleLoaded() && map.loaded()) {
+			$('.pageloader').removeClass('is-active');
+			break;
+		}
+	}
 
 	$('#center').click(function() {
 		$('.title').text('Loading Camera');
