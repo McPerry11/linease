@@ -330,8 +330,9 @@
 </div>
 
 {{-- REPORTS --}}
-<div id="reports_content" class="container is-fluid">
+<div id="reports_content" class="container is-fluid is-hidden">
   {{-- Reports Here --}}
+  Hello World
 </div>
 @else
 {{-- Reports Here --}}

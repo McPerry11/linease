@@ -86,16 +86,19 @@ $(function() {
         case 'profile':
         $('#profile_content').removeClass('is-hidden');
         $('#security_content').addClass('is-hidden');
+        $('#reports_content').addClass('is-hidden');
         break;
 
         case 'security':
         $('#profile_content').addClass('is-hidden');
         $('#security_content').removeClass('is-hidden');
+        $('#reports_content').addClass('is-hidden');
         break;
 
         case 'reports':
         $('#profile_content').addClass('is-hidden');
         $('#security_content').addClass('is-hidden');
+        $('#reports_content').removeClass('is-hidden');
         break;
       }
     }

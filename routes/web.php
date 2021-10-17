@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('desktop', 'IndexController@desktop');
-Route::get('not_found', 'IndexController@notfound');
 
-Route::group(['middleware' => 'desktop'], function() {
+Route::middleware(['desktop'])->group(function() {
+  Route::get('desktop', 'IndexController@desktop');
+  Route::get('not_found', 'IndexController@notfound');
+
   Route::get('login', 'IndexController@login')->name('login');
   Route::post('login', 'LoginController@login')->middleware('throttle:10,3')->name('login_post');
   Route::post('logout', 'LoginController@logout')->name('logout');
@@ -24,7 +25,7 @@ Route::group(['middleware' => 'desktop'], function() {
 
   Route::post('users', 'UsersController@index');
 
-  Route::group(['middleware' => 'auth'], function() {
+  Route::middleware(['auth'])->group(function() {
     Route::get('', 'IndexController@dashboard')->name('dashboard');
     Route::post('markers', 'ReportController@index');
 
