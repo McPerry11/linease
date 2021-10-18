@@ -35,7 +35,7 @@
 				@endif
 				<a class="navbar-item" href="{{ url('logs') }}"><span class="icon"><i class="fas fa-stream"></i></span>Logs</a>
 				@endif
-				<a class="navbar-item" href="{{ url('settings') }}"><span class="icon"><i class="fas fa-cog"></i></span>Settings</a>
+				{{-- <a class="navbar-item" href="{{ url('settings') }}"><span class="icon"><i class="fas fa-cog"></i></span>Settings</a> --}}
 				<a class="navbar-item has-text-danger" data-id="logout"><span class="icon"><i class="fas fa-sign-out-alt"></i></span>Logout</a>
 			</div>
 		</div>

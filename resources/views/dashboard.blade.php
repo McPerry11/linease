@@ -1,13 +1,13 @@
 @extends('_layout')
 
 @section('styles')
+<link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps.css'>
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @endsection
 
 @section('body')
 <div id="map-container">
 	<div id="map"></div>
-	<div id="legend"></div>
 	<form id="search">
 		<div class="field has-addons">
 			<p class="control has-icons-left">
@@ -36,6 +36,6 @@
 @endsection
 
 @section('scripts')
+<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps-web.min.js"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
-{{-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcAzZeE0BXSxV_ILbrCgaInLxgeHWKG1k&callback=initMap" type="text/javascript"></script> --}}
 @endsection
