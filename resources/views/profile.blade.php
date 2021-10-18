@@ -322,9 +322,55 @@
     @csrf
   </form>
 </div>
+
+<!-- REPORTS -->
 <div id="reports_content" class="container is-fluid">
-  {{-- Reports Here --}}
-  <p> Hello Word! </p>
+  <div class="column is-variable px-0">
+    <div class="card">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-semibold is-uppercase">Severity 1</p> 
+            <p class="is-size-7 has-text-weight-medium">Brgy. 596</p>
+            <p class="is-size-7 has-text-weight-light">12 Oct, 11:30</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-semibold is-uppercase">Severity 3</p> 
+            <p class="is-size-7 has-text-weight-medium">Brgy. 595</p>
+            <p class="is-size-7 has-text-weight-light">29 Sep, 21:16</p>     
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <div class="media-centered is-96x96">
+        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+      </div>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
 </div>
 @else
 {{-- Reports Here --}}

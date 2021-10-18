@@ -4,6 +4,10 @@ body {
   padding-bottom: 20px;
 }
 
+strong {
+  color : #FFFFFF;
+}
+
 .navbar {
   background-color: #00C944;
   height: 100px;

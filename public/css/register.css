@@ -11,12 +11,13 @@ body, .columns {
 	height: 100%;
 }
 
-.card {
-	margin-top: 10%;
-}
-
 .pass-field {
 	width: 100%;
+}
+
+#card {
+	margin-top: 0%;
+	border-radius: 25px;
 }
 
 #create, #mcreate {
