@@ -18,6 +18,7 @@ class CreateReportsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('latitude');
             $table->string('longitude');
+            $table->longText('address');
             $table->enum('severity', [
                 'CRITICAL',
                 'MAJOR',
