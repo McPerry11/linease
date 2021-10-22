@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Log;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -101,6 +102,14 @@ class UsersController extends Controller
     $user->type = 'USER';
     
     $user->save();
+
+    $id = User::where('username', $user->username)->value('id');
+
+    Log::create([
+      'user_id' => $id,
+      'description' => $user->username . ' just registered as a new unverified user.',
+      'ip_address' => $request->ip(),
+    ]);
 
     return response()->json(array('msg' => 'Unverified account registered successfully'));
   }
