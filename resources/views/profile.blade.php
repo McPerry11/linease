@@ -356,11 +356,13 @@
             <p class="is-size-7 has-text-weight-medium">Brgy. 595</p>
             <p class="is-size-7 has-text-weight-light">29 Sep, 21:16</p>     
           </div>
-          <figure class="media-right">
-            <p class="image is-48x48">
-              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
-            </p>
-          </figure>
+          <a href="">
+            <figure class="media-right mx-0">
+              <p class="image is-48x48">
+                <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+              </p>
+            </figure>
+          </a>
         </div>
       </div>
     </div>

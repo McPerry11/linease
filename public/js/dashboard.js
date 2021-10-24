@@ -19,12 +19,12 @@ try {
 
 $(function() {
 	$('.title').text('Loading Dashboard');
-	while(true) {
-		if (map.areTilesLoaded() && map.isStyleLoaded() && map.loaded()) {
-			$('.pageloader').removeClass('is-active');
-			break;
-		}
-	}
+	// while(true) {
+	// 	if (map.areTilesLoaded() && map.isStyleLoaded() && map.loaded()) {
+	// 		$('.pageloader').removeClass('is-active');
+	// 		break;
+	// 	}
+	// }
 
 	$('#center').click(function() {
 		$('.title').text('Loading Camera');
