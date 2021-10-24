@@ -19,12 +19,15 @@ try {
 
 $(function() {
 	$('.title').text('Loading Dashboard');
+<<<<<<< HEAD
 	// while(true) {
 	// 	if (map.areTilesLoaded() && map.isStyleLoaded() && map.loaded()) {
 	// 		$('.pageloader').removeClass('is-active');
 	// 		break;
 	// 	}
 	// }
+=======
+>>>>>>> MCbranch
 
 	$('#center').click(function() {
 		$('.title').text('Loading Camera');

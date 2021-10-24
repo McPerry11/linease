@@ -19,10 +19,39 @@
 	</ul>
 </div>
 <div id="reports_content" class="container is-fluid">
+	<form id="search_reports">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input type="text" class="input" placeholder="Search location, username, severity, or date...">
+			</div>
+			<div class="control">
+				<button class="button is-success" type="button">
+					<span class="icon is-left">
+						<i class="fas fa-search"></i>
+					</span>
+				</button>
+			</div>
+		</div>
+	</form>
 	Reports
 </div>
 @if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER')
 <div id="admin_content" class="container is-fluid is-hidden">
+	<form id="search_admin">
+		<div class="field has-addons">
+			<div class="control is-expanded">
+				<input type="text" class="input" placeholder="Search username, activity, or date...">
+			</div>
+			<div class="control">
+				<button class="button is-success" type="button">
+					<span class="icon is-left">
+						<i class="fas fa-search"></i>
+					</span>
+				</button>
+			</div>
+		</div>
+	</form>
+
 	@if (count($logs) > 0)
 	@php
 	$previousDate = "";
@@ -55,6 +84,7 @@
 	</a>
 	@endif
 	@endforeach
+	<hr>
 	@else
 	<div class="has-text-centered">No logs found.</div>
 	@endif

@@ -4,12 +4,19 @@ $.ajaxSetup({
 	}
 });
 
+<<<<<<< HEAD
 // if (window.location.pathname != '/linease/public/' && window.location.pathname != '/linease-web/public/' && window.location.pathname != '/linease/') {
 	$(window).on('load', function() {
 		$('.title').text('');
 		$('.pageloader').removeClass('is-active');
 	});
 // }
+=======
+$(window).on('load', function() {
+	$('.title').text('');
+	$('.pageloader').removeClass('is-active');
+});
+>>>>>>> MCbranch
 
 $(function() {
 	$('.navbar-burger').click(function() {
