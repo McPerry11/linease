@@ -1,3 +1,9 @@
+var geocoder;
+
+function initMap() {
+ geocoder = new google.maps.Geocoder();
+}
+
 $(function() {
 	function camera() {
 		$('canvas').remove();
@@ -54,7 +60,7 @@ $(function() {
       $('#warning').append('LinEase cannot access your device\'s location.');
   }
 
-  var imgCap, w, h, lat, lng;
+  var imgCap, w, h, lat, lng, APIKEY = 'AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs';
   const constraints = {
     audio: false,
     video: {
@@ -105,7 +111,7 @@ $(function() {
   	$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span></div>');
   	$('#warning').append('LinEase cannot access your device\'s camera.');
   } else {
-  	$('.title').text('Checking Geolocation');
+  	$('.title').text('Initializing Geolocation');
     navigator.geolocation.getCurrentPosition(gps_success, gps_error);
   }
 
@@ -183,6 +189,13 @@ $(function() {
       navigator.geolocation.getCurrentPosition(function(position) {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
+
+        geocoder.geocode({'location':{lat:lat, lng:lng}}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK)
+            $('#address').val(results[1].formatted_address);
+
+        });
+
         var canvas = document.querySelector('canvas');
         var img = canvas.toDataURL('image/jpeg', 1.0);
 

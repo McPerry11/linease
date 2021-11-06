@@ -1,5 +1,7 @@
+var map;
+
 function initMap() {
-	var map = new google.maps.Map(document.getElementById('map'), {
+	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat:14.59468687747799, lng:120.99835708124482},
 		zoom: 15,
 		mapTypeControl: false,
@@ -43,9 +45,8 @@ $(function() {
 			}, service = new google.maps.places.PlacesService(map);
 
 			service.findPlaceFromQuery(request, function(results, status) {
-				if (status === google.maps.places.PlacesServiceStatus.OK) {
-					let coords = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-					map.setCenter(coords);
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					map.panTo(results[0].geometry.location);
 				}
 				$('#search input').removeAttr('readonly');
 				$('#btn-search').removeClass('is-loading');
