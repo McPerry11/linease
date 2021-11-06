@@ -1,18 +1,10 @@
-try {
-	var map = tt.map({
-		key: 'Laa6q2wr1ucatY7wmfHlvq4tgaDnpyR1',
-		container: 'map',
-		center: [120.99835708124482, 14.59468687747799],
-		zoom: 14,
-	});
-} catch(err) {
-	console.error(err);
-	Swal.fire({
-		icon: 'error',
-		title: 'Cannot load map',
-		text: 'LinEase failed to load the map. Please check your internet connection.',
-		showConfirmButton: false,
-		timer: 10000
+function initMap() {
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat:14.59468687747799, lng:120.99835708124482},
+		zoom: 15,
+		mapTypeControl: false,
+		streetViewControl: false,
+		fullscreenControl: false
 	});
 }
 
@@ -38,5 +30,37 @@ $(function() {
 		$('#logout button').addClass('is-loading');
 		$('.pageloader .title').text('Logging Out');
 		$('.pageloader').addClass('is-active');
+	});
+
+	$('#search').submit(function(e) {
+		e.preventDefault();
+		$('#search input').attr('readonly', true);
+		$('#btn-search').addClass('is-loading');
+		try {
+			var request = {
+				query: $('#search input').val(),
+				fields: ['name', 'geometry', 'icon', 'formatted_address'],
+			}, service = new google.maps.places.PlacesService(map);
+
+			service.findPlaceFromQuery(request, function(results, status) {
+				if (status === google.maps.places.PlacesServiceStatus.OK) {
+					let coords = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+					map.setCenter(coords);
+				}
+				$('#search input').removeAttr('readonly');
+				$('#btn-search').removeClass('is-loading');
+			});
+		} catch (err) {
+			console.error(err);
+			$('#search input').removeAttr('readonly');
+			$('#btn-search').removeClass('is-loading');
+			Swal.fire({
+				icon: 'error',
+				title: 'Cannot produce search results',
+				text: 'LinEase encountered an error while searching for results.',
+				showConfirmButton: false,
+				timer: 10000
+			});
+		}
 	});
 });

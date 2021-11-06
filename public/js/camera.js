@@ -121,51 +121,49 @@ $(function() {
   		return false;
   	} else if (!$('canvas').length) {
   		$('body').append('<canvas></canvas>');
-  		$('#right').removeClass('inactive');
   		const canvas = document.querySelector('canvas');
   		try {
-  			imgCap.grabFrame()
-  			.then(imageBitmap => {
+  			imgCap.grabFrame().then(imageBitmap => {
   				canvas.width = w = imageBitmap.width;
   				canvas.height = h = imageBitmap.height;
   				canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
   				$('#licon').removeClass('fa-times').addClass('fa-redo-alt');
-  			}).catch(err => {
-  				console.error(err);
-  				Swal.fire({
-  					icon: 'error',
+          $('#right').removeClass('inactive');
+        }).catch(err => {
+          console.error(err);
+          Swal.fire({
+            icon: 'error',
             title: 'Cannot Capture Image',
             text: 'An error occurred while capturing the image.',
             showConfirmButton: false,
             timer: 10000
           });
-  				$('canvas').remove();
-  				$('body').append('<div id="camera"></div>');
-  				$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
-  				$('#warning').append('LinEase encountered an error while capturing your image.');
-  				$('#right').addClass('inactive');
-  			});
-  			$('video').remove();
-  			$('#center').attr('disabled', true);
-  		} catch (err) {
-  			Swal.fire({
-  				icon: 'error',
-  				title: 'Cannot Capture Image',
-  				text: 'An error occurred while capturing the image.',
+          $('canvas').remove();
+          $('body').append('<div id="camera"></div>');
+          $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
+          $('#warning').append('LinEase encountered an error while capturing your image.');
+        });
+        $('video').remove();
+        $('#center').attr('disabled', true);
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Capture Image',
+          text: 'An error occurred while capturing the image.',
           showConfirmButton: false,
           timer: 10000
         });
-  			$('canvas').remove();
-  			$('body').append('<div id="camera"></div>');
+        $('canvas').remove();
+        $('video').remove();
+        $('body').append('<div id="camera"></div>');
         $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
         $('#warning').append('LinEase encountered an error while capturing your image.');
-        $('#right').addClass('inactive');
       }
     }
   });
 
   $('#left').click(function() {	
-  	if ( $('#licon').hasClass('fa-times') ) {	
+  	if ($('#licon').hasClass('fa-times')) {	
       $('.pageloader').addClass('is-active');	
       $('.title').text('Loading Dashboard');	
       window.location.href = $('#camjs').data('link');
@@ -180,38 +178,44 @@ $(function() {
   	if ($('#right').hasClass('inactive')) {
   		return false;
   	} else {
-      // HTML5 Geolocation
-      if (navigator.geolocation) {
-      	navigator.geolocation.getCurrentPosition(function(position) {
-      		lat = position.coords.latitude;
-      		lng = position.coords.longitude;
-
-      		$('#lat').val(lat);
-      		$('#lng').val(lng);
-        });
-      }
-      var canvas = document.querySelector('canvas');
-      var img = canvas.toDataURL('image/jpeg', 1.0);
-      $('#left').addClass('inactive');
-      $('#right').addClass('inactive');
-      $('#center').attr('disabled', true);
       $('#createReport').addClass('is-active');
-      var preview = document.getElementById('preview');
-      preview.src = img;
-      $('.icon.is-left img').attr('src', 'img/RLabel.png');
-      $('.icon.is-left img').attr('src', 'img/S4Label.png');
-      $('.icon.is-left img').attr('src', 'img/S3Label.png');
-      $('.icon.is-left img').attr('src', 'img/S2Label.png');
-      $('.icon.is-left img').attr('src', 'img/S1Label.png');
-      $('#loader').addClass('is-hidden');
-      $('.modal-card-body form').removeClass('is-hidden');
+      // HTML5 Geolocation
+      navigator.geolocation.getCurrentPosition(function(position) {
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+        var canvas = document.querySelector('canvas');
+        var img = canvas.toDataURL('image/jpeg', 1.0);
+
+        $('#lat').val(lat);
+        $('#lng').val(lng);
+        $('#left').addClass('inactive');
+        $('#right').addClass('inactive');
+        $('#center').attr('disabled', true);
+        $('#preview').attr('src', img);
+        $('.icon.is-left img').attr('src', 'img/RLabel.png');
+        $('.icon.is-left img').attr('src', 'img/S4Label.png');
+        $('.icon.is-left img').attr('src', 'img/S3Label.png');
+        $('.icon.is-left img').attr('src', 'img/S2Label.png');
+        $('.icon.is-left img').attr('src', 'img/S1Label.png');
+        $('#loader').addClass('is-hidden');
+        $('.modal-card-body form').removeClass('is-hidden');
+      }, function(err) {
+        console.warn(`Error ${err.code}: ${err.message}`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Access Device Location',
+          text: 'An error occurred while accessing your device\'s location.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+      });
     }
   });
 
   $('body').click(function(e) {
   	var target = e.target;
   	if ($(target).hasClass('ui-menu-item-wrapper')) {
-      var img = $(target).data('img');
+      let img = $(target).data('img');
       $('.icon.is-left img').attr('src', `img/${img}`);
     }
   });
