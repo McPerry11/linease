@@ -1,6 +1,6 @@
 $(function() {
-	function serverErr(err, input, control) {
-		console.log(err);
+	function ajaxError(err, input, control) {
+		console.error(err);
 		$(control).removeClass('is-loading');
 		$(input).removeAttr('readonly');
 		validate(error);
@@ -99,11 +99,11 @@ $(function() {
 	}
 
 	var error = [false, false, false], platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-	var btnCreate = '#' + platform + 'create';
-	var inpUsername = '#' + platform + 'username', icnUsername = '#' + platform + 'user-icon', txtUserWarning = '#' + platform + 'user-warning', inpUserControl = '#' + platform + 'user-control';
-	var inpEmail = '#' + platform + 'email', icnEmail = '#' + platform + 'email-icon', txtEmailWarning = '#' + platform + 'email-warning', inpEmailControl = '#' + platform + 'email-control';
-	var btnView = '#' + platform + 'view', icnEye = '#' + platform + 'icon-pass', inpPassword = '#' + platform + 'password', icnPassword = '#' + platform + 'pass-icon', txtPassWarning = '#' + platform + 'pass-warning';
-	var inpConfirm = '#' + platform + 'cpass', icnConfirm = '#' + platform + 'cpass-icon', txtConfirmWarning = '#' + platform + 'cpass-warning';
+	var btnCreate = `#${platform}create`, btnView = `#${platform}view`;
+	var inpUsername = `#${platform}username`, icnUsername = `#${platform}user-icon`, txtUserWarning = `#${platform}user-warning`, inpUserControl = `#${platform}user-control`;
+	var inpEmail = `#${platform}email`, icnEmail = `#${platform}email-icon`, txtEmailWarning = `#${platform}email-warning`, inpEmailControl = `#${platform}email-control`;
+	var icnEye = `#${platform}icon-pass`, inpPassword = `#${platform}password`, icnPassword = `#${platform}pass-icon`, txtPassWarning = `#${platform}pass-warning`;
+	var inpConfirm = `#${platform}cpass`, icnConfirm = `#${platform}cpass-icon`, txtConfirmWarning = `#${platform}cpass-warning`;
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Registration');
@@ -135,15 +135,6 @@ $(function() {
 	// 		return false;
 	// 	}
 	// });
-
-	$(window).resize(function() {
-		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-		if (newplatform != platform) {
-			$('.title').text('Reloading Viewport');
-			$('.pageloader').addClass('is-active');
-			location.reload();
-		}
-	});
 
 	$('form').submit(function(e) {
 		e.preventDefault();
@@ -246,7 +237,7 @@ $(function() {
 							},
 							error: function(err) {
 								error[0] = true;
-								serverErr(err, inpUsername, inpUserControl);
+								ajaxError(err, inpUsername, inpUserControl);
 							}
 						});
 					}
@@ -284,7 +275,7 @@ $(function() {
 						},
 						error: function(err) {
 							error[1] = true;
-							serverErr(err, inpEmail, inpEmailControl);
+							ajaxError(err, inpEmail, inpEmailControl);
 						}
 					});
 				}
@@ -341,7 +332,7 @@ $(function() {
 
 	$(inpConfirm).keyup(function(e) {
 		if (!$(btnCreate).hasClass('is-loading')) {
-			if ($(inpPassword).val() != '' && e.which !== 9) {
+			if ($(inpPassword).val() != '' && $(inpPassword).val().length >= 8 && e.which !== 9) {
 				clearResponse(txtPassWarning, inpPassword, icnPassword, 2);
 				clearResponse(txtConfirmWarning, this, icnConfirm, 2);
 			}

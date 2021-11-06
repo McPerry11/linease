@@ -6,14 +6,13 @@ try {
 		zoom: 14,
 	});
 } catch(err) {
-	console.log(err);
+	console.error(err);
 	Swal.fire({
 		icon: 'error',
 		title: 'Cannot load map',
-		text: 'Please refresh the page.',
-		confirmButtonText: 'Refresh',
-	}).then((result) => {
-		location.reload();
+		text: 'LinEase failed to load the map. Please check your internet connection.',
+		showConfirmButton: false,
+		timer: 10000
 	});
 }
 
@@ -30,7 +29,7 @@ $(function() {
 			$('#logout').submit();
 		} else {
 			var page = $(this).text();
-			$('.title').text('Loading ' + page);
+			$('.title').text(`Loading ${page}`);
 			$('.pageloader').addClass('is-active');
 		}
 	});

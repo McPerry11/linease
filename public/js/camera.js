@@ -1,4 +1,3 @@
-
 $(function() {
 	function camera() {
 		$('canvas').remove();
@@ -18,99 +17,84 @@ $(function() {
 		}).catch(function(err) {
 			$('.title').text('');
 			$('.pageloader').removeClass('is-active');
-			console.log(err);
+			console.error(err);
 			Swal.fire({
-				type: 'error',
+				icon: 'error',
 				title: 'Cannot Access Device Camera',
-				text: 'An error occurred while accessing your device\'s camera',
-			});
+				text: 'An error occurred while accessing your device\'s camera.',
+        showConfirmButton: false,
+        timer: 10000
+      });
 			$('video').remove();
-			$('#center').attr('disabled', 'disabled');
+			$('#center').attr('disabled', true);
 			$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
-			$('#warning').append('LinEase had a problem accessing your device\'s camera. Please refresh and try again.<br>If problem persists, we recommend changing browsers.');
+			$('#warning').append('LinEase had a problem accessing your device\'s camera. Please allow camera permissions for LinEase to work properly.');
 		});
 	}
 
-	var imgCap, w, h, lat, lng;
-	const constraints = {
-		audio: false,
-		video: {
-			width: {ideal: 720},
-			height: {ideal: 720},
-			facingMode: {ideal: 'environment'}
-		},
-	};
+  function gps_success (position) {
+    var crd = pos.coords;
+    console.log('Your position is: ');
+    console.log('Latitude: ' + crd.latitude);
+    console.log('Longitude: ' + crd.longitude);
+    console.log('More or less: ' + crd.accuracy);
+  }
 
-  // Create Custom Select Dropdown with Thumbnails
-  $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
-  	_renderItem: function( ul, item ) {
-  		var li = $( "<li>" ),
-  		wrapper = $( "<div>", { text: item.label, "data-img": item.element.attr("data-img") } );
+  function gps_error (err) {
+    console.warn(`Error ${err.code}: ${err.message}`);
+    if (err.code == err.PERMISSION_DENIED) {
+    } else {
+    }
+  }
 
-  		if ( item.disabled ) {
-  			li.addClass( "ui-state-disabled" );
-  		}
+  var imgCap, w, h, lat, lng;
+  const constraints = {
+    audio: false,
+    video: {
+      width: {ideal: 720},
+      height: {ideal: 720},
+      facingMode: {ideal: 'environment'}
+    },
+  };
 
-  		$( "<span>", {
-  			style: item.element.attr( "data-style" ),
-  			"class": "ui-icon " + item.element.attr( "data-class" )
-  		}).appendTo( wrapper );
-
-  		return li.append( wrapper ).appendTo( ul );
-  	}
-  });
-  $('#severity').iconselectmenu().iconselectmenu('menuWidget').addClass('ui-menu-icons avatar');
-  $('#severity-button').css('height', '40px');
-  $('.modal-card-body').bind('touchmove', function(e) {
-  	if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open')) {
-  		e.preventDefault();
-  	}
-  });
-  $(window).click(function() {
-  	if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open')) {
-  		$('.modal-card-body').addClass('no-scroll');
-  	} else {
-  		$('.modal-card-body').removeClass('no-scroll');
-  	}
-  });
-
+  
 
   $('html').addClass('has-navbar-fixed-bottom');
-  $('#center').attr('disabled', 'disabled');
+  $('#center').attr('disabled', true);
   $('#right').addClass('inactive');
   $('.pageloader').addClass('is-active');
 
   if (!Modernizr.getusermedia) {
   	Swal.fire({
-  		type: 'warning',
-  		title: 'Unsupported Browser',
-  		text: 'Your browser does not support getUserMedia according to Modernizr.',
-  	});
+  		icon: 'error',
+      title: 'Cannot Access Device Camera',
+      text: 'An error occurred while accessing your device\'s camera.',
+      showConfirmButton: false,
+      timer: 10000
+    });
   	$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-ban fa-stack-2x"></i></span></span></div>');
-  	$('#warning').append('LinEase cannot access your device\'s camera through this broswer. We recommend Google Chrome for more browser feature supports.');
+  	$('#warning').append('LinEase cannot access your device\'s camera.');
   } else {
   	$('.title').text('Checking Geolocation');
-  	if (navigator.geolocation) {
-  		$('.title').text('Initializing Camera');
-  		camera();
-  	} else {
-  		Swal.fire({
-  			type: 'warning',
-  			title: 'Unsupported Browser',
-  			text: 'Your browser does not support Geolocation. Try switching broswers.',
-  		});
-  		$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-map-marker-alt fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></div>');
-  		$('#warning').append('LinEase cannot fetch your coordinates. Try switching browsers with more supported features.');
-  	}
+    navigator.geolocation.getCurrentPosition(gps_success, gps_error);
+  	// if (navigator.geolocation) {
+  	// 	$('.title').text('Initializing Camera');
+  	// 	camera();
+  	// } else {
+  	// 	Swal.fire({
+  	// 		icon: 'warning',
+  	// 		title: 'Unsupported Browser',
+  	// 		text: 'Your browser does not support Geolocation. Try switching broswers.',
+  	// 	});
+  	// 	$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-map-marker-alt fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></div>');
+  	// 	$('#warning').append('LinEase cannot fetch your coordinates.');
+  	// }
   }
 
   $('#center').click(function() {
-  	console.log('Hello');
-  	if ( $('#center').attr('disabled') ) {
-  		console.log('Here');
+  	if ($('#center').attr('disabled')) {
   		return false;
-  	} else if ( !$('canvas').length ) {
-  		console.log('World');
+  	} else if (!$('canvas').length) {
   		$('body').append('<canvas></canvas>');
   		$('#right').removeClass('inactive');
   		const canvas = document.querySelector('canvas');
@@ -121,37 +105,42 @@ $(function() {
   				canvas.height = h = imageBitmap.height;
   				canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
   				$('#licon').removeClass('fa-times').addClass('fa-redo-alt');
-  			}).catch(error => {
-  				console.log(error);
+  			}).catch(err => {
+  				console.error(err);
   				Swal.fire({
-  					type: 'error',
-  					title: 'Cannot Capture Image',
-  					text: 'An error occurred while capturing the image. Please refresh and try again.',
-  				});
+  					icon: 'error',
+            title: 'Cannot Capture Image',
+            text: 'An error occurred while capturing the image.',
+            showConfirmButton: false,
+            timer: 10000
+          });
   				$('canvas').remove();
   				$('body').append('<div id="camera"></div>');
   				$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
-  				$('#warning').append('LinEase encountered an error while capturing your image. Please refresh the page and try again.<br>If problem persists, please contact us at rndccss@gmail.com');
+  				$('#warning').append('LinEase encountered an error while capturing your image.');
   				$('#right').addClass('inactive');
   			});
   			$('video').remove();
-  			$('#center').attr('disabled', 'disabled');
+  			$('#center').attr('disabled', true);
   		} catch (err) {
   			Swal.fire({
-  				type: 'error',
+  				icon: 'error',
   				title: 'Cannot Capture Image',
-  				text: 'An error occurred while capturing the image. Please try again.',
-  			});
+  				text: 'An error occurred while capturing the image.',
+          showConfirmButton: false,
+          timer: 10000
+        });
   			$('canvas').remove();
   			$('body').append('<div id="camera"></div>');
-  			$('#right').addClass('inactive');
-  		}
-  	}
+        $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
+        $('#warning').append('LinEase encountered an error while capturing your image.');
+        $('#right').addClass('inactive');
+      }
+    }
   });
 
   $('#left').click(function() {	
   	if ( $('#licon').hasClass('fa-times') ) {	
-      // Localhost Computer	
       $('.pageloader').addClass('is-active');	
       $('.title').text('Loading Dashboard');	
       window.location.href = $('#camjs').data('link');
@@ -163,7 +152,7 @@ $(function() {
   });
 
   $('#right').click(function() {
-  	if ( $('#right').hasClass('inactive') ) {
+  	if ($('#right').hasClass('inactive')) {
   		return false;
   	} else {
       // HTML5 Geolocation
@@ -174,7 +163,7 @@ $(function() {
 
       		$('#lat').val(lat);
       		$('#lng').val(lng);
-      	});
+        });
       }
       var canvas = document.querySelector('canvas');
       var img = canvas.toDataURL('image/jpeg', 1.0);
@@ -197,9 +186,9 @@ $(function() {
   $('body').click(function(e) {
   	var target = e.target;
   	if ($(target).hasClass('ui-menu-item-wrapper')) {
-  		var img = $(target).data('img');
-  		$('.icon.is-left img').attr('src', 'img/' + img);
-  	}
+      var img = $(target).data('img');
+      $('.icon.is-left img').attr('src', `img/${img}`);
+    }
   });
 
   $('#cancel').click(function() {
@@ -213,35 +202,37 @@ $(function() {
   	$('#submit').addClass('is-loading');
   	$('#cancel').attr('disabled', 'disabled');
   	var des = $('textarea').val();
-  	var sev = $('#severity-button .ui-selectmenu-text').text().toUpperCase();
-  	var img = $('#preview').attr('src');
-  	$.ajax({
-  		type: 'POST',
-  		url: 'camera',
-  		data: {lat:lat, lng:lng, sev:sev, des:des, img:img},
-  		datatype: 'JSON',
-  		success: function(response) {
-  			console.log(response);
-  			$('#submit').removeClass('is-loading').attr('disabled', 'disabled');
-  			Swal.fire({
-  				type: 'success',
-  				title: response,
-  				showConfirmButton: false,
-  				timer: 2500,
-  			}).then(function() {
-  				window.location.href = '/linease-alpha/';
-  			});
-  		},
-  		error: function(err) {
-  			console.log(err);
-  			$('#submit').removeClass('is-loading');
-  			$('#cancel').removeAttr('disabled');
-  			Swal.fire({
-  				type: 'error',
-  				title: 'Cannot Upload Report',
-  				text: 'Something went wrong. Please try again later.',
-  			});
-  		}
-  	});
+    var img = $('#preview').attr('src');
+    var sev = $('#severity-button .ui-selectmenu-text').text().toUpperCase();
+    $.ajax({
+      type: 'POST',
+      url: 'camera',
+      data: {lat:lat, lng:lng, sev:sev, des:des, img:img},
+      datatype: 'JSON',
+      success: function(response) {
+        console.log(response);
+        $('#submit').removeClass('is-loading').attr('disabled', 'disabled');
+        Swal.fire({
+          icon: 'success',
+          title: response,
+          showConfirmButton: false,
+          timer: 2500,
+        }).then(function() {
+          window.location.href = $('#camjs').data('link');
+        });
+      },
+      error: function(err) {
+        console.error(err);
+        $('#submit').removeClass('is-loading');
+        $('#cancel').removeAttr('disabled');
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Upload Report',
+          text: 'Something went wrong. Please try again later.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+      }
+    });
   });
 });

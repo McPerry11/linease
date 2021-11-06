@@ -10,6 +10,15 @@ $(window).on('load', function() {
 });
 
 $(function() {
+	$(window).resize(function() {
+		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+		if (newplatform != platform) {
+			$('.title').text('Reloading Viewport');
+			$('.pageloader').addClass('is-active');
+			location.reload();
+		}
+	});
+
 	$('.navbar-burger').click(function() {
 		$(this).toggleClass('is-active').css('color', function() {
 			return $(this).hasClass('is-active') ? '#00C944' : 'white';

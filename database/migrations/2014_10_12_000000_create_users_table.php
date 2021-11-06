@@ -30,6 +30,11 @@ class CreateUsersTable extends Migration
             ]);
             $table->string('password');
             $table->integer('avatar_id')->nullable();
+            $table->boolean('ob_dashboard')->default(false);
+            $table->boolean('ob_profile')->default(false);
+            $table->boolean('ob_logs')->default(false);
+            $table->boolean('ob_accounts')->default(false);
+            $table->boolean('ob_camera')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

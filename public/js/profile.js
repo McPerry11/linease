@@ -1,6 +1,6 @@
 $(function() {
   function ajaxError(err) {
-    console.log(err);
+    console.error(err);
     Swal.fire({
       icon: 'error',
       title: 'Cannot Connect to Server',

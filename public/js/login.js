@@ -17,15 +17,7 @@ $(function() {
 	}
 
 	var platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
-	$(window).resize(function() {
-		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-		if (newplatform != platform) {
-			$('.title').text('Reloading Viewport');
-			$('.pageloader').addClass('is-active');
-			location.reload();
-		}
-	});
+	var inpPassword = `#${platform}password`, inpUsername = `#${platform}username`, btnView = `#${platform}view`, btnLogin = `#${platform}login`, btnRegister = `#${platform}register`, txtMsg = `#${platform}message`, icnViewPass = `#${platform}icon-pass`;
 
 	$('html').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Login');
@@ -68,7 +60,7 @@ $(function() {
 				}
 			},
 			error: function(err) {
-				console.log(err);
+				console.error(err);
 				ajaxResponse();
 				if (err.status == 429) {
 					Swal.fire({
@@ -99,7 +91,7 @@ $(function() {
 		registerBtn(e);
 	});
 
-	$('#' + platform + 'reglink').click(function(e) {
+	$(`#${platform}reglink`).click(function(e) {
 		registerBtn(e);
 	});
 

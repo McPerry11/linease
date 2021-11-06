@@ -29,6 +29,7 @@ class CreateReportsTable extends Migration
             ]);
             $table->longText('description');
             $table->string('picture');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }
