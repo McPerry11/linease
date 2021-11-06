@@ -24,14 +24,14 @@ $(function() {
 
 	$('form').submit(function(e) {
 		e.preventDefault();
-		if( $(inpPassword).attr('type') == 'text' ) {
+		if ($(inpPassword).attr('type') == 'text') {
 			$(inpPassword).attr('type', 'password');
 			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
 			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
 		}
-		$(btnView).attr('disabled', 'disabled');
+		$(btnView).attr('disabled', true);
 		$(btnLogin).addClass('is-loading');
-		$(btnRegister).attr('disabled', 'disabled');
+		$(btnRegister).attr('disabled', true);
 		$(inpUsername).attr('readonly', true);
 		$(inpPassword).attr('readonly', true);
 		let username = $(inpUsername).val(), password = $(inpPassword).val();
@@ -53,7 +53,7 @@ $(function() {
 						$('.pageloader').addClass('is-active');
 						window.location.href = $('#js').data('link');
 					});
-				} else if (response.status == 'error') {
+				} else {
 					$(txtMsg).text(response.message);
 					$(inpPassword).val('');
 					$(inpUsername).val('');

@@ -7,9 +7,9 @@ $(function() {
 
 	$('.tabs a').click(function() {
 		let content = $(this).parent().attr('id');
-		if (!$('#' + content).hasClass('is-active')) {
+		if (!$(`#${content}`).hasClass('is-active')) {
 			$('.tabs li').removeClass('is-active');
-			$('#' + content).addClass('is-active');
+			$(`#${content}`).addClass('is-active');
 			switch (content){
 				case 'reports':
 				$('#reports_content').removeClass('is-hidden');

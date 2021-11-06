@@ -73,16 +73,16 @@ $(function() {
   // });
 
   $('#back').click(function() {
-    $('.pageloader .title').text('Loading ' + $('#navbar-back').data('link'));
+    $('.pageloader .title').text(`Loading ${$('#navbar-back').data('link')}`);
     $('.pageloader').addClass('is-active');
   });
 
   $('.tabs a').click(function() {
     let content = $(this).parent().attr('id');
-    if (!$('#' + content).hasClass('is-active')) {
+    if (!$(`#${content}`).hasClass('is-active')) {
       $('.tabs li').removeClass('is-active');
-      $('#' + content).addClass('is-active');
-      switch (content){
+      $(`#${content}`).addClass('is-active');
+      switch (content) {
         case 'profile':
         $('#profile_content').removeClass('is-hidden');
         $('#security_content').addClass('is-hidden');
@@ -329,8 +329,8 @@ $(function() {
             icon: 'error',
             title: data.msg
           });
-          $('#' + data.data + ' input').addClass('is-danger').focus();
-          $('#' + data.data + '-warning').text(data.warn);
+          $(`#${data.data} input`).addClass('is-danger').focus();
+          $(`#${data.data}-warning`).text(data.warn);
           inputs[data.data] = false;
           checkInputs(inputs);
         } else {
@@ -346,7 +346,7 @@ $(function() {
               window.location.href = data.data.username;
             } else {
               $('#name h4').text(data.name);
-              $('#name p').text('@' + data.data.username);
+              $('#name p').text(`@${data.data.username}`);
               $('#name-label').text(data.name);
               $('#lastname').val(data.data.lastname);
               $('#firstname').val(data.data.firstname);
@@ -358,7 +358,7 @@ $(function() {
               $('#email input').val(data.data.email);
               $('#city-label').text(data.data.city);
               $('#city').attr('data-val', data.data.city);
-              $('#city').find('option[value="' + data.data.city + '"]').prop('selected', true);
+              $('#city').find(`option[value=${data.data.city}]`).prop('selected', true);
               // $('#phone-label').text('0' + data.data.phone);
               // $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);

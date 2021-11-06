@@ -5,8 +5,10 @@ $.ajaxSetup({
 });
 
 $(window).on('load', function() {
-	$('.title').text('');
-	$('.pageloader').removeClass('is-active');
+	if ($('#app').data('link') != 'camera') {
+		$('.title').text('');
+		$('.pageloader').removeClass('is-active');
+	}
 });
 
 $(function() {

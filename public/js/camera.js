@@ -1,7 +1,6 @@
 $(function() {
 	function camera() {
 		$('canvas').remove();
-		$('#center').removeAttr('disabled');
 		navigator.mediaDevices.getUserMedia(constraints)
 		.then(function(stream) {
 			$('#camera').remove();
@@ -14,37 +13,45 @@ $(function() {
 			imgCap = new ImageCapture(track);
 			$('.title').text('');
 			$('.pageloader').removeClass('is-active');
-		}).catch(function(err) {
-			$('.title').text('');
-			$('.pageloader').removeClass('is-active');
-			console.error(err);
-			Swal.fire({
-				icon: 'error',
-				title: 'Cannot Access Device Camera',
-				text: 'An error occurred while accessing your device\'s camera.',
+      $('#center').removeAttr('disabled');
+    }).catch(function(err) {
+      $('.title').text('');
+      $('.pageloader').removeClass('is-active');
+      console.error(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Cannot Access Device Camera',
+        text: 'An error occurred while accessing your device\'s camera.',
         showConfirmButton: false,
         timer: 10000
       });
-			$('video').remove();
-			$('#center').attr('disabled', true);
-			$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
-			$('#warning').append('LinEase had a problem accessing your device\'s camera. Please allow camera permissions for LinEase to work properly.');
-		});
-	}
+      $('video').remove();
+      $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
+      $('#warning').append('LinEase had a problem accessing your device\'s camera. Please allow camera permissions for LinEase to work properly.');
+    });
+  }
 
   function gps_success (position) {
-    var crd = pos.coords;
-    console.log('Your position is: ');
-    console.log('Latitude: ' + crd.latitude);
-    console.log('Longitude: ' + crd.longitude);
-    console.log('More or less: ' + crd.accuracy);
+    $('.title').text('Initializing Camera');
+    camera();
   }
 
   function gps_error (err) {
     console.warn(`Error ${err.code}: ${err.message}`);
-    if (err.code == err.PERMISSION_DENIED) {
-    } else {
-    }
+    $('.title').text('');
+    $('.pageloader').removeClass('is-active');
+    Swal.fire({
+      icon: 'error',
+      title: 'Cannot Access Device Location',
+      text: 'An error occurred while accessing your device\'s location.',
+      showConfirmButton: false,
+      timer: 10000
+    });
+    $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-map-marker-alt fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></div>');
+    if (err.code == err.PERMISSION_DENIED)
+      $('#warning').append('LinEase cannot access your device\'s location. Please allow location permissions for LinEase to work properly.');
+    else
+      $('#warning').append('LinEase cannot access your device\'s location.');
   }
 
   var imgCap, w, h, lat, lng;
@@ -57,12 +64,35 @@ $(function() {
     },
   };
 
-  
-
   $('html').addClass('has-navbar-fixed-bottom');
   $('#center').attr('disabled', true);
   $('#right').addClass('inactive');
-  $('.pageloader').addClass('is-active');
+  // Create Custom Select Dropdown with Thumbnails
+  $.widget('custom.iconselectmenu', $.ui.selectmenu, {
+    _renderItem: function(ul, item) {
+      var li = $('<li>'),
+      wrapper = $('<div>', {
+        text: item.label,
+        'data-img': item.element.attr('data-img')
+      });
+
+      if (item.disabled)
+        li.addClass('ui-state-disabled');
+
+      $('<span>', {
+        style: item.element.attr('data-style'),
+        'class': `ui-icon ${item.element.attr('data-class')}`
+      }).appendTo(wrapper);
+
+      return li.append(wrapper).appendTo(ul);
+    }
+  });
+  $('#severity').iconselectmenu().iconselectmenu('menuWidget').addClass('ui-menu-icons avatar');
+  $('#severity-button').css('height', '40px');
+  $('.modal-card-body').bind('touchmove', function(e) {
+    if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open'))
+      e.preventDefault();
+  });
 
   if (!Modernizr.getusermedia) {
   	Swal.fire({
@@ -77,19 +107,14 @@ $(function() {
   } else {
   	$('.title').text('Checking Geolocation');
     navigator.geolocation.getCurrentPosition(gps_success, gps_error);
-  	// if (navigator.geolocation) {
-  	// 	$('.title').text('Initializing Camera');
-  	// 	camera();
-  	// } else {
-  	// 	Swal.fire({
-  	// 		icon: 'warning',
-  	// 		title: 'Unsupported Browser',
-  	// 		text: 'Your browser does not support Geolocation. Try switching broswers.',
-  	// 	});
-  	// 	$('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-map-marker-alt fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></div>');
-  	// 	$('#warning').append('LinEase cannot fetch your coordinates.');
-  	// }
   }
+
+  $(window).click(function() {
+    if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open'))
+      $('.modal-card-body').addClass('no-scroll');
+    else
+      $('.modal-card-body').removeClass('no-scroll');
+  });
 
   $('#center').click(function() {
   	if ($('#center').attr('disabled')) {
@@ -169,7 +194,7 @@ $(function() {
       var img = canvas.toDataURL('image/jpeg', 1.0);
       $('#left').addClass('inactive');
       $('#right').addClass('inactive');
-      $('#center').attr('disabled', 'disabled');
+      $('#center').attr('disabled', true);
       $('#createReport').addClass('is-active');
       var preview = document.getElementById('preview');
       preview.src = img;
@@ -200,7 +225,7 @@ $(function() {
   $('form').submit(function(e) {
   	e.preventDefault();
   	$('#submit').addClass('is-loading');
-  	$('#cancel').attr('disabled', 'disabled');
+  	$('#cancel').attr('disabled', true);
   	var des = $('textarea').val();
     var img = $('#preview').attr('src');
     var sev = $('#severity-button .ui-selectmenu-text').text().toUpperCase();
@@ -211,7 +236,7 @@ $(function() {
       datatype: 'JSON',
       success: function(response) {
         console.log(response);
-        $('#submit').removeClass('is-loading').attr('disabled', 'disabled');
+        $('#submit').removeClass('is-loading').attr('disabled', true);
         Swal.fire({
           icon: 'success',
           title: response,
