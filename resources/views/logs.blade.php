@@ -118,18 +118,24 @@
 </div>
 @endif
 
-{{-- MODAL --}}
 <div class="modal">
 	<div class="modal-background"></div>
-	<div class="modal-content">
+	<div id="loader" class="modal-card">
+		<div class="modal-card-body">
+			<span class="icon is-large has-text-success">
+				<i class="fas fa-circle-notch fa-spin fa-3x"></i>
+			</span>
+		</div>
+	</div>
+	<div class="modal-content is-hidden">
 		<div class="card mx-4">
 			<div class="card-image mt-2">
-				<p class="image is-4by3">
-					<img src="https://bulma.io/images/placeholders/1280x960.png" class="rounded-corners" alt="Placeholder image">
+				<p class="image is-1by1">
+					<img src="" class="rounded-corners" alt="">
 				</p>
 			</div>
 			<div class="card-content">
-				<div class="media-content">
+				<div class="content">
 					<p id="log_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
 					<p id="log_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
 					<p id="log_address" class="is-size-7 has-text-weight-medium"></p>
@@ -143,5 +149,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/logs.js') }}"></script>
+<script id="logs" src="{{ asset('js/logs.js') }}" data-base="{{ asset('reports') }}"></script>
 @endsection

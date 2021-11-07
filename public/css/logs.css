@@ -32,10 +32,18 @@
 }
 
 .container.is-fluid {
-	padding-left: 15px;
-	padding-right: 15px;
+	padding:  0 15px;
 }
 
 .box {
 	margin-bottom: 15px;
+}
+
+.modal-card {
+	width: 90%;
+	border-radius: 10px;
+}
+
+.modal-card .icon {
+	width:  100%;
 }

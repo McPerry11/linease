@@ -31,14 +31,12 @@ $(function() {
 
 	$('#reports_content a.box').click(function() {
 		var report_id = $(this).data('id');
-		console.log(report_id)
+		$('.modal').addClass('is-active');
 		$.ajax({
 			type: 'POST',
-			url: 'report/' + report_id,
+			url: `report/${report_id}`,
 			datatype:'JSON',
-
 			success: function(data) {
-				console.log(data)
 				var color;
 				switch(data.severity) {
 					case 'CRITICAL':
@@ -61,15 +59,27 @@ $(function() {
 				$('#log_title').text(data.severity).css({'color': color});
 				$('#log_address').text(data.address);
 				$('#log_description').text(data.description);
-				$('.modal').addClass('is-active');
+				$('.modal img').attr('src', `${$('#logs').data('base')}/${data.picture}`);
+				$('#loader').addClass('is-hidden');
+				$('.modal-content').removeClass('is-hidden');
 			},
 			error: function(err) {
-				console.log(err);
+				console.error(err);
+				$('.modal').removeClass('is-active');
+				Swal.fire({
+					icon: 'error',
+					title: 'Cannot Retrieve Report',
+					text: 'An error occured while retrieving the report.',
+					showConfirmButton: false,
+					timer: 10000
+				});
 			}
 		})
 	});
 
 	$('.modal-background').click(function(){
 		$('.modal').removeClass('is-active');
+		$('#loader').removeClass('is-hidden');
+		$('.modal-content').addClass('is-hidden');
 	});
 });
