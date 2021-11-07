@@ -6,7 +6,7 @@ $(function() {
 		validate(error);
 		Swal.fire({
 			icon: 'error',
-			title: 'Cannot Connect to server',
+			title: 'Cannot Connect to Server',
 			text: 'Something went wrong. Please try again later.'
 		});
 	}
@@ -203,7 +203,7 @@ $(function() {
 				ajaxResponse();
 				Swal.fire({
 					icon: 'error',
-					title: 'Cannot connect to server',
+					title: 'Cannot Connect to Server',
 					text: 'Something went wrong. Please try again later.'
 				});
 			}

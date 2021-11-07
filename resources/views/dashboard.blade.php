@@ -37,5 +37,5 @@
 
 @section('scripts')
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
+<script id="dashboard" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}"></script>
 @endsection

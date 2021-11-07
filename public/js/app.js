@@ -5,7 +5,7 @@ $.ajaxSetup({
 });
 
 $(window).on('load', function() {
-	if ($('#app').data('link') != 'camera') {
+	if ($('#app').data('link') != 'camera' && $('#app').data('link') != '/') {
 		$('.title').text('');
 		$('.pageloader').removeClass('is-active');
 	}

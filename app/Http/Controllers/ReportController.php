@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Log;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -61,8 +62,15 @@ class ReportController extends Controller
     Storage::disk('reports')->put($filename, $imgData);
 
     $report->save();
+    $report = Report::where('picture', $filename)->get()[0];
+    Log::create([
+      'user_id' => Auth::id(),
+      'report_id' => $report->id,
+      'ip_address' => $request->ip(),
+      'description' => Auth::user()->username . ' added a ' . strtolower($report->severity) . ' report.'
+    ]);
 
-    return response()->json('Report Successfully Uploaded!');
+    return response()->json('Report Successfully Uploaded');
   }
 
   /**

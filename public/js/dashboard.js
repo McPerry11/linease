@@ -1,6 +1,39 @@
-var map;
+var map, base = $('#dashbard').data('link'), icons = {
+	critical: {
+		icon: `${base}/S1Pin.png`
+	},
+	major: {
+		icon: `${base}/S2Pin.png`
+	},
+	moderate: {
+		icon: `${base}/S3Pin.png`
+	},
+	light: {
+		icon: `${base}/S4Pin.png`
+	},
+	resolved: {
+		icon: `${base}/RPin.png`
+	}
+};
 
 function initMap() {
+	// $.ajax({
+	// 	type: 'POST',
+	// 	url: 'markers',
+	// 	datatype: 'JSON',
+	// 	success: function(data) {
+		
+	// 	},
+	// 	error: function(err) {
+	// 		console.error(err);
+	// 		Swal.fire({
+	// 			icon: 'error',
+	// 			title: 'Cannot Get Map Markers',
+	// 			showConfirmButton: false,
+	// 			timer: 10000
+	// 		});
+	// 	}
+	// });
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat:14.59468687747799, lng:120.99835708124482},
 		zoom: 15,
@@ -8,6 +41,8 @@ function initMap() {
 		streetViewControl: false,
 		fullscreenControl: false
 	});
+	$('.title').text('');
+	$('.pageloader').removeClass('is-active');
 }
 
 $(function() {
@@ -57,7 +92,7 @@ $(function() {
 			$('#btn-search').removeClass('is-loading');
 			Swal.fire({
 				icon: 'error',
-				title: 'Cannot produce search results',
+				title: 'Cannot Produce Search Results',
 				text: 'LinEase encountered an error while searching for results.',
 				showConfirmButton: false,
 				timer: 10000
