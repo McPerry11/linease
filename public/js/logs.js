@@ -24,8 +24,52 @@ $(function() {
 		}
 	});
 
-	$('a.box').click(function() {
+	$('#admin_content a.box').click(function() {
 		$('.pageloader .title').text(`Loading ${$(this).attr('data-user')}'s Profile`);
 		$('.pageloader').addClass('is-active');
+	});
+	$('.box').click(function(){
+		if(!$('#admin_content').hasClass('is-hidden')){
+			var report_id = $(this).data('id');
+			console.log(report_id)
+			$.ajax({
+				type: 'POST',
+				url: 'report/' + report_id,
+				datatype:'JSON',
+
+				success: function(data) {
+					console.log(data)
+					var color;
+					switch(data.severity) {
+						case 'CRITICAL':
+						color = '#4e1e73';
+						break;
+						case 'MAJOR':
+						color = '#3598db';
+						break;
+						case 'MODERATE':
+						color = '#9E1C21';
+						break;
+						case 'LIGHT':
+						color = '#e8ca4d';
+						break;
+						case 'RESOLVED':
+						color = '#087F38';
+						break;
+					}
+					$('#report_date').text(data.created_at);
+					$('#report_title').text(data.severity).css({'color': color});
+					$('#report_address').text(data.address);
+					$('#report_description').text(data.description);
+					$('.modal').addClass('is-active');
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			})
+		}
+	})
+	$('.modal-background').click(function(){
+		$('.modal').removeClass('is-active');
 	});
 });
