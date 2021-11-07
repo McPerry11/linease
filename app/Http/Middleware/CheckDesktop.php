@@ -15,13 +15,12 @@ class CheckDesktop
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
+    {   
         $agent = new Agent();
-        if ($agent->isDesktop() && !$request->is('desktop')) {
+        if ($agent->isDesktop() && !$request->is('desktop'))
             return redirect('desktop');
-        } else if ($agent->isPhone() && $request->is('desktop')) {
-            return redirect('login');
-        }
+        else if (!$agent->isDesktop() && $request->is('desktop'))
+            return redirect(route('dashboard'));
         return $next($request);
     }
 }

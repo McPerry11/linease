@@ -24,27 +24,25 @@ Route::middleware(['desktop'])->group(function() {
   Route::post('register', 'UsersController@store');
 
   Route::post('users', 'UsersController@index');
-
-  Route::middleware(['auth'])->group(function() {
-    Route::get('', 'IndexController@dashboard')->name('dashboard');
-    Route::post('markers', 'ReportController@index');
-
-    Route::get('camera', 'ReportController@create');
-    Route::post('camera', 'ReportController@store');
-
-    Route::get('logs', 'IndexController@logs')->middleware('access:logs');
-
-    Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
-
-    // Route::get('settings', 'IndexController@settings');
-    Route::post('report/{id}', 'ReportController@show');
-    Route::get('{username}', 'UsersController@show');
-    Route::post('{username}/profile', 'UsersController@edit');
-    Route::post('{username}/update', 'UsersController@update');
-
-  });
 });
 
-// Route::fallback(function() {
-//   return redirect('not_found');
-// });
+Route::middleware(['auth'])->group(function() {
+  Route::get('', 'IndexController@dashboard')->name('dashboard');
+  Route::post('markers', 'ReportController@index');
+
+  Route::get('camera', 'ReportController@create');
+  Route::post('camera', 'ReportController@store');
+
+  Route::get('logs', 'IndexController@logs')->middleware('access:logs');
+
+  Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
+
+  Route::post('report/{id}', 'ReportController@show');
+  Route::get('{username}', 'UsersController@show');
+  Route::post('{username}/profile', 'UsersController@edit');
+  Route::post('{username}/update', 'UsersController@update');
+});
+
+Route::fallback(function() {
+  return redirect('not_found');
+});

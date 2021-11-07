@@ -59,15 +59,11 @@ body {
 	background-color: #00C944;
 }
 
-.is-fixed-bottom .navbar-brand .navbar-item#right:active > div {
-	color: white;
-}
-
 .is-fixed-bottom .navbar-brand .navbar-item#left:active {
 	background-color: red;
 }
 
-.is-fixed-bottom .navbar-brand .navbar-item#left:active > div, label {
+.is-fixed-bottom .navbar-brand .navbar-item#left:active > div, .is-fixed-bottom .navbar-brand .navbar-item#right:active > div, label, .help {
 	color: white;
 }
 
@@ -146,8 +142,21 @@ option.avatar {
 
 .ui-selectmenu-text {
 	margin-left: 25px;
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
 }
 
-.modal-card-body .icon {
+.modal-card-body .icon, .select, #severity-button {
 	width: 100%;
+}
+
+figure.image.is-32x32 {
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
+}
+
+.ui-selectmenu-icon.ui-icon {
+	margin-top: 5px;
 }

@@ -36,6 +36,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps-web.min.js"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
+<script id="dashboard" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}"></script>
 @endsection

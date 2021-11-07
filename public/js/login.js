@@ -17,29 +17,21 @@ $(function() {
 	}
 
 	var platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-	var inpPassword = '#' + platform + 'password', inpUsername = '#' + platform + 'username', btnView = '#' + platform + 'view', btnLogin = '#' + platform + 'login', btnRegister = '#' + platform + 'register', txtMsg = '#' + platform + 'message', icnViewPass = '#' + platform + 'icon-pass';
-	$(window).resize(function() {
-		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-		if (newplatform != platform) {
-			$('.title').text('Reloading Viewport');
-			$('.pageloader').addClass('is-active');
-			location.reload();
-		}
-	});
+	var inpPassword = `#${platform}password`, inpUsername = `#${platform}username`, btnView = `#${platform}view`, btnLogin = `#${platform}login`, btnRegister = `#${platform}register`, txtMsg = `#${platform}message`, icnViewPass = `#${platform}icon-pass`;
 
 	$('html').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Login');
 
 	$('form').submit(function(e) {
 		e.preventDefault();
-		if( $(inpPassword).attr('type') == 'text' ) {
+		if ($(inpPassword).attr('type') == 'text') {
 			$(inpPassword).attr('type', 'password');
 			$(icnViewPass).removeClass('fa-eye-slash').addClass('fa-eye').removeClass('has-text-white');
 			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
 		}
-		$(btnView).attr('disabled', 'disabled');
+		$(btnView).attr('disabled', true);
 		$(btnLogin).addClass('is-loading');
-		$(btnRegister).attr('disabled', 'disabled');
+		$(btnRegister).attr('disabled', true);
 		$(inpUsername).attr('readonly', true);
 		$(inpPassword).attr('readonly', true);
 		let username = $(inpUsername).val(), password = $(inpPassword).val();
@@ -61,14 +53,14 @@ $(function() {
 						$('.pageloader').addClass('is-active');
 						window.location.href = $('#js').data('link');
 					});
-				} else if (response.status == 'error') {
+				} else {
 					$(txtMsg).text(response.message);
 					$(inpPassword).val('');
 					$(inpUsername).val('');
 				}
 			},
 			error: function(err) {
-				console.log(err);
+				console.error(err);
 				ajaxResponse();
 				if (err.status == 429) {
 					Swal.fire({
@@ -99,7 +91,7 @@ $(function() {
 		registerBtn(e);
 	});
 
-	$('#' + platform + 'reglink').click(function(e) {
+	$(`#${platform}reglink`).click(function(e) {
 		registerBtn(e);
 	});
 

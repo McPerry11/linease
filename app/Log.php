@@ -9,7 +9,7 @@ class Log extends Model
 	protected $fillable = [
 		'description',
 		'user_id',
-		'reports_id',
+		'report_id',
 		'ip_address'
 	];
 

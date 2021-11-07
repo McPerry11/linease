@@ -10,9 +10,8 @@ use App\Log;
 class IndexController extends Controller
 {
 	public function login() {
-		if (Auth::check()) {
+		if (Auth::check())
 			return redirect('');
-		}	
 		return view('login');
 	}
 

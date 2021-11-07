@@ -18,7 +18,7 @@ class CreateReportsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('latitude');
             $table->string('longitude');
-            $table->longText('address');
+            $table->longText('address')->nullable();
             $table->enum('severity', [
                 'CRITICAL',
                 'MAJOR',
@@ -27,8 +27,9 @@ class CreateReportsTable extends Migration
                 'VERIFIED',
                 'RESOLVED'
             ]);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('picture');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }

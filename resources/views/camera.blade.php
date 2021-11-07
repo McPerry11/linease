@@ -1,8 +1,8 @@
 @extends('_layout')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
 @endsection
 
 @section('body')
@@ -48,6 +48,13 @@
 					</div>
 				</div>
 				<div class="field">
+					<div class="control">
+						<label>ADDESS</label>
+						<textarea id="address" rows="3" class="textarea has-text-grey" name="description" readonly></textarea>
+						<small class="help">Latitude, Longitude, and Address cannot be edited.</small>
+					</div>
+				</div>
+				<div class="field">
 					<label>SEVERITY</label>
 					<div class="control has-icons-left">
 						<div class="select">
@@ -69,7 +76,7 @@
 				<div class="field">
 					<div class="control">
 						<label>DESCRIPTION</label>
-						<textarea rows="5" class="textarea" name="description"></textarea>
+						<textarea id="description" rows="5" class="textarea" name="description"></textarea>
 					</div>
 				</div>
 				<div class="buttons is-centered mt-5">
@@ -80,11 +87,11 @@
 		</section>
 	</div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script src="{{ asset('js/modernizr-custom.js') }}"></script>
 <script src="{{ asset('js/camera.js') }}" id="camjs" data-link="{{ route('dashboard') }}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 @endsection
