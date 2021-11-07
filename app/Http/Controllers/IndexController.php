@@ -36,9 +36,12 @@ class IndexController extends Controller
 	}
 
 	public function logs() {
-		$logs = Log::orderBy('created_at', 'desc')->get();
+		$adminlogs = Log::whereNull('report_id')->orderBy('created_at', 'desc')->get();
+		$reportlogs = Log::whereNotNull('report_id')->orderBy('created_at', 'desc')->get();
+
 		return view('logs', [
-			'logs' => $logs
+			'adminlogs' => $adminlogs,
+			'reportlogs'=> $reportlogs
 		]);
 	}
 

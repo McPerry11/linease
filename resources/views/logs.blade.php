@@ -36,11 +36,11 @@
 		</div>
 	</form>
 
-	@if (count($logs) > 0) 
+	@if (count($reportlogs) > 0) 
 	@php
 	$previousDate = ""; 
 	@endphp
-	@foreach ($logs as $log)
+	@foreach ($reportlogs as $log)
 	@if (!is_null($log->report_id))
 	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
 	@php
@@ -77,11 +77,11 @@
 		</div>
 	</form>
 
-	@if (count($logs) > 0) 
+	@if (count($adminlogs) > 0) 
 	@php
 	$previousDate = ""; 
 	@endphp
-	@foreach ($logs as $log)
+	@foreach ($adminlogs as $log)
 	@if (is_null($log->report_id))
 	@if (Auth::user()->type == 'ADMIN')
 	@if ($log->user->type != 'USER' && $log->user->type != 'SUPER')
