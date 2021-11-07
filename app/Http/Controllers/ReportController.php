@@ -73,18 +73,18 @@ class ReportController extends Controller
     return response()->json('Report Successfully Uploaded');
   }
 
-    /**
+  /**
    * Display the specified resource.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-    public function show($id)
-    {
-      $report = Report::find($id);
+  public function show($id)
+  {
+    $report = Report::find($id);
 
-      return response()->json($report);
-    }
+    return response()->json($report);
+  }
 
   /**
    * Show the form for editing the specified resource.

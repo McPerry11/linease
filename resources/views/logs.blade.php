@@ -18,6 +18,8 @@
 		@endif
 	</ul>
 </div>
+
+{{--REPORT LOGS--}}
 <div id="reports_content" class="container is-fluid">
 	<form id="search_reports">
 		<div class="field has-addons">
@@ -33,11 +35,30 @@
 			</div>
 		</div>
 	</form>
-	
-	{{-- Insert dynamic code Here --}}
 
+	@if (count($logs) > 0) 
+	@php
+	$previousDate = ""; 
+	@endphp
+	@foreach ($logs as $log)
+	@if (!is_null($log->report_id))
+	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
+	@php
+	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
+	@endphp
+	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+	@endif
+	<a class="box log_data" data-id="{{ $log->report_id }}">
+		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
+		<p>{{ $log->description }}</p>
+	</a>
+	@endif
+	@endforeach
+	<hr>
+	@else
+	<div class="has-text-centered">No logs found.</div>
+	@endif
 </div>
-
 
 @if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER')
 <div id="admin_content" class="container is-fluid is-hidden">
@@ -56,72 +77,69 @@
 		</div>
 	</form>
 
-	{{-- 1 Checks for available logs --}}
 	@if (count($logs) > 0) 
 	@php
 	$previousDate = ""; 
 	@endphp
 	@foreach ($logs as $log)
-
-	{{-- 2 Checks if log is for admin --}}
-	@if(is_null($log->report_id))
-
-	{{-- 3 Checks if user is admin --}}
+	@if (is_null($log->report_id))
 	@if (Auth::user()->type == 'ADMIN')
-
-	{{-- 4 If current user is admin, they can only see admin and facilitator logs --}}
 	@if ($log->user->type != 'USER' && $log->user->type != 'SUPER')
-
-	{{-- 5 Checks if the date of current log is not the with same previous log  --}}
 	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
 	@php
 	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
 	@endphp
 	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
-	{{-- 5 --}}
 	@endif
-
 	<a class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
 		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
 	</a>
-	{{-- 4 --}}
 	@endif
-
-	{{-- 3 If current user is super admin --}}
 	@else
-
-	{{-- 6 Checks if the date of current log is not the same with previous log --}}
 	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
 	@php
 	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
 	@endphp
 	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
-	{{-- 6 --}}
 	@endif
-
 	<a class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
 		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
 		<div class="help has-text-grey">{{ $log->ip_address }}</div>
 	</a>
-	{{-- 3 --}}
 	@endif
-
-	{{-- 2 --}}
 	@endif
-
 	@endforeach
 	<hr>
-
-	{{-- 1 If there are no available logs --}}
 	@else
 	<div class="has-text-centered">No logs found.</div>
-
-	{{-- 1 --}}
 	@endif
 </div>
 @endif
+
+{{-- MODAL --}}
+<div class="modal">
+	<div class="modal-background"></div>
+	<div class="modal-content">
+		<div class="card mx-4">
+			<div class="card-image mt-2">
+				<p class="image is-4by3">
+					<img src="https://bulma.io/images/placeholders/1280x960.png" class="rounded-corners" alt="Placeholder image">
+				</p>
+			</div>
+			<div class="card-content">
+				<div class="media-content">
+					<p id="log_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
+					<p id="log_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
+					<p id="log_address" class="is-size-7 has-text-weight-medium"></p>
+					<br>
+					<p id="log_description" class="is-size-6"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')

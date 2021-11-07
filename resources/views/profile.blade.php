@@ -432,13 +432,13 @@
   </div>
   @else
   <div class="column is-variable px-0">
-    <div class="card report_data" data-id="{{$report->id}}">
+    <div class="card report_data" data-id="{{ $report->id }}">
       <div class="card-content px-3 py-4">
         <article class="media">
           <div class="media-content">
-            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}[UNLISTED]</p> 
-            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{ $report->severity }}[UNLISTED]</p> 
+            <p class="is-size-7 has-text-weight-medium">{{ $report->address }}</p>
+            <p class="is-size-7 has-text-weight-light">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
@@ -452,6 +452,7 @@
   @endif
   @endforeach
 </div>
+
 <!-- MODAL -->
 <div class="modal">
   <div class="modal-background"></div>
@@ -464,11 +465,11 @@
       </div>
       <div class="card-content">
         <div class="media-content">
-          <p id = "report_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
-          <p id = "report_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
-          <p id = "report_address" class="is-size-7 has-text-weight-medium"></p>
+          <p id="report_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
+          <p id="report_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
+          <p id="report_address" class="is-size-7 has-text-weight-medium"></p>
           <br>
-          <p id = "report_description" class="is-size-6"></p>
+          <p id="report_description" class="is-size-6"></p>
         </div>
       </div>
     </div>
