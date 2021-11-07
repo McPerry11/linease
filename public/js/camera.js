@@ -174,9 +174,10 @@ $(function() {
       $('.title').text('Loading Dashboard');	
       window.location.href = $('#camjs').data('link');
     } else {	
-    	camera();	
-    	$('#licon').removeClass('fa-redo-alt').addClass('fa-times');	
-    	$('#right').addClass('inactive');	
+    	camera();
+      $('.help').removeClass('has-text-danger').text('Latitude, Longitude, and Address cannot be edited.');
+      $('#licon').removeClass('fa-redo-alt').addClass('fa-times');	
+      $('#right').addClass('inactive');	
     }	
   });
 
@@ -193,7 +194,8 @@ $(function() {
         geocoder.geocode({'location':{lat:lat, lng:lng}}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK)
             $('#address').val(results[1].formatted_address);
-
+          else
+            $('.help').addClass('has-text-danger').text('Cannot fetch readable address.');
         });
 
         var canvas = document.querySelector('canvas');
@@ -243,16 +245,16 @@ $(function() {
   	e.preventDefault();
   	$('#submit').addClass('is-loading');
   	$('#cancel').attr('disabled', true);
-  	var des = $('textarea').val();
+  	var des = $('#description').val();
     var img = $('#preview').attr('src');
-    var sev = $('#severity-button .ui-selectmenu-text').text().toUpperCase();
+    var add = $('#address').val();
+    var sev = $('.ui-selectmenu-text').text().toUpperCase();
     $.ajax({
       type: 'POST',
       url: 'camera',
-      data: {lat:lat, lng:lng, sev:sev, des:des, img:img},
+      data: {lat:lat, lng:lng, sev:sev, des:des, img:img, add:add},
       datatype: 'JSON',
       success: function(response) {
-        console.log(response);
         $('#submit').removeClass('is-loading').attr('disabled', true);
         Swal.fire({
           icon: 'success',
@@ -260,6 +262,8 @@ $(function() {
           showConfirmButton: false,
           timer: 2500,
         }).then(function() {
+          $('.title').text('Redirecting to Dashboard');
+          $('.pageloader').addClass('is-active');
           window.location.href = $('#camjs').data('link');
         });
       },

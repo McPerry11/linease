@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -39,20 +40,18 @@ class ReportController extends Controller
   {
     $report = new Report;
 
+    $report->user_id = Auth::id();
     $report->latitude = $request->lat;
     $report->longitude = $request->lng;
     $report->description = $request->des;
     $report->severity = $request->sev;
+    $report->address = $request->add;
 
-    $continue = true;
-    while ($continue == true) {
-      $continue = false;
-      $number = mt_rand(1, 9999);
+    do {
+      $number = mt_rand(1, 99999);
       $filename = $number . '.jpg';
       $duplicate = Report::where('picture', $filename)->get();
-      if (count($duplicate) > 0)
-        $continue = true;
-    }
+    } while (count($duplicate) > 0);
     $report->picture = $filename;
 
     $img = $request->img;

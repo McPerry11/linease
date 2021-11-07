@@ -1,8 +1,8 @@
 @extends('_layout')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
 @endsection
 
 @section('body')
@@ -50,7 +50,7 @@
 				<div class="field">
 					<div class="control">
 						<label>ADDESS</label>
-						<textarea id="address" rows="3" class="textarea has-text-grey" name="description" readonly>Hello</textarea>
+						<textarea id="address" rows="3" class="textarea has-text-grey" name="description" readonly></textarea>
 						<small class="help">Latitude, Longitude, and Address cannot be edited.</small>
 					</div>
 				</div>

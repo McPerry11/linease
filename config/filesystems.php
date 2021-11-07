@@ -48,10 +48,10 @@ return [
             'root' => storage_path('app'),
         ],
 
-	'reports' => [
-	    'driver' => 'local',
-	    'root' => storage_path('app/public/reports'),
-	],
+        'reports' => [
+            'driver' => 'local',
+            'root' => public_path('reports'),
+        ],
 
         'public' => [
             'driver' => 'local',

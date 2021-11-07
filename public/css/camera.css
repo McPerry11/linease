@@ -142,8 +142,21 @@ option.avatar {
 
 .ui-selectmenu-text {
 	margin-left: 25px;
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
 }
 
-.modal-card-body .icon {
+.modal-card-body .icon, .select, #severity-button {
 	width: 100%;
+}
+
+figure.image.is-32x32 {
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
+}
+
+.ui-selectmenu-icon.ui-icon {
+	margin-top: 5px;
 }
