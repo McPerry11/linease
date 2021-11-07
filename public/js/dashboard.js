@@ -1,4 +1,5 @@
-var map, base = $('#dashbard').data('link'), icons = {
+var map, marker, center = {lat:14.59468687747799, lng:120.99835708124482};
+var features = [], base = $('#dashbard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`
 	},
@@ -16,33 +17,83 @@ var map, base = $('#dashbard').data('link'), icons = {
 	}
 };
 
-function initMap() {
-	// $.ajax({
-	// 	type: 'POST',
-	// 	url: 'markers',
-	// 	datatype: 'JSON',
-	// 	success: function(data) {
-		
-	// 	},
-	// 	error: function(err) {
-	// 		console.error(err);
-	// 		Swal.fire({
-	// 			icon: 'error',
-	// 			title: 'Cannot Get Map Markers',
-	// 			showConfirmButton: false,
-	// 			timer: 10000
-	// 		});
-	// 	}
-	// });
+function gps_success (position) {
+	center = {lat:position.coords.latitude, lng:position.coords.longitude};
+	$('.title').text('Initializing Map');
 	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat:14.59468687747799, lng:120.99835708124482},
+		center: center,
 		zoom: 15,
 		mapTypeControl: false,
 		streetViewControl: false,
 		fullscreenControl: false
 	});
+	for (feature of features) {
+		marker = new google.maps.Marker({
+			position: feature.position,
+			icon: feature.icon,
+			map: map
+		});
+	}
 	$('.title').text('');
 	$('.pageloader').removeClass('is-active');
+}
+
+function gps_error (err) {
+	console.warn(`Error ${err.code}: ${err.message}`);
+	text = err.code == err.PERMISSION_DENIED ? 'LinEase cannot access your device\'s location. Please allow location permissions for LinEase to work properly.' : 'Your current location cannot be determined at this time.';
+	Swal.fire({
+		icon: 'error',
+		title: 'Cannot Access Device Location',
+		text: text,
+		showConfirmButton: false,
+		timer: 10000
+	});
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: center,
+		zoom: 15,
+		mapTypeControl: false,
+		streetViewControl: false,
+		fullscreenControl: false
+	});
+	for (feature of features) {
+		marker = new google.maps.Marker({
+			position: feature.position,
+			icon: feature.icon,
+			map: map
+		});
+	}
+	$('.title').text('');
+	$('.pageloader').removeClass('is-active');
+}
+
+function initMap() {
+	$('.title').text('Fetching Map Markers');
+	$.ajax({
+		type: 'POST',
+		url: 'markers',
+		data: {source:'map'},
+		datatype: 'JSON',
+		success: function(data) {
+			for (report of data) {
+				features.push({
+					position: new google.maps.LatLng(report.latitude, report.longitude),
+					type: report.severity.toLowerCase()
+				});
+			}
+		},
+		error: function(err) {
+			console.error(err);
+			Swal.fire({
+				icon: 'error',
+				title: 'Cannot Get Map Markers',
+				showConfirmButton: false,
+				timer: 10000
+			});
+		}
+	}).then(function() {
+		$('.title').text('Initializing Geolocation');
+		navigator.geolocation.getCurrentPosition(gps_success, gps_error);
+	});
 }
 
 $(function() {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Log;
 use App\Report;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,7 +51,7 @@ class ReportController extends Controller
 
     do {
       $number = mt_rand(1, 99999);
-      $filename = $number . '.jpg';
+      $filename = $number . '-' . Carbon::now()->isoFormat('MM-DD-YYYY HH-mm-ss') . '.jpg';
       $duplicate = Report::where('picture', $filename)->get();
     } while (count($duplicate) > 0);
     $report->picture = $filename;
@@ -62,7 +63,6 @@ class ReportController extends Controller
     Storage::disk('reports')->put($filename, $imgData);
 
     $report->save();
-    $report = Report::where('picture', $filename)->get()[0];
     Log::create([
       'user_id' => Auth::id(),
       'report_id' => $report->id,
