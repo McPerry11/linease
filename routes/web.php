@@ -37,9 +37,11 @@ Route::middleware(['auth'])->group(function() {
 
   Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
 
+  Route::post('report/{id}', 'ReportController@show');
   Route::get('{username}', 'UsersController@show');
   Route::post('{username}/profile', 'UsersController@edit');
   Route::post('{username}/update', 'UsersController@update');
+
 });
 
 Route::fallback(function() {

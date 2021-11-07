@@ -1,21 +1,5 @@
 var map, marker, center = {lat:14.59468687747799, lng:120.99835708124482};
-var features = [], base = $('#dashbard').data('link'), icons = {
-	critical: {
-		icon: `${base}/S1Pin.png`
-	},
-	major: {
-		icon: `${base}/S2Pin.png`
-	},
-	moderate: {
-		icon: `${base}/S3Pin.png`
-	},
-	light: {
-		icon: `${base}/S4Pin.png`
-	},
-	resolved: {
-		icon: `${base}/RPin.png`
-	}
-};
+var features = [], base = $('#dashboard').data('link');
 
 function gps_success (position) {
 	center = {lat:position.coords.latitude, lng:position.coords.longitude};
@@ -27,12 +11,54 @@ function gps_success (position) {
 		streetViewControl: false,
 		fullscreenControl: false
 	});
-	for (feature of features) {
-		marker = new google.maps.Marker({
-			position: feature.position,
-			icon: feature.icon,
-			map: map
-		});
+
+	if (features) {
+		var icons = {
+			critical: {
+				icon: `${base}/S1Pin.png`,
+				size: new google.maps.Size(20, 30),
+				scaledSize: new google.maps.Size(20, 30),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(10, 30)
+			},
+			major: {
+				icon: `${base}/S2Pin.png`,
+				size: new google.maps.Size(20, 30),
+				scaledSize: new google.maps.Size(20, 30),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(10, 30)
+			},
+			moderate: {
+				icon: `${base}/S3Pin.png`,
+				size: new google.maps.Size(20, 30),
+				scaledSize: new google.maps.Size(20, 30),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(10, 30)
+			},
+			light: {
+				icon: `${base}/S4Pin.png`,
+				size: new google.maps.Size(20, 30),
+				scaledSize: new google.maps.Size(20, 30),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(10, 30)
+			},
+			resolved: {
+				icon: `${base}/RPin.png`,
+				size: new google.maps.Size(20, 30),
+				scaledSize: new google.maps.Size(20, 30),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(10, 30)
+			}
+		};
+
+		for (feature of features) {
+			marker = new google.maps.Marker({
+				position: feature.position,
+				icon: feature.type.icon,
+				// icon: icons[feature.type].icon,
+				map: map
+			});
+		}
 	}
 	$('.title').text('');
 	$('.pageloader').removeClass('is-active');
@@ -55,12 +81,14 @@ function gps_error (err) {
 		streetViewControl: false,
 		fullscreenControl: false
 	});
-	for (feature of features) {
-		marker = new google.maps.Marker({
-			position: feature.position,
-			icon: feature.icon,
-			map: map
-		});
+	if (features) {
+		for (feature of features) {
+			marker = new google.maps.Marker({
+				position: feature.position,
+				icon: icons[feature.type].icon,
+				map: map
+			});
+		}
 	}
 	$('.title').text('');
 	$('.pageloader').removeClass('is-active');
@@ -83,6 +111,7 @@ function initMap() {
 		},
 		error: function(err) {
 			console.error(err);
+			features = false;
 			Swal.fire({
 				icon: 'error',
 				title: 'Cannot Get Map Markers',

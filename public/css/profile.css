@@ -4,6 +4,10 @@ body {
   padding-bottom: 20px;
 }
 
+strong {
+  color : #FFFFFF;
+}
+
 .navbar {
   background-color: #00C944;
   height: 100px;
@@ -101,3 +105,46 @@ figure img {
   background-color: #00C944;
   color: white;
 }
+
+.card {
+  border-radius: 5px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 18px 0 rgba(0, 0, 0, 0.19);
+}
+
+.critical {
+  background-color: #4e1e73;
+  color: white;
+}
+
+.major {
+  background-color: #3598db;
+  color: white;
+}
+
+.moderate {
+  background-color: #9E1C21;
+  color: white;
+}
+
+.light {
+  background-color: #e8ca4d;
+  color: white; 
+}
+
+.resolved {
+  background-color: #087F38;
+  color: white;
+}
+
+img.rounded-corners {
+  border-radius: 5px 5px 0px 0px;
+}
+
+#description {
+  margin-top: 5px;
+}
+
+hr { 
+  margin: 0;
+  height: 1px;
+} 

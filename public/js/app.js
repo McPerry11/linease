@@ -12,6 +12,8 @@ $(window).on('load', function() {
 });
 
 $(function() {
+	var platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
+	
 	$(window).resize(function() {
 		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
 		if (newplatform != platform) {

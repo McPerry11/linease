@@ -329,10 +329,150 @@
   </form>
 </div>
 
-{{-- REPORTS --}}
+<!-- REPORTS -->
 <div id="reports_content" class="container is-fluid is-hidden">
-  {{-- Reports Here --}}
-  Hello World
+  @foreach($reports as $report)
+  
+  @if($report->severity == 'LIGHT')
+  <div class="column is-variable px-0">
+    <div class="card report_data light" data-id="{{$report->id}}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
+            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
+            <p class="is-size-7 has-text-weight-light">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  
+  @elseif($report->severity == 'MODERATE')
+  <div class="column is-variable px-0">
+    <div class="card report_data moderate" data-id="{{$report->id}}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
+            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  
+  @elseif($report->severity == 'MAJOR')
+  <div class="column is-variable px-0">
+    <div class="card report_data major" data-id="{{$report->id}}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
+            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  @elseif($report->severity == 'CRITICAL')
+  <div class="column is-variable px-0">
+    <div class="card report_data critical" data-id="{{$report->id}}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
+            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  @elseif($report->severity== 'RESOLVED')
+  <div class="column is-variable px-0">
+    <div class="card report_data resolved" data-id="{{$report->id}}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
+            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  @else
+  <div class="column is-variable px-0">
+    <div class="card report_data" data-id="{{$report->id}}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}[UNLISTED]</p> 
+            <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  @endif
+  @endforeach
+</div>
+<!-- MODAL -->
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="card mx-4">
+      <div class="card-image mt-2">
+        <p class="image is-4by3">
+          <img src="https://bulma.io/images/placeholders/1280x960.png" class="rounded-corners" alt="Placeholder image">
+        </p>
+      </div>
+      <div class="card-content">
+        <div class="media-content">
+          <p id = "report_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
+          <p id = "report_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
+          <p id = "report_address" class="is-size-7 has-text-weight-medium"></p>
+          <br>
+          <p id = "report_description" class="is-size-6"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 @else
 {{-- Reports Here --}}

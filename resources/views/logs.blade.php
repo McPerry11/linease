@@ -34,7 +34,7 @@
 		</div>
 	</form>
 	
-	Insert dynamic code Here
+	{{-- Insert dynamic code Here --}}
 
 </div>
 
