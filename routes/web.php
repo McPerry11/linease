@@ -37,13 +37,14 @@ Route::middleware(['desktop'])->group(function() {
     Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
 
     // Route::get('settings', 'IndexController@settings');
-
+    Route::post('report/{id}', 'ReportController@show');
     Route::get('{username}', 'UsersController@show');
     Route::post('{username}/profile', 'UsersController@edit');
     Route::post('{username}/update', 'UsersController@update');
+
   });
 });
 
-Route::fallback(function() {
-  return redirect('not_found');
-});
+// Route::fallback(function() {
+//   return redirect('not_found');
+// });

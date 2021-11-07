@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Log;
 use App\User;
+use App\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
@@ -142,12 +143,17 @@ class UsersController extends Controller
 
     if ($user->firstname && $user->lastname)
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
-    return view('profile', [
+
+    // REPORTS
+    $reports = Report::select('id', 'severity','address', 'created_at', 'picture', 'description')->get();
+
+    return view('profile',  [
       'username' => $username,
       'user' => $user,
       'name' => $name,
       'previousPage' => $link,
-      'page' => $page
+      'page' => $page,
+      'reports' => $reports
     ]);
   }
 

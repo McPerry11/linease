@@ -16,9 +16,9 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         if ($request->source == 'map') {
-		return response()->json(Report::all());
-	}
-    }
+          return response()->json(Report::all());
+      }
+  }
 
     /**
      * Show the form for creating a new resource.
@@ -40,33 +40,33 @@ class ReportController extends Controller
     {
         $report = new Report;
 
-	$report->latitude = $request->lat;
-	$report->longitude = $request->lng;
-	$report->description = $request->des;
-	$report->severity = $request->sev;
+        $report->latitude = $request->lat;
+        $report->longitude = $request->lng;
+        $report->description = $request->des;
+        $report->severity = $request->sev;
 
-	$continue = true;
-	while ($continue == true) {
-		$continue = false;
-		$number = mt_rand(1, 9999);
-		$filename = $number . '.jpg';
-		$duplicate = Report::where('picture', $filename)->get();
-		if (count($duplicate) > 0) {
-			$continue = true;
-		}
-	}
-	$report->picture = $filename;
+        $continue = true;
+        while ($continue == true) {
+          $continue = false;
+          $number = mt_rand(1, 9999);
+          $filename = $number . '.jpg';
+          $duplicate = Report::where('picture', $filename)->get();
+          if (count($duplicate) > 0) {
+           $continue = true;
+       }
+   }
+   $report->picture = $filename;
 
-	$img = $request->img;
-	$img = str_replace('data:image/jpeg;base64,', '', $img);
-	$img = str_replace(' ', '+', $img);
-	$imgData = base64_decode($img);
-	Storage::disk('reports')->put($filename, $imgData);
+   $img = $request->img;
+   $img = str_replace('data:image/jpeg;base64,', '', $img);
+   $img = str_replace(' ', '+', $img);
+   $imgData = base64_decode($img);
+   Storage::disk('reports')->put($filename, $imgData);
 
-	$report->save();
+   $report->save();
 
-	return response()->json('Report Successfully Uploaded!');
-    }
+   return response()->json('Report Successfully Uploaded!');
+}
 
     /**
      * Display the specified resource.
@@ -76,7 +76,9 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        //
+        $report = Report::find($id);
+
+        return response()->json($report);
     }
 
     /**
