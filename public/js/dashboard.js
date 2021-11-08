@@ -61,7 +61,6 @@ function gps_success (position) {
 		}
 	}
 
-	// markerCluster = new markerClusterer.MarkerClusterer({map:map, markers:markers});
 	$('.title').text('');
 	$('.pageloader').removeClass('is-active');
 }
