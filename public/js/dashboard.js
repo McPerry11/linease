@@ -1,4 +1,4 @@
-var map, marker, cluster, center = {lat:14.59468687747799, lng:120.99835708124482};
+var map, marker, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
 var features = [], base = $('#dashboard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
@@ -17,81 +17,88 @@ var features = [], base = $('#dashboard').data('link'), icons = {
 	}
 };;
 
-function real_timeMarkers() {
-	$.ajax({
-		type: 'POST',
-		url: 'markers',
-		data: {source:'map'},
-		datatype: 'JSON',
-		success: function(data) {
-			features = [];
-			for (report of data) {
-				features.push({
-					position: new google.maps.LatLng(report.latitude, report.longitude),
-					type: report.severity.toLowerCase()
-				});
-			}
+function realtimeMarkers() {
+	setInterval(function() {
+		$.ajax({
+			type: 'POST',
+			url: 'markers',
+			data: {source:'map'},
+			datatype: 'JSON',
+			success: function(data) {
+				pins = true;
+				features = [];
+				for (report of data) {
+					features.push({
+						position: new google.maps.LatLng(report.latitude, report.longitude),
+						type: report.severity.toLowerCase()
+					});
+				}
 
-			for (feature of features) {
-				markers = new google.maps.Marker({
-					position: feature.position,
-					icon: feature.type.icon,
-					icon: icons[feature.type].icon,
-					map: map
-				});
+				for (feature of features) {
+					markers = new google.maps.Marker({
+						position: feature.position,
+						icon: feature.type.icon,
+						icon: icons[feature.type].icon,
+						map: map
+					});
+				}
+			},
+			error: function(err) {
+				console.error(err);
 			}
-		},
-		error: function(err) {
-			console.error(err);
-			real_timeMarkers();
-		}
+		}).then(function() {
+			if (init) {
+				if (pins == false) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Cannot Get Map Markers',
+						text: 'Trying to get map markers once again.',
+						showConfirmButton: false,
+						timer: 10000
+					}).then(function() {
+						if (geoloc == false) {
+							Swal.fire({
+								icon: 'error',
+								title: 'Cannot Access Device Location',
+								text: text,
+								showConfirmButton: false,
+								timer: 10000
+							});
+						}
+					});
+				} else if (geoloc == false) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Cannot Access Device Location',
+						text: text,
+						showConfirmButton: false,
+						timer: 10000
+					});
+				}
+				$('.title').text('');
+				$('.pageloader').removeClass('is-active');
+				init = false;
+			}
+		});
+	}, 5000);
+}
+
+function getPosition() {
+	return new Promise((position, err) => {
+		navigator.geolocation.getCurrentPosition(position, err);
 	});
 }
 
-function gps_success (position) {
-	center = {lat:position.coords.latitude, lng:position.coords.longitude};
-}
-
-function gps_error (err) {
-	console.warn(`Error ${err.code}: ${err.message}`);
-	text = err.code == err.PERMISSION_DENIED ? 'LinEase cannot access your device\'s location. Please allow location permissions for LinEase to work properly.' : 'Your current location cannot be determined at this time.';
-	Swal.fire({
-		icon: 'error',
-		title: 'Cannot Access Device Location',
-		text: text,
-		showConfirmButton: false,
-		timer: 10000
-	});
-}
-
-function initMap() {
-	$('.title').text('Fetching Map Markers');
-	$.ajax({
-		type: 'POST',
-		url: 'markers',
-		data: {source:'map'},
-		datatype: 'JSON',
-		success: function(data) {
-			for (report of data) {
-				features.push({
-					position: new google.maps.LatLng(report.latitude, report.longitude),
-					type: report.severity.toLowerCase()
-				});
-			}
-		},
-		error: function(err) {
-			console.error(err);
-			features = false;
-			Swal.fire({
-				icon: 'error',
-				title: 'Cannot Get Map Markers',
-				showConfirmButton: false,
-				timer: 10000
-			});
-		}
-	}).then(async function() {
+async function initMap() {
+	if ($('.pageloader').hasClass('is-active')) {
 		$('.title').text('Initializing Geolocation');
-		await navigator.geolocation.getCurrentPosition(gps_success, gps_error);
+		await getPosition().then((position) => {
+			geoloc = true;
+			center = {lat:position.coords.latitude, lng:position.coords.longitude};
+		}).catch((err) => {
+			console.warn(`Error ${err.code}: ${err.message}`);
+			text = err.code == err.PERMISSION_DENIED ? 'LinEase cannot access your device\'s location. Please allow location permissions for LinEase to work properly.' : 'Your current location cannot be determined at this time.';
+		});
 		$('.title').text('Initializing Map');
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: center,
@@ -100,22 +107,9 @@ function initMap() {
 			streetViewControl: false,
 			fullscreenControl: false
 		});
-
-		if (features) {
-			for (feature of features) {
-				markers = new google.maps.Marker({
-					position: feature.position,
-					icon: feature.type.icon,
-					icon: icons[feature.type].icon,
-					map: map
-				});
-			}
-		}
-
-		$('.title').text('');
-		$('.pageloader').removeClass('is-active');
-		real_timeMarkers();
-	});
+		$('.title').text('Fetching Map Markers');
+		realtimeMarkers();
+	}
 }
 
 $(function() {
