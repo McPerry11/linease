@@ -81,6 +81,7 @@ $(function() {
         text: item.label,
         'data-img': item.element.attr('data-img')
       });
+      console.log(wrapper);
 
       if (item.disabled)
         li.addClass('ui-state-disabled');
@@ -207,11 +208,7 @@ $(function() {
         $('#right').addClass('inactive');
         $('#center').attr('disabled', true);
         $('#preview').attr('src', img);
-        $('.icon.is-left img').attr('src', 'img/RLabel.png');
         $('.icon.is-left img').attr('src', 'img/S4Label.png');
-        $('.icon.is-left img').attr('src', 'img/S3Label.png');
-        $('.icon.is-left img').attr('src', 'img/S2Label.png');
-        $('.icon.is-left img').attr('src', 'img/S1Label.png');
         $('#loader').addClass('is-hidden');
         $('.modal-card-body form').removeClass('is-hidden');
       }, function(err) {

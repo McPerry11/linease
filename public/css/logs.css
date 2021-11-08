@@ -39,6 +39,42 @@
 	margin-bottom: 15px;
 }
 
+.critical {
+	background-color: #4e1e73;
+	color: white;
+}
+
+.major {
+	background-color: #3598db;
+	color: white;
+}
+
+.moderate {
+	background-color: #9E1C21;
+	color: white;
+}
+
+.light {
+	background-color: #e8ca4d;
+	color: white; 
+}
+
+.resolved {
+	background-color: #087F38;
+	color: white;
+}
+
+figure {
+	margin: auto;
+	z-index: 1;
+	border-radius: 10px;
+	border: 1px solid grey;
+}
+
+figure img {
+	border-radius: 10px;
+}
+
 .modal-card {
 	width: 90%;
 	border-radius: 10px;

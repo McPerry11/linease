@@ -145,7 +145,7 @@ $(function() {
 
 	$('#logout').submit(function() {
 		$('#logout button').addClass('is-loading');
-		$('.pageloader .title').text('Logging Out');
+		$('.title').text('Logging Out');
 		$('.pageloader').addClass('is-active');
 	});
 

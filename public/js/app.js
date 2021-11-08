@@ -33,7 +33,7 @@ $(function() {
 	});
 
 	$('#back').click(function() {
-		$('.pageloader .title').text('Loading Dashboard');
+		$('.title').text('Loading Dashboard');
 		$('.pageloader').addClass('is-active');
 	});
 });

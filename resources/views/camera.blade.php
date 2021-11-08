@@ -49,7 +49,7 @@
 				</div>
 				<div class="field">
 					<div class="control">
-						<label>ADDESS</label>
+						<label>ADDRESS</label>
 						<textarea id="address" rows="3" class="textarea has-text-grey" name="description" readonly></textarea>
 						<small class="help">Latitude, Longitude, and Address cannot be edited.</small>
 					</div>
@@ -59,11 +59,10 @@
 					<div class="control has-icons-left">
 						<div class="select">
 							<select id="severity" name="severity">
-								<option value="" data-class="avatar" data-img="S1Label.png" data-style="background-image:url('img/S1Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Critical</option>
-								<option value="" data-class="avatar" data-img="S2Label.png" data-style="background-image:url('img/S2Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Major</option>
-								<option value="" data-class="avatar" data-img="S3Label.png" data-style="background-image:url('img/S3Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Moderate</option>
 								<option value="" data-class="avatar" data-img="S4Label.png" data-style="background-image:url('img/S4Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Light</option>
-								{{-- <option value="" data-class="avatar" data-img="RLabel.png" data-style="background-image:url('img/RLabel.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Hello World</option> --}}
+								<option value="" data-class="avatar" data-img="S3Label.png" data-style="background-image:url('img/S3Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Moderate</option>
+								<option value="" data-class="avatar" data-img="S2Label.png" data-style="background-image:url('img/S2Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Major</option>
+								<option value="" data-class="avatar" data-img="S1Label.png" data-style="background-image:url('img/S1Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Critical</option>
 							</select>
 						</div>
 						<div class="icon is-left">

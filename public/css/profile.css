@@ -35,7 +35,7 @@ figure {
 }
 
 figure img {
-  border-radius:10px;
+  border-radius: 10px;
 }
 
 #name {
@@ -54,7 +54,7 @@ figure img {
   z-index: 5;
 }
 
-.tabs li {
+.tabs li, .modal-card .icon {
   width: 100%;
 }
 
@@ -136,18 +136,10 @@ figure img {
   color: white;
 }
 
-img.rounded-corners {
-  border-radius: 5px 5px 0px 0px;
+.modal-card {
+  width: 90%;
+  border-radius: 10px;
 }
-
-#description {
-  margin-top: 5px;
-}
-
-hr { 
-  margin: 0;
-  height: 1px;
-} 
 
 .divider {
   margin: 5px;

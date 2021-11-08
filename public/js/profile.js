@@ -25,7 +25,7 @@ $(function() {
   var inputs = {'username':true, 'email':true, 'phone':true};
   var passwords = {'current':true, 'new':true, 'confirm':true};
 
-  $('.pageloader .title').text('Loading Profile');
+  $('.title').text('Loading Profile');
   $('html').removeClass('has-navbar-fixed-top');
   $('.navbar').removeClass('is-fixed-top');
   $('.content.navbar-item h3').text('Profile');
@@ -73,7 +73,7 @@ $(function() {
   // });
 
   $('#back').click(function() {
-    $('.pageloader .title').text(`Loading ${$('#navbar-back').data('link')}`);
+    $('.title').text(`Loading ${$('#navbar-back').data('link')}`);
     $('.pageloader').addClass('is-active');
   });
 
@@ -341,7 +341,7 @@ $(function() {
             showConfirmButton: false
           }).then(function() {
             if (data.data.username != $('#js').data('user')) {
-              $('.pageloader .title').text('Reloading Profile');
+              $('.title').text('Reloading Profile');
               $('.pageloader').addClass('is-active');
               window.location.href = data.data.username;
             } else {
@@ -585,7 +585,7 @@ $(function() {
             console.log(result.isConfirmed);
             if (result.isConfirmed) {
               $('#logout').submit();
-              $('.pageloader .title').text('Logging Out');
+              $('.title').text('Logging Out');
               $('.pageloader').addClass('is-active');
             }
           });
@@ -600,14 +600,14 @@ $(function() {
     });
   });
 
-  $('.report_data').click(function(){
+  $('#reports_content .box').click(function(){
     var report_id = $(this).data('id');
+    $('.modal').addClass('is-active');
     $.ajax({
       type: 'POST',
       url: 'report/' + report_id,
       datatype:'JSON',
       success: function(data) {
-        console.log(data)
         var color;
         switch(data.severity) {
           case 'CRITICAL':
@@ -626,11 +626,13 @@ $(function() {
           color = '#087F38';
           break;
         }
-        $('#report_date').text(data.created_at);
+        $('#report_date').text(data.date);
         $('#report_title').text(data.severity).css({'color': color});
         $('#report_address').text(data.address);
         $('#report_description').text(data.description);
-        $('.modal').addClass('is-active');
+        $('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+        $('#loader').addClass('is-hidden');
+        $('.modal-content').removeClass('is-hidden');
       },
       error: function(err) {
         console.log(err);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Log;
+use App\User;
 use App\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -82,6 +83,8 @@ class ReportController extends Controller
   public function show($id)
   {
     $report = Report::find($id);
+    $report->date = Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY - hh:mma');
+    $report->username = User::find($report->user_id)->value('username');
 
     return response()->json($report);
   }

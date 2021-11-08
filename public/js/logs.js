@@ -1,5 +1,5 @@
 $(function() {
-	$('.pageloader .title').text('Loading Logs');
+	$('.title').text('Loading Logs');
 	$('html').removeClass('has-navbar-fixed-top');
 	$('.navbar').removeClass('is-fixed-top');
 	$('.content.navbar-item h3').text('Logs');
@@ -24,12 +24,12 @@ $(function() {
 		}
 	});
 
-	$('#admin_content a.box').click(function() {
-		$('.pageloader .title').text(`Loading ${$(this).attr('data-user')}'s Profile`);
+	$('#admin_content .box').click(function() {
+		$('.title').text(`Loading ${$(this).attr('data-user')}'s Profile`);
 		$('.pageloader').addClass('is-active');
 	});
 
-	$('#reports_content a.box').click(function() {
+	$('#reports_content .box').click(function() {
 		var report_id = $(this).data('id');
 		$('.modal').addClass('is-active');
 		$.ajax({
@@ -55,11 +55,12 @@ $(function() {
 					color = '#087F38';
 					break;
 				}
-				$('#log_date').text(data.created_at);
-				$('#log_title').text(data.severity).css({'color': color});
-				$('#log_address').text(data.address);
-				$('#log_description').text(data.description);
-				$('.modal img').attr('src', `${$('#logs').data('base')}/${data.picture}`);
+				$('#date').text(data.date);
+				$('#title').text(data.severity).css({'color': color});
+				$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
+				$('#address').text(data.address);
+				$('#description').text(data.description);
+				$('.modal img').attr('src', `${$('#logs').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
 				$('#loader').addClass('is-hidden');
 				$('.modal-content').removeClass('is-hidden');
 			},
@@ -81,5 +82,10 @@ $(function() {
 		$('.modal').removeClass('is-active');
 		$('#loader').removeClass('is-hidden');
 		$('.modal-content').addClass('is-hidden');
+	});
+
+	$('#reporter a').click(function() {
+		$('.title').text(`Loading ${$(this).text()}'s Profile`);
+		$('.pageloader').addClass('is-active');
 	});
 });

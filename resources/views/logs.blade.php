@@ -42,16 +42,25 @@
 	@endphp
 	@foreach ($reportlogs as $log)
 	@if (!is_null($log->report_id))
-	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
+	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY'))
 	@php
-	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
+	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY');
 	@endphp
-	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY') }}</div>
 	@endif
-	<a class="box log_data" data-id="{{ $log->report_id }}">
-		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
-		<p>{{ $log->description }}</p>
-	</a>
+	<div class="box {{ strtolower($log->report->severity) }} px-3 py-4" data-id="{{ $log->report_id }}">
+		<div class="media">
+			<div class="media-content">
+				<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY - hh:mma') }}</div>
+				<p>{{ $log->description }}</p>
+			</div>
+			<figure class="media-right">
+				<p class="image is-48x48">
+					<img src="{{ asset('reports/' . $log->report->picture) }}" alt="Report #{{ $log->report->id }}">
+				</p>
+			</figure>
+		</div>
+	</div>
 	@endif
 	@endforeach
 	<hr>
@@ -85,26 +94,26 @@
 	@if (is_null($log->report_id))
 	@if (Auth::user()->type == 'ADMIN')
 	@if ($log->user->type != 'USER' && $log->user->type != 'SUPER')
-	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
+	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY'))
 	@php
-	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
+	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY');
 	@endphp
-	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY') }}</div>
 	@endif
-	<a class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
-		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
+	<div class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
+		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
-	</a>
+	</div>
 	@endif
 	@else
-	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY'))
+	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY'))
 	@php
-	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY');
+	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY');
 	@endphp
-	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY') }}</div>
 	@endif
 	<a class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
-		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MM/DD/YYYY - hh:mma') }}</div>
+		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY - hh:mma') }}</div>
 		<p>{{ $log->description }}</p>
 		<div class="help has-text-grey">{{ $log->ip_address }}</div>
 	</a>
@@ -131,16 +140,16 @@
 		<div class="card mx-4">
 			<div class="card-image">
 				<p class="image is-1by1">
-					<img src="" class="rounded-corners" alt="">
+					<img src="" alt="">
 				</p>
 			</div>
 			<div class="card-content">
 				<div class="content">
-					<p id="log_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
-					<p id="log_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
-					<p id="log_address" class="is-size-7 has-text-weight-medium"></p>
-					<br>
-					<p id="log_description" class="is-size-6"></p>
+					<p id="date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
+					<p id="title" class="is-size-5 has-text-weight-bold mb-1"></p>
+					<p id="reporter" class="is-size-7 has-text-weight-medium" data-base="{{ url('') }}">Reported by: <a href=""></a></p>
+					<p id="address" class="is-size-7 has-text-weight-medium"></p>
+					<p id="description" class="is-size-6"></p>
 				</div>
 			</div>
 		</div>
