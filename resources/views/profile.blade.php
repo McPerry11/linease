@@ -331,8 +331,21 @@
 
 <!-- REPORTS -->
 <div id="reports_content" class="container is-fluid is-hidden">
-  @foreach($reports as $report)
-  
+  @if (count($reports) > 0) 
+  @php
+  $previousDate = ""; 
+  @endphp
+
+  @foreach ($reports as $report)
+
+  @if ($previousDate != \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY'))
+  @php
+  $previousDate = \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY');
+  @endphp
+  <div class="divider mb-1 is-left">{{ \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+  {{-- 5 --}}
+  @endif
+
   @if($report->severity == 'LIGHT')
   <div class="column is-variable px-0">
     <div class="card report_data light" data-id="{{$report->id}}">
@@ -352,7 +365,6 @@
       </div>
     </div>
   </div>
-  
   @elseif($report->severity == 'MODERATE')
   <div class="column is-variable px-0">
     <div class="card report_data moderate" data-id="{{$report->id}}">
@@ -371,8 +383,7 @@
         </article>
       </div>
     </div>
-  </div>
-  
+  </div> 
   @elseif($report->severity == 'MAJOR')
   <div class="column is-variable px-0">
     <div class="card report_data major" data-id="{{$report->id}}">
@@ -451,6 +462,7 @@
   </div>
   @endif
   @endforeach
+  @endif
 </div>
 <!-- MODAL -->
 <div class="modal">
