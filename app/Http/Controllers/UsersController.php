@@ -130,7 +130,7 @@ class UsersController extends Controller
     else
       $user = $user[0];
     $name = null;
-    if (URL::previous() == url('logs') || URL::previous() == url('accounts')) {
+    if (in_array(URL::previous(), [url('logs'), url('accounts')])) {
       $link = URL::previous();
       if (URL::previous() == url('logs'))
         $page = 'Logs';

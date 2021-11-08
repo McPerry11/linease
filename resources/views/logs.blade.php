@@ -41,7 +41,6 @@
 	$previousDate = ""; 
 	@endphp
 	@foreach ($reportlogs as $log)
-	@if (!is_null($log->report_id))
 	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY'))
 	@php
 	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY');
@@ -61,7 +60,6 @@
 			</figure>
 		</div>
 	</div>
-	@endif
 	@endforeach
 	<hr>
 	@else
@@ -91,21 +89,6 @@
 	$previousDate = ""; 
 	@endphp
 	@foreach ($adminlogs as $log)
-	@if (is_null($log->report_id))
-	@if (Auth::user()->type == 'ADMIN')
-	@if ($log->user->type != 'USER' && $log->user->type != 'SUPER')
-	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY'))
-	@php
-	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY');
-	@endphp
-	<div class="divider is-left">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY') }}</div>
-	@endif
-	<div class="box" href="{{ $log->user->username }}" data-user="{{ $log->user->username }}">
-		<div class="help">{{ \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY - hh:mma') }}</div>
-		<p>{{ $log->description }}</p>
-	</div>
-	@endif
-	@else
 	@if ($previousDate != \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY'))
 	@php
 	$previousDate = \Carbon\Carbon::parse($log->created_at)->isoFormat('MMM D, YYYY');
@@ -117,8 +100,6 @@
 		<p>{{ $log->description }}</p>
 		<div class="help has-text-grey">{{ $log->ip_address }}</div>
 	</a>
-	@endif
-	@endif
 	@endforeach
 	<hr>
 	@else

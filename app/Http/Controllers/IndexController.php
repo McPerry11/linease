@@ -21,7 +21,7 @@ class IndexController extends Controller
 	}
 
 	public function accounts() {
-		if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER') {
+		if (in_array(Auth::user()->type, ['ADMIN', 'SUPER'])) {
 			$users = User::whereIn('type', ['FACIL', 'ADMIN', 'SUPER'])->get();
 			return view('accounts', [
 				'users' => $users
@@ -36,11 +36,20 @@ class IndexController extends Controller
 	}
 
 	public function logs() {
-		$adminlogs = Log::whereNull('report_id')->orderBy('created_at', 'desc')->get();
 		$reportlogs = Log::whereNotNull('report_id')->orderBy('created_at', 'desc')->get();
-
+		if (in_array(Auth::user()->type, ['ADMIN', 'SUPER'])) {
+			if (Auth::user()->type == 'SUPER') {
+				$adminlogs = Log::whereNull('report_id')->orderBy('created_at', 'desc')->get();
+			} else {
+				$user_ids = User::select('id')->whereIn('type', ['FACIL', 'ADMIN'])->get();
+				$adminlogs = Log::whereNull('report_id')->whereIn('user_id', $user_ids)->get();
+			}
+			return view('logs', [
+				'adminlogs' => $adminlogs,
+				'reportlogs'=> $reportlogs
+			]);
+		}
 		return view('logs', [
-			'adminlogs' => $adminlogs,
 			'reportlogs'=> $reportlogs
 		]);
 	}

@@ -1,68 +1,55 @@
 var map, marker, cluster, center = {lat:14.59468687747799, lng:120.99835708124482};
-var features = [], base = $('#dashboard').data('link');
+var features = [], base = $('#dashboard').data('link'), icons = {
+	critical: {
+		icon: `${base}/S1Pin.png`,
+	},
+	major: {
+		icon: `${base}/S2Pin.png`,
+	},
+	moderate: {
+		icon: `${base}/S3Pin.png`,
+	},
+	light: {
+		icon: `${base}/S4Pin.png`,
+	},
+	resolved: {
+		icon: `${base}/RPin.png`,
+	}
+};;
+
+function real_timeMarkers() {
+	$.ajax({
+		type: 'POST',
+		url: 'markers',
+		data: {source:'map'},
+		datatype: 'JSON',
+		success: function(data) {
+			features = [];
+			for (report of data) {
+				features.push({
+					position: new google.maps.LatLng(report.latitude, report.longitude),
+					type: report.severity.toLowerCase()
+				});
+			}
+
+			for (feature of features) {
+				markers = new google.maps.Marker({
+					position: feature.position,
+					icon: feature.type.icon,
+					icon: icons[feature.type].icon,
+					map: map
+				});
+			}
+		},
+		error: function(err) {
+			console.error(err);
+			real_timeMarkers();
+		}
+	});
+}
 
 function gps_success (position) {
 	center = {lat:position.coords.latitude, lng:position.coords.longitude};
-	$('.title').text('Initializing Map');
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: center,
-		zoom: 15,
-		mapTypeControl: false,
-		streetViewControl: false,
-		fullscreenControl: false
-	});
-
-	if (features) {
-		var icons = {
-			critical: {
-				icon: `${base}/S1Pin.png`,
-				size: new google.maps.Size(20, 30),
-				scaledSize: new google.maps.Size(20, 30),
-				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(10, 30)
-			},
-			major: {
-				icon: `${base}/S2Pin.png`,
-				size: new google.maps.Size(20, 30),
-				scaledSize: new google.maps.Size(20, 30),
-				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(10, 30)
-			},
-			moderate: {
-				icon: `${base}/S3Pin.png`,
-				size: new google.maps.Size(20, 30),
-				scaledSize: new google.maps.Size(20, 30),
-				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(10, 30)
-			},
-			light: {
-				icon: `${base}/S4Pin.png`,
-				size: new google.maps.Size(20, 30),
-				scaledSize: new google.maps.Size(20, 30),
-				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(10, 30)
-			},
-			resolved: {
-				icon: `${base}/RPin.png`,
-				size: new google.maps.Size(20, 30),
-				scaledSize: new google.maps.Size(20, 30),
-				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(10, 30)
-			}
-		};
-
-		for (feature of features) {
-			markers = new google.maps.Marker({
-				position: feature.position,
-				icon: feature.type.icon,
-				icon: icons[feature.type].icon,
-				map: map
-			});
-		}
-	}
-
-	$('.title').text('');
-	$('.pageloader').removeClass('is-active');
 }
 
 function gps_error (err) {
@@ -75,24 +62,6 @@ function gps_error (err) {
 		showConfirmButton: false,
 		timer: 10000
 	});
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: center,
-		zoom: 15,
-		mapTypeControl: false,
-		streetViewControl: false,
-		fullscreenControl: false
-	});
-	if (features) {
-		for (feature of features) {
-			marker = new google.maps.Marker({
-				position: feature.position,
-				icon: icons[feature.type].icon,
-				map: map
-			});
-		}
-	}
-	$('.title').text('');
-	$('.pageloader').removeClass('is-active');
 }
 
 function initMap() {
@@ -120,9 +89,32 @@ function initMap() {
 				timer: 10000
 			});
 		}
-	}).then(function() {
+	}).then(async function() {
 		$('.title').text('Initializing Geolocation');
-		navigator.geolocation.getCurrentPosition(gps_success, gps_error);
+		await navigator.geolocation.getCurrentPosition(gps_success, gps_error);
+		$('.title').text('Initializing Map');
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: center,
+			zoom: 15,
+			mapTypeControl: false,
+			streetViewControl: false,
+			fullscreenControl: false
+		});
+
+		if (features) {
+			for (feature of features) {
+				markers = new google.maps.Marker({
+					position: feature.position,
+					icon: feature.type.icon,
+					icon: icons[feature.type].icon,
+					map: map
+				});
+			}
+		}
+
+		$('.title').text('');
+		$('.pageloader').removeClass('is-active');
+		real_timeMarkers();
 	});
 }
 
