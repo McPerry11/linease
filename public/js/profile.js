@@ -600,7 +600,7 @@ $(function() {
     });
   });
 
-  $('#reports_content .box').click(function(){
+  $('.box').click(function(){
     var report_id = $(this).data('id');
     $('.modal').addClass('is-active');
     $.ajax({
