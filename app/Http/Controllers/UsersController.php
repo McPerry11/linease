@@ -123,7 +123,7 @@ class UsersController extends Controller
    */
   public function show($username)
   {
-    $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
+    $user = User::select('id', 'username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
     ->where('username', $username)->get();
     if (count($user) == 0)
       return redirect('not_found');
@@ -145,7 +145,8 @@ class UsersController extends Controller
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
 
     // REPORTS
-    $reports = Report::select('id', 'severity','address', 'created_at', 'picture', 'description')->get();
+    $reports = Report::select('severity','address', 'created_at', 'picture', 'description')
+    ->where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
 
     return view('profile',  [
       'username' => $username,
