@@ -145,8 +145,8 @@ class UsersController extends Controller
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
 
     // REPORTS
-    $reports = Report::select('severity','address', 'created_at', 'picture', 'description')
-    ->where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+    $reports = Report::select('id', 'severity','address', 'created_at', 'picture', 'description')
+    ->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
 
     return view('profile',  [
       'username' => $username,

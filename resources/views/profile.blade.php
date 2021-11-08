@@ -331,8 +331,17 @@
 
 <!-- REPORTS -->
 <div id="reports_content" class="container is-fluid is-hidden">
+  @if (count($reports) > 0) 
+  @php
+  $previousDate = ""; 
+  @endphp
   @foreach ($reports as $report)
-
+  @if ($previousDate != \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY'))
+  @php
+  $previousDate = \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY');
+  @endphp
+  <div class="divider mb-1 is-left">{{ \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+  @endif
   <div class="column is-variable px-0">
     <div class="card report_data {{ strtolower($report->severity) }}" data-id="{{ $report->id }}">
       <div class="card-content px-3 py-4">
@@ -352,9 +361,49 @@
     </div>
   </div>
   @endforeach
+  @else
+  <div class="has-text-centered">No reports found.</div>
+  @endif
 </div>
-
-<!-- MODAL -->
+@else
+<div class="container is-fluid">
+  @if (count($reports) > 0) 
+  @php
+  $previousDate = ""; 
+  @endphp
+  @foreach ($reports as $report)
+  @if ($previousDate != \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY'))
+  @php
+  $previousDate = \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY');
+  @endphp
+  <div class="divider mb-1 is-left">{{ \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+  @endif
+  <div class="column is-variable px-0">
+    <div class="card report_data {{ strtolower($report->severity) }}" data-id="{{ $report->id }}">
+      <div class="card-content px-3 py-4">
+        <article class="media">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity }}</p> 
+            <p class="is-size-7 has-text-weight-medium">{{ $report->address }}</p>
+            <p class="is-size-7 has-text-weight-light">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+          </div>
+          <figure class="media-right">
+            <p class="image is-48x48">
+              <img src="https://bulma.io/images/placeholders/48x48.png" alt="Placeholder image">
+            </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+  @endforeach
+  <hr>
+  @else
+  <hr class="mt-2">
+  <div class="has-text-centered">No reports found.</div>
+  @endif
+</div>
+@endif
 <div class="modal">
   <div class="modal-background"></div>
   <div class="modal-content">
@@ -376,10 +425,8 @@
     </div>
   </div>
 </div>
-@else
-{{-- Reports Here --}}
-@endif
 @endsection
+
 @section('scripts')
 <script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}"></script>
 @endsection

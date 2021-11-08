@@ -6,7 +6,7 @@
 @endsection
 
 @section('body')
-<div class="tabs is-boxed mt-3">
+<div class="tabs is-boxed mt-2">
 	<ul>
 		<li id="reports" class="is-active">
 			<a>Report Logs</a>
@@ -56,7 +56,7 @@
 	@endforeach
 	<hr>
 	@else
-	<div class="has-text-centered">No logs found.</div>
+	<div class="has-text-centered mt-3">No logs found.</div>
 	@endif
 </div>
 
@@ -113,7 +113,7 @@
 	@endforeach
 	<hr>
 	@else
-	<div class="has-text-centered">No logs found.</div>
+	<div class="has-text-centered mt-3">No logs found.</div>
 	@endif
 </div>
 @endif
@@ -129,7 +129,7 @@
 	</div>
 	<div class="modal-content is-hidden">
 		<div class="card mx-4">
-			<div class="card-image mt-2">
+			<div class="card-image">
 				<p class="image is-1by1">
 					<img src="" class="rounded-corners" alt="">
 				</p>
