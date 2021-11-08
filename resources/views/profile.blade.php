@@ -245,8 +245,8 @@
       </div>
     </div>
     <div id="actions" class="buttons is-centered mt-5">
-      <button id="submit" class="button is-success" type="submit">Submit</button>
       <button id="cancel" class="button is-danger is-outlined" type="button">Cancel</button>
+      <button id="submit" class="button is-success" type="submit">Submit</button>
     </div>
   </form>
 </div>
@@ -319,8 +319,8 @@
       </div>
       <div class="help">Changing password will log you out from other devices with your account</div>
       <div id="sec-actions" class="buttons is-centered mt-5">
-        <button class="button is-success" type="submit">Submit</button>
         <button class="button is-danger is-outlined" type="button">Cancel</button>
+        <button class="button is-success" type="submit">Submit</button>
       </div>
     </div>
   </form>

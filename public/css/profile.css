@@ -101,7 +101,7 @@ figure img {
   display: none;
 }
 
-#submit {
+.button.is-success {
   background-color: #00C944;
   color: white;
 }
