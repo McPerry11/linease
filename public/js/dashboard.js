@@ -1,4 +1,4 @@
-var map, marker, center = {lat:14.59468687747799, lng:120.99835708124482};
+var map, marker, cluster, center = {lat:14.59468687747799, lng:120.99835708124482};
 var features = [], base = $('#dashboard').data('link');
 
 function gps_success (position) {
@@ -52,14 +52,16 @@ function gps_success (position) {
 		};
 
 		for (feature of features) {
-			marker = new google.maps.Marker({
+			markers = new google.maps.Marker({
 				position: feature.position,
 				icon: feature.type.icon,
-				// icon: icons[feature.type].icon,
+				icon: icons[feature.type].icon,
 				map: map
 			});
 		}
 	}
+
+	// markerCluster = new markerClusterer.MarkerClusterer({map:map, markers:markers});
 	$('.title').text('');
 	$('.pageloader').removeClass('is-active');
 }
