@@ -13,7 +13,7 @@
 
 @else
 {{-- Dashboard Navbar --}}
-<div>
+<div id="navbar">
 	<div class="content">
 		<h4 class="has-text-white">MAP</h4>
 	</div>

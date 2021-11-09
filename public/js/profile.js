@@ -582,7 +582,6 @@ $(function() {
             showCancelButton: true,
             cancelButtonText: 'No, stay logged in'
           }).then((result) => {
-            console.log(result.isConfirmed);
             if (result.isConfirmed) {
               $('#logout').submit();
               $('.title').text('Logging Out');
@@ -635,9 +634,9 @@ $(function() {
         $('.modal-content').removeClass('is-hidden');
       },
       error: function(err) {
-        console.log(err);
+        console.error(err);
       }
-    })
+    });
   });
 
   $('.modal-background').click(function(){

@@ -33,9 +33,38 @@
 		</a>
 	</figure>
 </div>
+
+<div class="modal">
+	<div class="modal-background"></div>
+	<div id="loader" class="modal-card">
+		<div class="modal-card-body">
+			<span class="icon is-large has-text-success">
+				<i class="fas fa-circle-notch fa-spin fa-3x"></i>
+			</span>
+		</div>
+	</div>
+	<div class="modal-content is-hidden">
+		<div class="card mx-4">
+			<div class="card-image">
+				<p class="image is-1by1">
+					<img src="" alt="" data-base="{{ asset('reports') }}">
+				</p>
+			</div>
+			<div class="card-content">
+				<div class="content">
+					<p id="date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
+					<p id="title" class="is-size-5 has-text-weight-bold mb-1"></p>
+					<p id="reporter" class="is-size-7 has-text-weight-medium" data-base="{{ url('') }}">Reported by: <a href=""></a></p>
+					<p id="address" class="is-size-7 has-text-weight-medium"></p>
+					<p id="description" class="is-size-6"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
-<script id="dashboard" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}"></script>
+<script id="dashboard" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}" data-expire="{{ route('login') }}"></script>
 @endsection

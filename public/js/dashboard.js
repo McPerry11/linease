@@ -1,4 +1,4 @@
-var map, marker, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
+var map, info, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
 var features = [], base = $('#dashboard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
@@ -30,21 +30,78 @@ function realtimeMarkers() {
 				for (report of data) {
 					features.push({
 						position: new google.maps.LatLng(report.latitude, report.longitude),
-						type: report.severity.toLowerCase()
+						type: report.severity.toLowerCase(),
+						id: report.id,
 					});
 				}
 
 				for (feature of features) {
-					markers = new google.maps.Marker({
+					marker = new google.maps.Marker({
+						map: map,
 						position: feature.position,
-						icon: feature.type.icon,
 						icon: icons[feature.type].icon,
-						map: map
+						title: `${feature.id}`,
+					});
+
+					marker.addListener('click', () => {
+						let report_id = parseInt(marker.title);
+						console.log(report_id);
+						$('.modal').addClass('is-active');
+						$.ajax({
+							type: 'POST',
+							url: 'report/' + report_id,
+							datatype:'JSON',
+							success: function(data) {
+								var color;
+								switch(data.severity) {
+									case 'CRITICAL':
+									color = '#4e1e73';
+									break;
+									case 'MAJOR':
+									color = '#3598db';
+									break;
+									case 'MODERATE':
+									color = '#9E1C21';
+									break;
+									case 'LIGHT':
+									color = '#e8ca4d';
+									break;
+									case 'RESOLVED':
+									color = '#087F38';
+									break;
+								}
+								$('#date').text(data.date);
+								$('#title').text(data.severity).css({'color': color});
+								$('#address').text(data.address);
+								$('#description').text(data.description);
+								$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
+								$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+								$('#loader').addClass('is-hidden');
+								$('.modal-content').removeClass('is-hidden');
+							},
+							error: function(err) {
+								console.error(err);
+							}
+						});
 					});
 				}
 			},
 			error: function(err) {
 				console.error(err);
+				if (err.status == 401) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Session Expired',
+						text: 'Please log in again.',
+						confirmButtonText: 'Log In'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$('.title').text('Redirecting to Login');
+							$('.pageloader').addClass('is-active');
+							window.location.href = $('#dashboard').data('expire');
+						}
+					});
+				}
 			}
 		}).then(function() {
 			if (init) {
@@ -107,6 +164,7 @@ async function initMap() {
 			streetViewControl: false,
 			fullscreenControl: false
 		});
+		info = new google.maps.InfoWindow();
 		$('.title').text('Fetching Map Markers');
 		realtimeMarkers();
 	}
@@ -165,5 +223,9 @@ $(function() {
 				timer: 10000
 			});
 		}
+	});
+
+	$('.modal-background').click(function(){
+		$('.modal').removeClass('is-active');
 	});
 });

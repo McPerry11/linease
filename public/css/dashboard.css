@@ -2,7 +2,7 @@ html, body {
 	overflow-y: hidden;
 }
 
-.content {
+#navbar .content {
 	position: fixed;
 	top: 15px;
 	right: 0;
@@ -13,7 +13,7 @@ html, body {
 	z-index: 31;
 }
 
-.content h4 {
+#navbar .content h4 {
 	margin-bottom: 0;
 }
 
@@ -115,4 +115,43 @@ figure.image.is-64x64 {
 	height: 85px;
 	width: 85px;
 	margin: 3% auto;
+}
+
+.card {
+	border-radius: 5px;
+	box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 18px 0 rgba(0, 0, 0, 0.19);
+}
+
+.critical {
+	background-color: #4e1e73;
+	color: white;
+}
+
+.major {
+	background-color: #3598db;
+	color: white;
+}
+
+.moderate {
+	background-color: #9E1C21;
+	color: white;
+}
+
+.light {
+	background-color: #e8ca4d;
+	color: white; 
+}
+
+.resolved {
+	background-color: #087F38;
+	color: white;
+}
+
+.modal-card {
+	width: 90%;
+	border-radius: 10px;
+}
+
+.modal-card .icon {
+	width:  100%;
 }
