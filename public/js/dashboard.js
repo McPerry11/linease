@@ -33,7 +33,7 @@ function realtimeMarkers() {
 							return report.id;
 						}
 					});
-					
+
 					remove = ids.filter((report_id) => {
 						if (!temp.includes(report_id))
 							return report_id;
@@ -67,6 +67,7 @@ function realtimeMarkers() {
 								return function() {
 									let report_id = parseInt(marker.title);
 									map.panTo(marker.position);
+									map.setZoom(19);
 									$('.modal').addClass('is-active');
 									$.ajax({
 										type: 'POST',
