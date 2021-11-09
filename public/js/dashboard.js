@@ -1,4 +1,4 @@
-var map, info, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
+var map, info, markers, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
 var features = [], base = $('#dashboard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
@@ -28,25 +28,18 @@ function realtimeMarkers() {
 				pins = true;
 				features = [];
 				if (data.length > 0) {
-					for (report of data) {
-						features.push({
-							position: new google.maps.LatLng(report.latitude, report.longitude),
-							type: report.severity.toLowerCase(),
-							id: report.id,
-						});
-					}
-
-					for (feature of features) {
+					markers = data.map((report, i) => {
 						marker = new google.maps.Marker({
 							map: map,
-							position: feature.position,
-							icon: icons[feature.type].icon,
-							title: `${feature.id}`,
+							position: new google.maps.LatLng(report.latitude, report.longitude),
+							icon: icons[report.severity.toLowerCase()].icon,
+							title: `${report.id}`
 						});
 
 						marker.addListener('click', () => {
 							let report_id = parseInt(marker.title);
 							console.log(report_id);
+							map.panTo(marker.position);
 							$('.modal').addClass('is-active');
 							$.ajax({
 								type: 'POST',
@@ -85,7 +78,14 @@ function realtimeMarkers() {
 								}
 							});
 						});
-					}
+
+						return marker;
+					});
+
+					cluster = new markerClusterer.MarkerClusterer({
+						map: map,
+						markers: markers,
+					});
 				}
 			},
 			error: function(err) {

@@ -60,7 +60,7 @@ $(function() {
       $('#warning').append('LinEase cannot access your device\'s location.');
   }
 
-  var imgCap, w, h, lat, lng, APIKEY = 'AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs';
+  var imgCap, w, h, lat, lng;
   const constraints = {
     audio: false,
     video: {
@@ -81,7 +81,6 @@ $(function() {
         text: item.label,
         'data-img': item.element.attr('data-img')
       });
-      console.log(wrapper);
 
       if (item.disabled)
         li.addClass('ui-state-disabled');
