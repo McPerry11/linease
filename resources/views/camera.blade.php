@@ -49,7 +49,7 @@
 				</div>
 				<div class="field">
 					<div class="control">
-						<label>ADDESS</label>
+						<label>ADDRESS</label>
 						<textarea id="address" rows="3" class="textarea has-text-grey" name="description" readonly></textarea>
 						<small class="help">Latitude, Longitude, and Address cannot be edited.</small>
 					</div>

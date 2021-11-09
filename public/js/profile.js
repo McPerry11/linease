@@ -600,7 +600,7 @@ $(function() {
     });
   });
 
-  $('.report_data').click(function(){
+  $('.card').click(function(){
     var report_id = $(this).data('id');
     console.log(report_id)
     $.ajax({
@@ -636,6 +636,11 @@ $(function() {
       },
       error: function(err) {
         console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Connect to Server',
+          text: 'Something went wrong. Please try again later.'
+        });
       }
     })
   })

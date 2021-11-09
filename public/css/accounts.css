@@ -18,3 +18,25 @@
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
+.header-title {
+	color: #FFFFFF;
+}
+
+.button.is-success{
+	background-color: #00C944;
+}
+.card {
+	border-radius: 5px 5px 5px 5px;
+}
+
+.box {
+	background-color: #09aa46;
+	border-radius: 5px 5px 0px 0px;
+	color:  #D2fbe2;
+}
+
+/*.field.addF {
+	position: absolute;
+	bottom: 10px;
+}*/

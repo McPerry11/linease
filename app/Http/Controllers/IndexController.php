@@ -21,8 +21,13 @@ class IndexController extends Controller
 	}
 
 	public function accounts() {
-		if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER') {
-			$users = User::whereIn('type', ['FACIL', 'ADMIN', 'SUPER'])->get();
+		if (Auth::user()->type == 'SUPER') {
+			$users = User::whereIn('type', ['ADMIN', 'SUPER'])->get();
+			return view('accounts', [
+				'users' => $users
+			]);
+		} else if (Auth::user()->type == 'ADMIN') {
+			$users = User::whereIn('type', ['FACIL'])->get();
 			return view('accounts', [
 				'users' => $users
 			]);

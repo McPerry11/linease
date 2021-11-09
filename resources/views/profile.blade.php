@@ -354,7 +354,7 @@
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
             <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-7 has-text-weight-light">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%H:%M') : '' }}</p>
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
@@ -373,7 +373,7 @@
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
             <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%H:%M') : '' }}</p>   
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
@@ -392,7 +392,7 @@
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
             <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%H:%M') : '' }}</p>   
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
@@ -411,7 +411,7 @@
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
             <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%H:%M') : '' }}</p>   
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
@@ -430,7 +430,7 @@
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}</p> 
             <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%H:%M') : '' }}</p>   
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
@@ -449,7 +449,7 @@
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity}}[UNLISTED]</p> 
             <p class="is-size-7 has-text-weight-medium">{{$report->address}}</p>
-            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+            <p class="is-size-7 has-text-weight-light">{{$report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%H:%M') : '' }}</p>   
           </div>
           <figure class="media-right">
             <p class="image is-48x48">
