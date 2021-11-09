@@ -27,63 +27,65 @@ function realtimeMarkers() {
 			success: function(data) {
 				pins = true;
 				features = [];
-				for (report of data) {
-					features.push({
-						position: new google.maps.LatLng(report.latitude, report.longitude),
-						type: report.severity.toLowerCase(),
-						id: report.id,
-					});
-				}
-
-				for (feature of features) {
-					marker = new google.maps.Marker({
-						map: map,
-						position: feature.position,
-						icon: icons[feature.type].icon,
-						title: `${feature.id}`,
-					});
-
-					marker.addListener('click', () => {
-						let report_id = parseInt(marker.title);
-						console.log(report_id);
-						$('.modal').addClass('is-active');
-						$.ajax({
-							type: 'POST',
-							url: 'report/' + report_id,
-							datatype:'JSON',
-							success: function(data) {
-								var color;
-								switch(data.severity) {
-									case 'CRITICAL':
-									color = '#4e1e73';
-									break;
-									case 'MAJOR':
-									color = '#3598db';
-									break;
-									case 'MODERATE':
-									color = '#9E1C21';
-									break;
-									case 'LIGHT':
-									color = '#e8ca4d';
-									break;
-									case 'RESOLVED':
-									color = '#087F38';
-									break;
-								}
-								$('#date').text(data.date);
-								$('#title').text(data.severity).css({'color': color});
-								$('#address').text(data.address);
-								$('#description').text(data.description);
-								$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
-								$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
-								$('#loader').addClass('is-hidden');
-								$('.modal-content').removeClass('is-hidden');
-							},
-							error: function(err) {
-								console.error(err);
-							}
+				if (data.length > 0) {
+					for (report of data) {
+						features.push({
+							position: new google.maps.LatLng(report.latitude, report.longitude),
+							type: report.severity.toLowerCase(),
+							id: report.id,
 						});
-					});
+					}
+
+					for (feature of features) {
+						marker = new google.maps.Marker({
+							map: map,
+							position: feature.position,
+							icon: icons[feature.type].icon,
+							title: `${feature.id}`,
+						});
+
+						marker.addListener('click', () => {
+							let report_id = parseInt(marker.title);
+							console.log(report_id);
+							$('.modal').addClass('is-active');
+							$.ajax({
+								type: 'POST',
+								url: 'report/' + report_id,
+								datatype:'JSON',
+								success: function(data) {
+									var color;
+									switch(data.severity) {
+										case 'CRITICAL':
+										color = '#4e1e73';
+										break;
+										case 'MAJOR':
+										color = '#3598db';
+										break;
+										case 'MODERATE':
+										color = '#9E1C21';
+										break;
+										case 'LIGHT':
+										color = '#e8ca4d';
+										break;
+										case 'RESOLVED':
+										color = '#087F38';
+										break;
+									}
+									$('#date').text(data.date);
+									$('#title').text(data.severity).css({'color': color});
+									$('#address').text(data.address);
+									$('#description').text(data.description);
+									$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
+									$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+									$('#loader').addClass('is-hidden');
+									$('.modal-content').removeClass('is-hidden');
+								},
+								error: function(err) {
+									console.error(err);
+								}
+							});
+						});
+					}
 				}
 			},
 			error: function(err) {

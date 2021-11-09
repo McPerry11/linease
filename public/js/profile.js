@@ -635,6 +635,7 @@ $(function() {
       },
       error: function(err) {
         console.error(err);
+        $('.modal').removeClass('is-active');
         Swal.fire({
           icon: 'error',
           title: 'Cannot Connect to Server',

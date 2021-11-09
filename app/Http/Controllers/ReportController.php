@@ -84,7 +84,7 @@ class ReportController extends Controller
   {
     $report = Report::find($id);
     $report->date = Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY - hh:mma');
-    $report->username = User::find($report->user_id)->value('username');
+    $report->username = User::find($report->user_id)->username;
 
     return response()->json($report);
   }
