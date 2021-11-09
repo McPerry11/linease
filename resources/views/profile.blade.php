@@ -352,7 +352,7 @@
         </div>
         <figure class="media-right">
           <p class="image is-48x48">
-            <img src="{{ asset('reports /' . $report->picture) }}" alt="Report #{{ $report->id }}">
+            <img src="{{ asset('reports/' . $report->picture) }}" alt="Report #{{ $report->id }}">
           </p>
         </figure>
       </div>
