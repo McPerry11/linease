@@ -65,7 +65,7 @@
 @endsection
 
 @section('scripts')
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
 <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-<script id="dashboard" type="text/javascript" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}" data-expire="{{ route('login') }}"></script>
+<script id="dashboard" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}" data-expire="{{ route('login') }}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
 @endsection

@@ -1,5 +1,5 @@
-var map, info, markers, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
-var features = [], base = $('#dashboard').data('link'), icons = {
+var map, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
+var markers = [], base = $('#dashboard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
 	},
@@ -26,7 +26,11 @@ function realtimeMarkers() {
 			datatype: 'JSON',
 			success: function(data) {
 				pins = true;
-				features = [];
+				if (markers.length > 0) {
+					console.log('loop');
+					for (marker of markers)
+						marker.setMap(null);
+				}
 				if (data.length > 0) {
 					markers = data.map((report, i) => {
 						marker = new google.maps.Marker({
@@ -78,10 +82,8 @@ function realtimeMarkers() {
 								}
 							});
 						});
-
 						return marker;
 					});
-
 					cluster = new markerClusterer.MarkerClusterer({
 						map: map,
 						markers: markers,
@@ -164,9 +166,9 @@ async function initMap() {
 			zoom: 15,
 			mapTypeControl: false,
 			streetViewControl: false,
-			fullscreenControl: false
+			fullscreenControl: false,
+			rotateControl: true
 		});
-		info = new google.maps.InfoWindow();
 		$('.title').text('Fetching Map Markers');
 		realtimeMarkers();
 	}
