@@ -228,4 +228,9 @@ $(function() {
 	$('.modal-background').click(function(){
 		$('.modal').removeClass('is-active');
 	});
+
+	$('#reporter a').click(function() {
+		$('.title').text(`Loading ${$(this).text()}'s Profile`);
+		$('.pageloader').addClass('is-active');
+	});
 });

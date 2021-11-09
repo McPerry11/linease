@@ -45,7 +45,7 @@
 		<div class="card account_data">
 			<div class="card-content px-3 py-4">
 				<p class="is-size-7 has-text-weight-light is-pulled-right">{{ \Carbon\Carbon::parse($user->created_at)->isoFormat('MMM D, YYYY - hh:mma') }}</p>
-				<a href="" class="is-size-7 has-text-weight-medium is-italic">&#65312;{{ $user->username }}</a>
+				<a href="{{ url('') . '/' . $user->username }}" class="is-size-7 has-text-weight-medium is-italic">&#65312;{{ $user->username }}</a>
 				<p class="is-size-6 has-text-weight-normal">Name: {{ $user->firstname && $user->lastname ? $user->firstname . ' ' . ($user->middlename ?? '') . ($user->middlename ? ' ' : '') . $user->lastname : $user->username }}</p> 
 			</div>
 			<footer class="card-footer">
@@ -83,11 +83,12 @@
 			@endif
 			<div class="card-content">
 				<div class="container">
-					<div class="field mb-8">
-						<div class="control has-icons-left">
+					<div class="field">
+						<div id="user-control" class="control has-icons-left">
 							<input type="text" id="username" class="input" placeholder="Username" minlength="5" maxlength="20" required>
-							<span class="icon is-small is-left"><i class="fas fa-user-circle"></i></span>
+							<span class="icon is-small is-left"><i id="user-icon" class="fas fa-user-circle"></i></span>
 						</div>
+						<small id="user-warning" class="has-text-danger"></small>
 					</div>
 					<div class="field">
 						<div class="control is-expanded has-icons-left">
@@ -103,7 +104,7 @@
 					</div>
 					<div class="field">
 						<div class="control has-icons-left has-icons-right">
-							<input class="input" id ="email" type="email" placeholder="Email" required>
+							<input class="input" id="email" type="email" placeholder="Email" required>
 							<span class="icon is-small is-left">
 								<i class="fas fa-envelope"></i>
 							</span>
