@@ -647,5 +647,7 @@ $(function() {
 
   $('.modal-background').click(function(){
     $('.modal').removeClass('is-active');
+    $('#loader').removeClass('is-hidden');
+    $('.modal-content').addClass('is-hidden');
   });
 });
