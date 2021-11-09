@@ -22,7 +22,11 @@ class IndexController extends Controller
 
 	public function accounts() {
 		if (in_array(Auth::user()->type, ['ADMIN', 'SUPER'])) {
-			$users = User::whereIn('type', ['FACIL', 'ADMIN', 'SUPER'])->get();
+			if (Auth::user()->type == 'SUPER')
+				$users = User::where('type', 'ADMIN')->get();
+			else
+				$users = User::where('type', 'FACIL')->get();
+
 			return view('accounts', [
 				'users' => $users
 			]);

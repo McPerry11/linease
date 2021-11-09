@@ -100,7 +100,15 @@ class UsersController extends Controller
     $user->email = strip_tags($request->email);
     $user->password = strip_tags($request->password);
 
-    $user->type = 'USER';
+    if (Auth::check()) {
+      if (Auth::user()->type == 'SUPER') {
+        $user->type = 'ADMIN';
+      } else {
+        $user->type = 'FACIL';
+      }
+    } else {
+      $user->type = 'USER';
+    }
     
     $user->save();
 
@@ -123,7 +131,7 @@ class UsersController extends Controller
    */
   public function show($username)
   {
-    $user = User::select('id', 'username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
+    $user = User::select('id', 'username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id', 'type')
     ->where('username', $username)->get();
     if (count($user) == 0)
       return redirect('not_found');

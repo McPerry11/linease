@@ -358,7 +358,7 @@ $(function() {
               $('#email input').val(data.data.email);
               $('#city-label').text(data.data.city);
               $('#city').attr('data-val', data.data.city);
-              $('#city').find(`option[value=${data.data.city}]`).prop('selected', true);
+              $('#city').find(`option[value="${data.data.city}"]`).prop('selected', true);
               // $('#phone-label').text('0' + data.data.phone);
               // $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);
@@ -635,6 +635,11 @@ $(function() {
       },
       error: function(err) {
         console.error(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Connect to Server',
+          text: 'Something went wrong. Please try again later.'
+        });
       }
     });
   });
