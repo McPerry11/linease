@@ -67,7 +67,8 @@ function realtimeMarkers() {
 								return function() {
 									let report_id = parseInt(marker.title);
 									map.panTo(marker.position);
-									map.setZoom(19);
+									if (map.getZoom() < 19)
+										map.setZoom(19);
 									$('.modal').addClass('is-active');
 									$.ajax({
 										type: 'POST',
