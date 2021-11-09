@@ -1,5 +1,5 @@
 var map, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
-var markers = [], base = $('#dashboard').data('link'), icons = {
+var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
 	},
@@ -15,7 +15,7 @@ var markers = [], base = $('#dashboard').data('link'), icons = {
 	resolved: {
 		icon: `${base}/RPin.png`,
 	}
-};;
+};
 
 function realtimeMarkers() {
 	setInterval(function() {
@@ -24,70 +24,109 @@ function realtimeMarkers() {
 			url: 'markers',
 			data: {source:'map'},
 			datatype: 'JSON',
-			success: function(data) {
-				pins = true;
-				if (markers.length > 0) {
-					console.log('loop');
-					for (marker of markers)
-						marker.setMap(null);
-				}
+			success: async function(data) {
 				if (data.length > 0) {
-					markers = data.map((report, i) => {
-						marker = new google.maps.Marker({
-							map: map,
-							position: new google.maps.LatLng(report.latitude, report.longitude),
-							icon: icons[report.severity.toLowerCase()].icon,
-							title: `${report.id}`
-						});
+					pins = true, temp = [];
+					add = data.filter((report) => {
+						temp.push(report.id);
+						if (!ids.includes(report.id)) {
+							return report.id;
+						}
+					});
+					
+					remove = ids.filter((report_id) => {
+						if (!temp.includes(report_id))
+							return report_id;
+					});
+					ids = temp;
 
-						marker.addListener('click', () => {
-							let report_id = parseInt(marker.title);
-							console.log(report_id);
-							map.panTo(marker.position);
-							$('.modal').addClass('is-active');
-							$.ajax({
-								type: 'POST',
-								url: 'report/' + report_id,
-								datatype:'JSON',
-								success: function(data) {
-									var color;
-									switch(data.severity) {
-										case 'CRITICAL':
-										color = '#4e1e73';
-										break;
-										case 'MAJOR':
-										color = '#3598db';
-										break;
-										case 'MODERATE':
-										color = '#9E1C21';
-										break;
-										case 'LIGHT':
-										color = '#e8ca4d';
-										break;
-										case 'RESOLVED':
-										color = '#087F38';
-										break;
-									}
-									$('#date').text(data.date);
-									$('#title').text(data.severity).css({'color': color});
-									$('#address').text(data.address);
-									$('#description').text(data.description);
-									$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
-									$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
-									$('#loader').addClass('is-hidden');
-									$('.modal-content').removeClass('is-hidden');
-								},
-								error: function(err) {
-									console.error(err);
-								}
-							});
+					if (remove.length > 0) {
+						markers = markers.map((marker) => {
+							if (remove.includes(parseInt(marker.title))) {
+								marker.setMap(null);
+								marker = null;
+							} else {
+								return marker;
+							}
 						});
-						return marker;
-					});
-					cluster = new markerClusterer.MarkerClusterer({
-						map: map,
-						markers: markers,
-					});
+						markers = markers.filter((marker) => {
+							return marker != null;
+						});
+					}
+
+					if (add.length > 0) {
+						markers = data.map((report) => {
+							marker = new google.maps.Marker({
+								map: map,
+								position: new google.maps.LatLng(report.latitude, report.longitude),
+								icon: icons[report.severity.toLowerCase()].icon,
+								title: `${report.id}`
+							});
+
+							google.maps.event.addListener(marker, 'click', (function(marker) {
+								return function() {
+									let report_id = parseInt(marker.title);
+									map.panTo(marker.position);
+									$('.modal').addClass('is-active');
+									$.ajax({
+										type: 'POST',
+										url: 'report/' + report_id,
+										datatype:'JSON',
+										success: function(data) {
+											var color;
+											switch(data.severity) {
+												case 'CRITICAL':
+												color = '#4e1e73';
+												break;
+												case 'MAJOR':
+												color = '#3598db';
+												break;
+												case 'MODERATE':
+												color = '#9E1C21';
+												break;
+												case 'LIGHT':
+												color = '#e8ca4d';
+												break;
+												case 'RESOLVED':
+												color = '#087F38';
+												break;
+											}
+											$('#date').text(data.date);
+											$('#title').text(data.severity).css({'color': color});
+											$('#address').text(data.address);
+											$('#description').text(data.description);
+											$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
+											$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+											$('#loader').addClass('is-hidden');
+											$('.modal-content').removeClass('is-hidden');
+										},
+										error: function(err) {
+											console.error(err);
+											$('#loader').removeClass('is-hidden');
+											$('.modal').removeClass('is-active');
+											Swal.fire({
+												icon: 'error',
+												title: 'Cannot Fetch Marker Details',
+												text: 'The report might have been deleted and removed from the map.',
+												showConfirmButton: false,
+												timer: 10000
+											});
+										}
+									});
+								}
+							})(marker));
+							return marker;
+						});
+					} 
+
+					if (add.length > 0 || remove.length > 0) {
+						if (cluster)
+							cluster.clearMarkers();
+						cluster = new markerClusterer.MarkerClusterer({
+							map: map,
+							markers: markers
+						});
+					}
 				}
 			},
 			error: function(err) {
@@ -141,7 +180,7 @@ function realtimeMarkers() {
 				init = false;
 			}
 		});
-	}, 5000);
+	}, 5000	);
 }
 
 function getPosition() {
@@ -231,6 +270,8 @@ $(function() {
 
 	$('.modal-background').click(function(){
 		$('.modal').removeClass('is-active');
+		$('#loader').removeClass('is-hidden');
+		$('.modal-content').addClass('is-hidden');
 	});
 
 	$('#reporter a').click(function() {
