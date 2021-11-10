@@ -686,23 +686,24 @@ $(function() {
       error: function(err) {
         console.error(err);
         $('#avatar img').attr('src', image);
+        let title, text;
         if (err.status == 422) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Invalid File Format',
-            text: 'The upload file must be an image. Only upload PNG, JPG, JPEG, or GIF images',
-            showConfirmButton: false,
-            timer: 10000
-          });
+          title = 'Invalid File';
+          text = 'Only upload PNG, JPG, JPEG, or GIF images with a maximum file size of 5MB.';
+        } else if (err.status == 413) {
+          title = 'Cannot Handle File Size';
+          text = 'Please upload an image with a maximum file size of 5MB.';
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Cannot Upload Image',
-            text: 'Something went wrong. Please try again later.',
-            showConfirmButton: false,
-            timer: 10000
-          });
+          title = 'Cannot Upload Image';
+          text = 'Something went wrong. Please try again later.';
         }
+        Swal.fire({
+          icon: 'error',
+          title: title,
+          text: text,
+          showConfirmButton: false,
+          timer: 10000
+        });
       }
     });
   });
