@@ -220,8 +220,27 @@ $(function() {
 	$('.title').text('Loading Dashboard');
 
 	$('#center').click(function() {
-		$('.title').text('Loading Camera');
-		$('.pageloader').addClass('is-active');
+		if ($(this).data('valid') == 0) {
+			Swal.fire({
+				icon: 'info',
+				title: 'Unverified Account',
+				text: 'Unverified accounts cannot submit reports. Complete your profile first to be able to submit reports.',
+				confirmButtonText: 'Go to Profile!',
+				showCancelButton: true,
+				cancelButtonText: 'Maybe Later',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$('.title').text('Redirecting to Profile');
+					$('.pageloader').addClass('is-active');
+					window.location.href = $('#center').data('profile');
+				}
+			});
+		} else {
+			$('.title').text('Loading Camera');
+			$('.pageloader').addClass('is-active');
+			window.location.href = $('#center').data('camera');
+		}
 	});
 
 	$('.navbar-menu .navbar-item').click(function() {

@@ -27,10 +27,8 @@
 			</div>
 		</div>
 	</form>
-	<figure id="center" class="image is-64x64 is-hidden-desktop">
-		<a href="{{ url('camera') }}">
-			<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
-		</a>
+	<figure id="center" class="image is-64x64 is-hidden-desktop" data-valid="{{ $user->verified }}" data-profile="{{ url($user->username) }}" data-camera="{{ url('camera') }}">
+		<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
 	</figure>
 </div>
 

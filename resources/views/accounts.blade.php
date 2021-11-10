@@ -115,9 +115,6 @@
 							<span class="icon is-small is-left">
 								<i class="fas fa-envelope"></i>
 							</span>
-							<span class="icon is-small is-right">
-								<i class="fas fa-check"></i>
-							</span>
 						</div>
 					</div>
 					<div class="field field-pass">

@@ -107,10 +107,6 @@ figure.image.is-64x64 {
 	z-index: 1;
 }
 
-#center a {
-	cursor: none;
-}
-
 #center:active {
 	height: 85px;
 	width: 85px;

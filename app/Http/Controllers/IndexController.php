@@ -17,15 +17,17 @@ class IndexController extends Controller
 
 	public function dashboard() {
 		$user = Auth::user();
-		return view('dashboard');
+		return view('dashboard', [
+			'user' => $user
+		]);
 	}
 
 	public function accounts() {
 		if (in_array(Auth::user()->type, ['ADMIN', 'SUPER'])) {
 			if (Auth::user()->type == 'SUPER')
-				$users = User::where('type', 'ADMIN')->get();
+				$users = User::where('type', 'ADMIN')->orderBy('created_at', 'desc')->get();
 			else
-				$users = User::where('type', 'FACIL')->get();
+				$users = User::where('type', 'FACIL')->orderBy('created_at', 'desc')->get();
 
 			return view('accounts', [
 				'users' => $users

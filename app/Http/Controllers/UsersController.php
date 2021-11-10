@@ -90,7 +90,7 @@ class UsersController extends Controller
     }
 
     if (strlen($request->password) < 8)
-      return response()->json(array('status' => 'error', 'data' => 'password', 'msg' => 'Password must be at least 8 characters', 'warn' => 'Password must be a minimum length of 8 characters'));
+      return response()->json(array('status' => 'error', 'data' => 'pass', 'msg' => 'Password must be at least 8 characters', 'warn' => 'Password must be a minimum length of 8 characters'));
 
     if ($request->password != $request->confirm)
       return response()->json(array('status' => 'error', 'data' => 'confirm', 'msg' => 'Passwords do not match', 'warn' => 'Passwords do not match.'));
@@ -101,6 +101,9 @@ class UsersController extends Controller
     $user->password = strip_tags($request->password);
 
     if (Auth::check()) {
+      $user->firstname = strip_tags($request->firstname);
+      $user->lastname = strip_tags($request->lastname);
+      $user->verified = true;
       if (Auth::user()->type == 'SUPER') {
         $user->type = 'ADMIN';
       } else {
@@ -254,6 +257,7 @@ class UsersController extends Controller
       //   return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Invalid phone number.', 'warn' => 'Invalid phone number'));
       // }
 
+      $user->verified = true;
       $user->username = strip_tags($request->data['username']);
       $user->firstname = strip_tags($request->data['firstname']);
       $user->lastname = strip_tags($request->data['lastname']);

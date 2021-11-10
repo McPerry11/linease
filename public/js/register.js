@@ -167,7 +167,7 @@ $(function() {
 						serverValidateError(inpEmail, icnEmail, txtEmailWarning, response.warn, 1);
 						break;
 
-						case 'password':
+						case 'pass':
 						serverValidateError(inpPassword, icnPassword, txtPassWarning, response.warn, 2);
 						break;
 
