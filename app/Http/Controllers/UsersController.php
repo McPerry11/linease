@@ -306,9 +306,9 @@ class UsersController extends Controller
         return response()->json(['msg' => 'Account Updated']);
       }
     } else {
-      $request->validate([
-        'file' => 'required|image!size:15000'
-      ]);
+      // $request->validate([
+      //   'file' => 'required|image!size:15000'
+      // ]);
       $user = User::where('username', $username)->get()[0];
       Storage::disk('avatars')->delete($user->avatar);
 
