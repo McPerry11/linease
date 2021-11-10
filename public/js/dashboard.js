@@ -25,8 +25,9 @@ function realtimeMarkers() {
 			data: {source:'map'},
 			datatype: 'JSON',
 			success: async function(data) {
+				pins = true;
 				if (data.length > 0) {
-					pins = true, temp = [];
+					temp = [];
 					add = data.filter((report) => {
 						temp.push(report.id);
 						if (!ids.includes(report.id)) {
