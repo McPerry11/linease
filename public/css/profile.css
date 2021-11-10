@@ -35,7 +35,7 @@ figure {
 }
 
 figure img {
-  border-radius: 10px;
+  border-radius: 9px;
 }
 
 #name {
@@ -156,5 +156,5 @@ figure img {
   left: 70px;
   color: white;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 5px 0 8px;
+  border-radius: 5px 0 9px;
 }

@@ -652,19 +652,21 @@ $(function() {
   });
 
   $('#avatar').click(function() {
-    $('#edit-avatar input').click();
+    if ($('#edit-avatar').data('user') == $('#edit-avatar').data('auth'))
+      $('#edit-avatar input').val(null).click();
+  });
+
+  $('#edit-avatar input').change(function() {
     Swal.fire({
       html: '<span class="icon is-large"><i class="fas fa-circle-notch fa-spin fa-2x"></i></span>',
       showConfirmButton: false,
       allowOutsideClick: false,
       allowEscapeKey: false
     });
-  });
-
-  $('#edit-avatar input').change(function() {
+    let image = $('#avatar img').attr('src');
+    $('#avatar img').attr('src', $('#avatar img').data('placeholder'));
     let data = new FormData(document.getElementById('edit-avatar'));
     data.append('file', this.files[0]);
-    console.log(data);
     $.ajax({
       type: 'POST',
       url: `${$('#edit-avatar').data('user')}/update`,
@@ -683,13 +685,24 @@ $(function() {
       },
       error: function(err) {
         console.error(err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Cannot Upload Image',
-          text: 'Something went wrong. Please try again later.',
-          showConfirmButton: false,
-          timer: 10000
-        });
+        $('#avatar img').attr('src', image);
+        if (err.status == 422) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File Format',
+            text: 'The upload file must be an image. Only upload PNG, JPG, JPEG, or GIF images',
+            showConfirmButton: false,
+            timer: 10000
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Cannot Upload Image',
+            text: 'Something went wrong. Please try again later.',
+            showConfirmButton: false,
+            timer: 10000
+          });
+        }
       }
     });
   });

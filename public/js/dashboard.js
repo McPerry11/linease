@@ -209,7 +209,8 @@ async function initMap() {
 			mapTypeControl: false,
 			streetViewControl: false,
 			fullscreenControl: false,
-			rotateControl: true
+			rotateControl: true,
+			keyboardShortcuts: false
 		});
 		$('.title').text('Fetching Map Markers');
 		realtimeMarkers();
