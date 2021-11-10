@@ -307,12 +307,13 @@ class UsersController extends Controller
       }
     } else {
       $request->validate([
-        'file' => 'required|image|mimes:jpeg,png,jpg,gif'
+        'file' => 'required|image'
       ]);
       $user = User::where('username', $username)->get()[0];
       Storage::disk('avatars')->delete($user->avatar);
 
-      $filename = Auth::id() . '.' . $request->file->getClientOriginalExtension();
+      $time = Carbon::now()->isFormat('MMDDYYYY-HHmmss');
+      $filename = Auth::id() . $time . '.' . $request->file->getClientOriginalExtension();
       $user->avatar = $filename;
 
       $user->save();

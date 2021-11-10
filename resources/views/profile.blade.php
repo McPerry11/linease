@@ -15,7 +15,7 @@
   @endif
 </figure>
 <form id="edit-avatar" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}">
-  <input type="file" name="avatar" accept="image/png, image/jpeg" hidden>
+  <input type="file" name="avatar" accept="image/*" hidden>
 </form>
 <div id="name">
   <div class="content">

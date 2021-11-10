@@ -50,11 +50,8 @@ class ReportController extends Controller
     $report->severity = $request->sev;
     $report->address = $request->add;
 
-    do {
-      $number = mt_rand(1, 99999);
-      $filename = $number . '-' . Carbon::now()->isoFormat('MM-DD-YYYY HH-mm-ss') . '.jpg';
-      $duplicate = Report::where('picture', $filename)->get();
-    } while (count($duplicate) > 0);
+    $number = Report::latest('created_at')->first()->id + 1;
+    $filename = $number . '-' . Carbon::now()->isoFormat('MMDDYYYY-HHmmss') . '.jpg';
     $report->picture = $filename;
 
     $img = $request->img;
