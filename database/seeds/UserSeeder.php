@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         ];
         $types = ['SUPER', 'ADMIN', 'FACIL', 'USER'];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             foreach ($types as $type) {
                 $user = new User;
 
