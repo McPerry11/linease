@@ -599,7 +599,7 @@ $(function() {
     });
   });
 
-  $('.box').click(function(){
+  $('.box').click(function() {
     var report_id = $(this).data('id');
     $('.modal').addClass('is-active');
     $.ajax({
@@ -645,9 +645,52 @@ $(function() {
     });
   });
 
-  $('.modal-background').click(function(){
+  $('.modal-background').click(function() {
     $('.modal').removeClass('is-active');
     $('#loader').removeClass('is-hidden');
     $('.modal-content').addClass('is-hidden');
+  });
+
+  $('#avatar').click(function() {
+    $('#edit-avatar input').click();
+    Swal.fire({
+      html: '<span class="icon is-large"><i class="fas fa-circle-notch fa-spin fa-2x"></i></span>',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+  });
+
+  $('#edit-avatar input').change(function() {
+    let data = new FormData(document.getElementById('edit-avatar'));
+    data.append('file', this.files[0]);
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      url: `${$('#edit-avatar').data('user')}/update`,
+      data: data,
+      contentType: false,
+      processData: false,
+      datatype: 'JSON',
+      success: function(response) {
+        $('#avatar img').attr('src', `${$('#avatar img').data('base')}/${response.avatar}`);
+        Swal.fire({
+          icon: 'success',
+          title: response.msg,
+          showConfirmButton: false,
+          timer: 10000
+        });
+      },
+      error: function(err) {
+        console.error(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Upload Image',
+          text: 'Something went wrong. Please try again later.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+      }
+    });
   });
 });

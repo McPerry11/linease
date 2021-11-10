@@ -144,3 +144,17 @@ figure img {
 .divider {
   margin: 5px;
 }
+
+#avatar img {
+  object-fit: cover;
+  height: 100%;
+}
+
+#avatar .icon {
+  position:  absolute;
+  top: 70px;
+  left: 70px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 5px 0 8px;
+}

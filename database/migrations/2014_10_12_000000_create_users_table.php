@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
                 'SUPER',
             ]);
             $table->string('password');
-            $table->integer('avatar_id')->nullable();
+            $table->string('avatar')->nullable();
             $table->boolean('verified')->default(false);
             $table->boolean('ob_dashboard')->default(false);
             $table->boolean('ob_profile')->default(false);

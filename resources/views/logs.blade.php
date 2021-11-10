@@ -21,7 +21,7 @@
 
 {{--REPORT LOGS--}}
 <div id="reports_content" class="container is-fluid">
-	<form id="search_reports">
+	{{-- <form id="search_reports">
 		<div class="field has-addons">
 			<div class="control is-expanded">
 				<input type="text" class="input" placeholder="Search location, username, severity, or date...">
@@ -34,7 +34,7 @@
 				</button>
 			</div>
 		</div>
-	</form>
+	</form> --}}
 
 	@if (count($reportlogs) > 0) 
 	@php
@@ -69,7 +69,7 @@
 
 @if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER')
 <div id="admin_content" class="container is-fluid is-hidden">
-	<form id="search_admin">
+	{{-- <form id="search_admin">
 		<div class="field has-addons">
 			<div class="control is-expanded">
 				<input type="text" class="input" placeholder="Search username, activity, or date...">
@@ -82,7 +82,7 @@
 				</button>
 			</div>
 		</div>
-	</form>
+	</form> --}}
 
 	@if (count($adminlogs) > 0) 
 	@php

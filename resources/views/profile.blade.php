@@ -6,9 +6,15 @@
 @endsection
 
 @section('body')
-<figure class="image is-96x96 has-background-white">
-  <img src="{{ asset('img/profilePlaceholder.jpg') }}" alt="Profile Placeholder">
+<figure id="avatar" class="image is-96x96 has-background-white">
+  <img src="{{ $user->avatar ? asset('avatars/' . $user->avatar) : asset('img/profilePlaceholder.jpg') }}" data-base="{{ asset('avatars') }}">
+  <div class="icon">
+    <i class="fas fa-edit"></i>
+  </div>
 </figure>
+<form id="edit-avatar" data-user="{{ $user->username }}">
+  <input type="file" name="avatar" accept="image/png, image/jpeg" hidden>
+</form>
 <div id="name">
   <div class="content">
     <h4 class="has-text-centered">{{ $name ?? $user->username }}</h4>

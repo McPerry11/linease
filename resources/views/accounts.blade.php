@@ -6,7 +6,7 @@
 
 @section('body')
 <div class="container is-fluid mt-4">
-	<form id="search ">
+	{{-- <form id="search">
 		<div class="field has-addons">
 			<div class="control is-expanded">
 				<input type="text" class="input mb-5" placeholder="Search username or name...">
@@ -19,7 +19,7 @@
 				</button>
 			</div>
 		</div>
-	</form>
+	</form> --}}
 	<div class="field">
 		@if (Auth::user()->type == 'ADMIN')
 		<button id="add" class="button is-fullwidth is-success">

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -115,16 +116,22 @@ class UsersController extends Controller
     
     $user->save();
 
-    Log::create([
-      'user_id' => $user->id,
-      'description' => $user->username . ' just registered as a new unverified user.',
-      'ip_address' => $request->ip(),
-    ]);
 
     if ($request->data != 'accounts') {
+      Log::create([
+        'user_id' => $user->id,
+        'description' => $user->username . ' just registered as a new unverified user.',
+        'ip_address' => $request->ip(),
+      ]);
       return response()->json(array('msg' => 'Unverified Account Registered'));
     } else {
       $role = $user->type == 'ADMIN' ? 'Admin' : 'Facilitator';
+      Log::create([
+        'user_id' => Auth::id(),
+        'description' => Auth::user()->username . ' just registered ' . $user->username . ' as a new ' . $role . '.',
+        'ip_address' => $request->ip()
+      ]);
+
       return response()->json(['msg' => $role . ' Account Registered']);
     }
   }
@@ -137,7 +144,7 @@ class UsersController extends Controller
    */
   public function show($username)
   {
-    $user = User::select('id', 'username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id', 'type')
+    $user = User::select('id', 'username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar', 'type')
     ->where('username', $username)->get();
     if (count($user) == 0)
       return redirect('not_found');
@@ -178,7 +185,7 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($username, Request $request)
+  public function edit(Request $request, $username)
   {
     if ($request->data == 'user') {
       $user = User::where('username', $request->username)->get()[0];
@@ -228,7 +235,15 @@ class UsersController extends Controller
   {
     $user = User::where('username', $username)->get()[0];
 
-    if ($request->tab == 'profile') {
+    if ($request->tab == 'security') {
+      $user = User::where('username', $username)->get()[0];
+
+      $user->password = Hash::make($request->new);
+      $user->save();
+      Auth::login($user);
+
+      return response()->json(['msg' => 'Password Updated']);
+    } else if ($request->tab == 'profile') {
       $regex = '/^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i';
       if (preg_match($regex, $request->data['username'])) {
         if ($request->data['username'] != $username) {
@@ -282,17 +297,23 @@ class UsersController extends Controller
         $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
         return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
       } else {
+        Log::create([
+          'user_id' => Auth::id(),
+          'description' => Auth::username() . ' updated ' . $user->username . '\'s account.',
+          'ip_address' => $request->ip()
+        ]);
+
         return response()->json(['msg' => 'Account Updated']);
       }
-
     } else {
       $user = User::where('username', $username)->get()[0];
+      $filename = Auth::id() . '.' . $request->file->getClientOriginalExtension();
+      $user->avatar = $filename;
 
-      $user->password = Hash::make($request->new);
       $user->save();
-      Auth::login($user);
+      $request->file->move(public_path('avatars'), $filename);
 
-      return response()->json(['msg' => 'Password Updated']);
+      return response()->json(['msg' => 'Profile Picture Updated', 'avatar' => $filename]);
     }
   }
 
@@ -302,12 +323,12 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($username, Request $request)
+  public function destroy(Request $request, $username)
   {
     $user = User::where('username', $username)->get()[0];
 
     Log::create([
-      'user_id' => $user->id,
+      'user_id' => Auth::id(),
       'description' => Auth::user()->username . ' deleted ' . $user->username . '\'s account',
       'ip_address' => $request->ip()
     ]);
