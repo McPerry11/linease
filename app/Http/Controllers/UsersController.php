@@ -112,10 +112,8 @@ class UsersController extends Controller
     
     $user->save();
 
-    $id = User::where('username', $user->username)->value('id');
-
     Log::create([
-      'user_id' => $id,
+      'user_id' => $user->id,
       'description' => $user->username . ' just registered as a new unverified user.',
       'ip_address' => $request->ip(),
     ]);
@@ -174,7 +172,10 @@ class UsersController extends Controller
    */
   public function edit($username, Request $request)
   {
-    if ($request->data == 'username') {
+    if ($request->data == 'user') {
+      $user = User::where('username', $request->username)->get()[0];
+      return response()->json($user);
+    } else if ($request->data == 'username') {
       if ($request->username != $username) {
         $count = User::where('username', $request->username)->count();
         if ($count > 0)
@@ -286,8 +287,17 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy($username, Request $request)
   {
-    //
+    $user = User::where('username', $username)->get()[0];
+
+    Log::create([
+      'user_id' => $user->id,
+      'description' => Auth::user()->username . ' deleted ' . $user->username . '\'s account',
+      'ip_address' => $request->ip()
+    ]);
+    $user->delete();
+
+    return response()->json(['status' => 'success']);
   }
 }

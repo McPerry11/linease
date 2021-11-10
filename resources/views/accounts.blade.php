@@ -49,8 +49,8 @@
 				<p class="is-size-6 has-text-weight-normal">Name: {{ $user->firstname && $user->lastname ? $user->firstname . ' ' . ($user->middlename ?? '') . ($user->middlename ? ' ' : '') . $user->lastname : $user->username }}</p> 
 			</div>
 			<footer class="card-footer">
-				<a class="card-footer-item acc-edit py-1" data-id="{{ $user->id }}">Edit</a>
-				<a class="card-footer-item acc-delete py-1" data-id="{{ $user->id }}">Delete</a>
+				<a class="card-footer-item acc-edit py-1" data-user="{{ $user->username }}">Edit</a>
+				<a class="card-footer-item acc-delete py-1 has-text-danger" data-user="{{ $user->username }}">Delete</a>
 			</footer>
 		</div>
 	</div>
@@ -60,7 +60,14 @@
 
 <div class="modal">
 	<div class="modal-background"></div>
-	<div class="modal-content">
+	<div id="loader" class="modal-card">
+		<div class="modal-card-body">
+			<span class="icon is-large has-text-success">
+				<i class="fas fa-circle-notch fa-spin fa-3x"></i>
+			</span>
+		</div>
+	</div>
+	<div class="modal-content is-hidden">
 		<div class="card mx-2">
 			@if (Auth::user()->type == 'ADMIN')
 			<div class="box mb-0 p-0">
@@ -113,7 +120,7 @@
 							</span>
 						</div>
 					</div>
-					<div class="field">
+					<div class="field field-pass">
 						<div class="field has-addons">
 							<div class="control is-expanded">
 								<input id = "pass" type="password" class="input" minlength="8" placeholder="Password" required>
@@ -128,7 +135,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="field">
+					<div class="field field-pass">
 						<div class="field has-addons">
 							<div class="control is-expanded">
 								<input id="confirm" type="password" class="input" placeholder=" Confirm Password" required>
@@ -146,8 +153,8 @@
 				</div>
 			</div>
 			<footer class="card-footer">
-				<div id="cancel" class="card-footer-item">Cancel</div>
-				<div  id="submit" class="card-footer-item">Submit</div>
+				<div id="cancel" class="card-footer-item has-text-danger">Cancel</div>
+				<div  id="submit" class="card-footer-item has-text-white has-background-success">Submit</div>
 			</footer>
 		</div>
 	</div>
@@ -155,5 +162,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/accounts.js') }}"></script>
+<script id="accounts" src="{{ asset('js/accounts.js') }}" data-link="{{ url('accounts') }}"></script>
 @endsection
