@@ -4,6 +4,12 @@ $.ajaxSetup({
 	}
 });
 
+window.oncontextmenu = function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+	return false;
+};
+
 $(window).on('load', function() {
 	if ($('#app').data('link') != 'camera' && $('#app').data('link') != '/') {
 		$('.title').text('');
