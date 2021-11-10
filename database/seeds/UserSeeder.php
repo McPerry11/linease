@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
         $data = [
             'username' => ['McPerry_', 'seamonster618', 'jbrtfrnndz', 'youngG', 'kaysabelle', 'panelist1', 'panelist2', 'panelist3', 'sample'],
             'email' => ['mack.perry.co@gmail.com', 'acvtela@yahoo.com', 'jbrtfrnndz@gmail.com', 'guiang.justing@gmail.com', 'kaye.rosacia@gmail.com', 'panelist1@sample.com', 'panelist2@sample.com', 'panelist3@sample.com', 'sample@sample.com'],
-            'password' => ['237845691', 'cuteasianboi', 'hentaihart', 'Justin23', 'Awitser13', 'panelist1', 'panelist2', 'panelist3', 'samplepassword']
+            'password' => ['237845691', 'cuteasianboi', 'hentaihart', 'Justin23', 'Awitser13', 'panelist1', 'panelist2', 'panelist3', 'password']
         ];
         $types = ['SUPER', 'ADMIN', 'FACIL', 'USER'];
 
