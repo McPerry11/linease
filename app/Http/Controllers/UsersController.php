@@ -121,7 +121,12 @@ class UsersController extends Controller
       'ip_address' => $request->ip(),
     ]);
 
-    return response()->json(array('msg' => 'Unverified account registered successfully'));
+    if ($request->data != 'accounts') {
+      return response()->json(array('msg' => 'Unverified Account Registered'));
+    } else {
+      $role = $user->type == 'ADMIN' ? 'Admin' : 'Facilitator';
+      return response()->json(['msg' => $role . ' Account Registered']);
+    }
   }
 
   /**
@@ -261,18 +266,24 @@ class UsersController extends Controller
       $user->username = strip_tags($request->data['username']);
       $user->firstname = strip_tags($request->data['firstname']);
       $user->lastname = strip_tags($request->data['lastname']);
-      $user->middlename = strip_tags($request->data['middlename']);
       $user->email = strip_tags($request->data['email']);
-      // $user->phone = strip_tags($request->data['phone']);
-      $user->city = strip_tags($request->data['city']);
-      $user->birthdate = strip_tags($request->data['birthdate']);
+      if ($request->module != 'accounts') {
+        $user->middlename = strip_tags($request->data['middlename']);
+        // $user->phone = strip_tags($request->data['phone']);
+        $user->city = strip_tags($request->data['city']);
+        $user->birthdate = strip_tags($request->data['birthdate']);
+      }
       
       $user->save();
-      $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'city', 'birthdate')->where('username', $user->username)->get()[0];
-      $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
-      $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
-      $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
-      return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
+      if ($request->module != 'accounts') {
+        $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'city', 'birthdate')->where('username', $user->username)->get()[0];
+        $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
+        $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
+        $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
+        return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
+      } else {
+        return response()->json(['msg' => 'Account Updated']);
+      }
 
     } else {
       $user = User::where('username', $username)->get()[0];

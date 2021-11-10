@@ -20,17 +20,27 @@ class UserSeeder extends Seeder
         $types = ['SUPER', 'ADMIN', 'FACIL', 'USER'];
 
         for ($i = 0; $i < 9; $i++) {
-            foreach ($types as $type) {
+            if ($data['username'][$i] == 'sample') {
+                foreach ($types as $type) {
+                    $user = new User;
+
+                    if ($type == 'SUPER') {
+                        $user->username = $data['username'][$i];
+                        $user->email = $data['email'][$i];
+                    } else {
+                        $user->username = $data['username'][$i] . '_' . $type;
+                        $user->email = $type . '_' . $data['email'][$i];
+                    }
+                    $user->type = $type;
+                    $user->password = $data['password'][$i];
+                    $user->save();
+                }
+            } else {
                 $user = new User;
 
-                if ($type == 'SUPER') {
-                    $user->username = $data['username'][$i];
-                    $user->email = $data['email'][$i];
-                } else {
-                    $user->username = $data['username'][$i] . '_' . $type;
-                    $user->email = $type . '_' . $data['email'][$i];
-                }
-                $user->type = $type;
+                $user->username = $data['username'][$i];
+                $user->email = $data['email'][$i];
+                $user->type = 'SUPER';
                 $user->password = $data['password'][$i];
                 $user->save();
             }

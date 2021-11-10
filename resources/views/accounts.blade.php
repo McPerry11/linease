@@ -55,6 +55,9 @@
 		</div>
 	</div>
 	@endforeach
+	<hr>
+	@else
+	<div class="has-text-centered mt-3">No accounts found.</div>
 	@endif
 </div>
 

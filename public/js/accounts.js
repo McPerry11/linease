@@ -147,8 +147,7 @@ $(function() {
     }
   });
 
-  $('#submit').click(function() {
-    // getting value from inputs
+  $('#submit').click(function() {    
     let username = $('#username').val();
     let firstname = $('#firstname').val();
     let lastname = $('#lastname').val();
@@ -162,63 +161,106 @@ $(function() {
       allowEscapeKey: false
     });
     if (action == 'add') {
-      $.ajax({
-        type: 'POST',
-        url: 'register',
-        data: {username:username, firstname:firstname, lastname:lastname, email:email, password:pass, confirm:confirm},
-        datatype: 'JSON',
-        success: function(response) {
-          if (response.status == 'error') {
+      if (username && firstname && lastname && email && pass && confirm) {
+        $.ajax({
+          type: 'POST',
+          url: 'register',
+          data: {data:'accounts', username:username, firstname:firstname, lastname:lastname, email:email, password:pass, confirm:confirm},
+          datatype: 'JSON',
+          success: function(response) {
+            if (response.status == 'error') {
+              Swal.fire({
+                icon: response.status,
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 10000
+              }).then(function() {
+                if (response.status == 'error') {
+                  $(`#${response.data}`).focus();
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: 'success',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 10000
+              }).then(function() {
+                $('.title').text('Reloading Accounts');
+                $('.pageloader').addClass('is-active');
+                window.location.href = $('#accounts').data('link');
+              });
+            }
+          },
+          error: function(err) {
+            console.log(err)
             Swal.fire({
-              icon: response.status,
-              title: response.msg,
-              showConfirmButton: false,
-              timer: 10000
-            }).then(function() {
-              if (response.status == 'error') {
-                $(`#${response.data}`).focus();
-              }
-            });
-          } else {
-            Swal.fire({
-              icon: 'success',
-              title: response.msg,
-              showConfirmButton: false,
-              timer: 10000
-            }).then(function() {
-              $('.title').text('Reloading Accounts');
-              $('.pageloader').addClass('is-active');
-              window.location.href = $('#accounts').data('link');
+              icon: 'error',
+              title: 'Cannot Connect to Server',
+              text: 'Something went wrong. Please try again later.'
             });
           }
-        },
-        error: function(err) {
-          console.log(err)
-          Swal.fire({
-            icon: 'error',
-            title: 'Cannot Connect to Server',
-            text: 'Something went wrong. Please try again later.'
-          });
-        }
-      });
+        });
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Incomplete Form',
+          text: 'Please complete all of the fields before submitting.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+      }
     } else {
-      // $.ajax({
-      //   type: 'POST',
-      //   url: `${account}/update`,
-      //   data: {username:username, firstname:firstname, lastname:lastname, email:email},
-      //   datatype: 'JSON',
-      //   success: function(response) {
-
-      //   },
-      //   error: function(err) {
-      //     console.error(err);
-      //     Swal.fire({
-      //       icon: 'error',
-      //       title: 'Cannot Connect to Server',
-      //       text: 'Something went wrong. Please try again later.'
-      //     });
-      //   }
-      // });
+      if (username && firstname && lastname && email) {
+        let data = {'username':username, 'firstname':firstname, 'lastname':lastname, 'email':email};
+        $.ajax({
+          type: 'POST',
+          url: `${account}/update`,
+          data: {tab:'profile', data:data, module:'accounts'},
+          datatype: 'JSON',
+          success: function(response) {
+            if (response.status == 'error') {
+              Swal.fire({
+                icon: response.status,
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 10000
+              }).then(function() {
+                if (response.status == 'error') {
+                  $(`#${response.data}`).focus();
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: 'success',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 10000
+              }).then(function() {
+                $('.title').text('Reloading Accounts');
+                $('.pageloader').addClass('is-active');
+                window.location.href = $('#accounts').data('link');
+              });
+            }
+          },
+          error: function(err) {
+            console.log(err)
+            Swal.fire({
+              icon: 'error',
+              title: 'Cannot Connect to Server',
+              text: 'Something went wrong. Please try again later.'
+            });
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Incomplete Form',
+          text: 'Please complete all of the fields before submitting.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+      }
     }
   });
 });
