@@ -312,7 +312,7 @@ class UsersController extends Controller
       $user = User::where('username', $username)->get()[0];
       Storage::disk('avatars')->delete($user->avatar);
 
-      $time = Carbon::now()->isFormat('MMDDYYYY-HHmmss');
+      $time = Carbon::now()->isoFormat('MMDDYYYY-HHmmss');
       $filename = Auth::id() . $time . '.' . $request->file->getClientOriginalExtension();
       $user->avatar = $filename;
 
