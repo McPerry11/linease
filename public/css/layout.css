@@ -13,7 +13,7 @@ body.swal2-height-auto {
 }
 
 .introjs-skipbutton {
-	display: none;
+	display: none!important;
 }
 
 #nojs {
