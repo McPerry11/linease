@@ -254,6 +254,10 @@ class UsersController extends Controller
         case 'logs':
         $user->ob_logs = true;
         break;
+
+        case 'camera':
+        $user->ob_camera = true;
+        break;
       }
       $user->save();
 

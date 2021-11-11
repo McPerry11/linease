@@ -1,25 +1,89 @@
-var geocoder;
+var geocoder, tutorcam = tutorform = false, introbtn, introtxt;
 
 function initMap() {
  geocoder = new google.maps.Geocoder();
 }
 
 $(function() {
-	function camera() {
-		$('canvas').remove();
-		navigator.mediaDevices.getUserMedia(constraints)
-		.then(function(stream) {
-			$('#camera').remove();
-			$('body').append('<video autoplay id="camera"></video>');
-			$('#camera').css('padding', 0);
-			var video = document.querySelector('video');
-			video.srcObject = stream;
+  function obAJAX() {
+    $.ajax({
+      type: 'POST',
+      url: `${$('#camjs').data('user')}/update`,
+      data: {tab:'ob', module:'camera'},
+      datatype: 'JSON',
+      error: function(err) {
+        console.error(err);
+        obAJAX();
+      }
+    });
+  }
 
-			const track = stream.getVideoTracks()[0];
-			imgCap = new ImageCapture(track);
-			$('.title').text('');
-			$('.pageloader').removeClass('is-active');
+  function camera() {
+    $('canvas').remove();
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(stream) {
+      $('#camera').remove();
+      $('body').append('<video autoplay id="camera"></video>');
+      $('#camera').css('padding', 0);
+      var video = document.querySelector('video');
+      video.srcObject = stream;
+
+      const track = stream.getVideoTracks()[0];
+      imgCap = new ImageCapture(track);
+      $('.title').text('');
+      $('.pageloader').removeClass('is-active');
       $('#center').removeAttr('disabled');
+      if ($('#camjs').data('ob') == 0 && tutorcam == false) {
+        tutorcam = true;
+        introJs().setOptions({
+          disableInteraction: true,
+          showBullets: false,
+          exitOnOverlayClick: false,
+          exitOnEsc: false,
+          steps: [{
+            title: 'Camera',
+            intro: 'This is the camera module. Here you will be submitting reports by taking a picture of the polluted location.'
+          },
+          {
+            element: document.querySelector('#camera'),
+            title: 'Camera View',
+            intro: 'Make sure to take the picture of the polluted area and not something else. What you report will be seen by everyone!'
+          },
+          {
+            element: document.querySelector('#left'),
+            title: 'Back Button',
+            intro: 'If you want to return to the dashboard, click the red X on the left side here. This will cancel your report and you will be returned to the dashboard.'
+          },
+          {
+            element: document.querySelector('#center'),
+            title: 'Capture',
+            intro: 'To capture the polluted location you want to report, click the LinEase icon here. As an example, let\'s take a picture right now!'
+          }
+          ]
+        }).start().oncomplete(function() {
+          $('#center').click();
+          setTimeout(function() {
+            introJs().setOptions({
+              disableInteraction: true,
+              showBullets: false,
+              exitOnOverlayClick: false,
+              exitOnEsc: false,
+              steps: [{
+                element: document.querySelector('#left'),
+                title: 'Retake',
+                intro: 'Once a picture has been taken, the back button will become a retake button. If you want to retake the picture, click the retake button. Once clicked, this will return back into a back button.'
+              },
+              {
+                element: document.querySelector('#right'),
+                title: 'Submit Photo',
+                intro: 'To proceed with the submission of report, click the green check mark on the right side. As an example, let\'s submit this photo right now!'
+              }]
+            }).start().oncomplete(function() {
+              $('#right').click();
+            });
+          }, 400);
+        });
+      }
     }).catch(function(err) {
       $('.title').text('');
       $('.pageloader').removeClass('is-active');
@@ -114,6 +178,14 @@ $(function() {
   	$('.title').text('Initializing Geolocation');
     navigator.geolocation.getCurrentPosition(gps_success, gps_error);
   }
+
+  $(document).on('click', '.introjs-prevbutton', function() {
+    introbtn = 'previous';
+  });
+
+  $(document).on('click', '.introjs-nextbutton', function() {
+    introbtn = 'next';
+  });
 
   $(window).click(function() {
     if ($('.ui-selectmenu-menu').hasClass('ui-selectmenu-open'))
@@ -210,6 +282,53 @@ $(function() {
         $('.icon.is-left img').attr('src', 'img/S4Label.png');
         $('#loader').addClass('is-hidden');
         $('.modal-card-body form').removeClass('is-hidden');
+        if (tutorform == false) {
+          tutorform = true;
+          introJs().setOptions({
+            disableInteraction: true,
+            showBullets: false,
+            exitOnOverlayClick: false,
+            exitOnEsc: false,
+            steps: [{
+              element: document.querySelector('#createReport'),
+              title: 'Report Form',
+              intro: 'This form will hold the details of your report. After submitting this form, your report will be displayed on the dashboard!'
+            },
+            {
+              element: document.querySelector('#preview'),
+              title: 'Preview',
+              intro: 'This is the preview of the photo you have captured. This will serve as proof for your report!',
+              position: 'bottom'
+            },
+            {
+              element: document.querySelector('#auto'),
+              title: 'Auto-Generated',
+              intro: 'These fields are auto-generated by LinEase and cannot be edited.'
+            },
+            {
+              element: document.querySelector('#severity_field'),
+              title: 'Severity',
+              intro: 'Here you will pick the severity of the report, ranging from Light, Moderate, Major, to Critical. Please try to be rational when selecting the severity. We trust your judgement!'
+            },
+            {
+              element: document.querySelector('#description_field'),
+              title: 'Description',
+              intro: 'Enter other details of your report. This will add more credibility for your report!'
+            },
+            {
+              title: 'Report Submission',
+              intro: 'After submitting a report, the report will be added on the dashboard for everyone to see. We would really appreciate your contribution and we hope that you keep on reporting!'
+            },
+            {
+              title: 'LinEase',
+              intro: 'As we say with LinEase, we can linis with ease!'
+            }]
+          }).start().oncomplete(function() {
+            $('#cancel').click();
+            $('#left').click();
+            obAJAX();
+          });
+        }
       }, function(err) {
         console.warn(`Error ${err.code}: ${err.message}`);
         Swal.fire({
@@ -233,8 +352,10 @@ $(function() {
 
   $('#cancel').click(function() {
   	$('.modal').removeClass('is-active');
-  	$('#left').removeClass('inactive');
-  	$('#right').removeClass('inactive');
+    $('#loader').removeClass('is-hidden');
+    $('.modal-card-body form').addClass('is-hidden');
+    $('#left').removeClass('inactive');
+    $('#right').removeClass('inactive');
   });
 
   $('form').submit(function(e) {
