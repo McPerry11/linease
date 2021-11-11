@@ -26,7 +26,7 @@ Route::middleware(['desktop'])->group(function() {
   Route::post('users', 'UsersController@index');
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['desktop', 'auth'])->group(function() {
   Route::get('', 'IndexController@dashboard')->name('dashboard');
   Route::post('markers', 'ReportController@index');
 

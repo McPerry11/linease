@@ -1,0 +1,33 @@
+body, .container.is-fluid, .columns {
+	height: 100%;
+}
+
+.level.is-mobile .level-item:not(:last-child) {
+	margin: 0;
+}
+
+figure {
+	margin: auto;
+}
+
+.level .image img {
+	height: 300px;
+	border: solid grey 2px;
+}
+
+
+@media only screen and (max-width: 768px) {
+	.column.is-narrow {
+		margin-top: 50px;
+	}
+
+	.level .image img {
+		height: 200px;
+	}
+}
+
+@media only screen and (max-width: 1023px) {
+	.level .image img {
+		height: 250px;
+	}
+}
