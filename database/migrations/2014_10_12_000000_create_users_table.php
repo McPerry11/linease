@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             ]);
             $table->string('password');
             $table->string('avatar')->nullable();
+            $table->boolean('survey')->default(false);
             $table->boolean('verified')->default(false);
             $table->boolean('ob_dashboard')->default(false);
             $table->boolean('ob_profile')->default(false);
