@@ -2,6 +2,9 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/accounts.css') }}">
+@if (Auth::user()->ob_accounts == 0)
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css">
+@endif
 @endsection
 
 @section('body')
@@ -162,5 +165,8 @@
 @endsection
 
 @section('scripts')
-<script id="accounts" src="{{ asset('js/accounts.js') }}" data-link="{{ url('accounts') }}"></script>
+@if (Auth::user()->ob_accounts == 0)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+@endif
+<script id="accounts" src="{{ asset('js/accounts.js') }}" data-link="{{ url('accounts') }}" data-ob="{{ Auth::user()->ob_accounts }}" data-role="{{ Auth::user()->type == 'SUPER' ? 'Admin' : 'Facilitator' }}" data-user="{{ Auth::user()->username }}"></script>
 @endsection

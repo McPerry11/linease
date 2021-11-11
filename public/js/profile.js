@@ -1,17 +1,103 @@
-$(function() {
-  function obAJAX() {
-    $.ajax({
-      type: 'POST',
-      url: `${$('#js').data('auth')}/update`,
-      data: {tab:'ob', module:'profile'},
-      datatype: 'JSON',
-      error: function(err) {
-        console.error(err);
-        obAJAX();
-      }
-    });
-  }
+function obAJAX() {
+  $.ajax({
+    type: 'POST',
+    url: `${$('#js').data('auth')}/update`,
+    data: {tab:'ob', module:'profile'},
+    datatype: 'JSON',
+    error: function(err) {
+      console.error(err);
+      obAJAX();
+    }
+  });
+}
 
+$(window).on('load', function() {
+  $('.title').text('');
+  $('.pageloader').removeClass('is-active');
+  if ($('#js').data('user') == $('#js').data('auth')) {
+    if ($('#js').data('ob') == 0) {
+      introJs().setOptions({
+        disableInteraction: true,
+        showBullets: false,
+        exitOnOverlayClick: false,
+        exitOnEsc: false,
+        steps: [{
+          title: 'Profile',
+          intro: 'This is your profile module! Here you can manage your information, security, and reports. Let\'s start personalizing your LinEase profile!'
+        },
+        {
+          element: document.querySelector('#avatar'),
+          title: 'Profile Picture',
+          intro: 'Here you can change your profile picture. Everyone can see your picture if they visit your profile. You can upload PNG, JPG, and JPEG images. You can even upload animated GIFs! Just remember that your file size cannot exceed 5MB.'
+        },
+        {
+          element: document.querySelector('.tabs'),
+          title: 'Tabs',
+          intro: 'Your profile is divided into 3 parts: Profile Information, Security, and Reports. Use these tabs to navigate in your profile!'
+        },
+        {
+          element: document.querySelector('#profile_content'),
+          title: 'Profile Information',
+          intro: 'Here you can see your profile information. This part is hidden to visitors of your profile.'
+        },
+        {
+          element: document.querySelector('#edit'),
+          title: 'Edit Profile',
+          intro: 'To edit your profile, click on this button. This will be your first step to be able to submit reports!',
+        }]
+      }).start().onafterchange(function() {
+        if ($('.introjs-tooltip-title').text() == 'Profile Information') {
+          setTimeout(function() {
+            if (introbtn == 'next') {
+              $('.introjs-arrow').removeClass('top-middle').addClass('top-right');
+              $('.introjs-tooltip').css('left', '-150px');
+            }
+          }, 400);
+        }
+      }).oncomplete(function() {
+        $('#security a').click();
+        setTimeout(function() {
+          introJs().setOptions({
+            disableInteraction: true,
+            showBullets: false,
+            exitOnOverlayClick: false,
+            exitOnEsc: false,
+            steps: [{
+              element: document.querySelector('#security_content'),
+              title: 'Security',
+              intro: 'Here you can see the security tab. This part is also hidden to visitors of your profile. There\'s nothing much to do here, but you can change your password any time.'
+            },
+            {
+              element: document.querySelector('#change'),
+              title: 'Change Password',
+              intro: 'You can change your password by clicking this button.'
+            }]
+          }).start().oncomplete(function() {
+            $('#reports a').click();
+            setTimeout(function() {
+              introJs().setOptions({
+                disableInteraction: true,
+                showBullets: false,
+                exitOnOverlayClick: false,
+                exitOnEsc: false,
+                steps: [{
+                  element: document.querySelector('#reports_content'),
+                  title: 'Reports',
+                  intro: 'Here you can see the reports tab. Every report that you submit will be listed here. This part will be visible to visitors of your profile. You can click the report to see the details that you\'ve submitted!'
+                }]
+              }).start().oncomplete(function() {
+                $('#profile a').click();
+                obAJAX();
+              });
+            }, 400);
+          });
+        }, 400);
+      });
+    }
+  }
+});
+
+$(function() {
   function ajaxError(err) {
     console.error(err);
     Swal.fire({
@@ -84,93 +170,7 @@ $(function() {
   //     return false;
   //   }
   // });
-
-  $(window).on('load', function() {
-    $('.title').text('');
-    $('.pageloader').removeClass('is-active');
-    if ($('#js').data('user') == $('#js').data('auth')) {
-      if ($('#js').data('ob') == 0) {
-        introJs().setOptions({
-          disableInteraction: true,
-          showBullets: false,
-          exitOnOverlayClick: false,
-          exitOnEsc: false,
-          steps: [{
-            title: 'Profile',
-            intro: 'This is your profile module! Here you can manage your information, security, and reports. Let\'s start personalizing your LinEase profile!'
-          },
-          {
-            element: document.querySelector('#avatar'),
-            title: 'Profile Picture',
-            intro: 'Here you can change your profile picture. Everyone can see your picture if they visit your profile. You can upload PNG, JPG, and JPEG images. You can even upload animated GIFs! Just remember that your file size cannot exceed 5MB.'
-          },
-          {
-            element: document.querySelector('.tabs'),
-            title: 'Tabs',
-            intro: 'Your profile is divided into 3 parts: Profile Information, Security, and Reports. Use these tabs to navigate in your profile!'
-          },
-          {
-            element: document.querySelector('#profile_content'),
-            title: 'Profile Information',
-            intro: 'Here you can see your profile information. This part is hidden to visitors of your profile.'
-          },
-          {
-            element: document.querySelector('#edit'),
-            title: 'Edit Profile',
-            intro: 'To edit your profile, click on this button. This will be your first step to be able to submit reports!',
-          }]
-        }).start().onafterchange(function() {
-          if ($('.introjs-tooltip-title').text() == 'Profile Information') {
-            setTimeout(function() {
-              if (introbtn == 'next') {
-                $('.introjs-arrow').removeClass('top-middle').addClass('top-right');
-                $('.introjs-tooltip').css('left', '-150px');
-              }
-            }, 400);
-          }
-        }).oncomplete(function() {
-          $('#security a').click();
-          setTimeout(function() {
-            introJs().setOptions({
-              disableInteraction: true,
-              showBullets: false,
-              exitOnOverlayClick: false,
-              exitOnEsc: false,
-              steps: [{
-                element: document.querySelector('#security_content'),
-                title: 'Security',
-                intro: 'Here you can see the security tab. This part is also hidden to visitors of your profile. There\'s nothing much to do here, but you can change your password any time.'
-              },
-              {
-                element: document.querySelector('#change'),
-                title: 'Change Password',
-                intro: 'You can change your password by clicking this button.'
-              }]
-            }).start().oncomplete(function() {
-              $('#reports a').click();
-              setTimeout(function() {
-                introJs().setOptions({
-                  disableInteraction: true,
-                  showBullets: false,
-                  exitOnOverlayClick: false,
-                  exitOnEsc: false,
-                  steps: [{
-                    element: document.querySelector('#reports_content'),
-                    title: 'Reports',
-                    intro: 'Here you can see the reports tab. Every report that you submit will be listed here. This part will be visible to visitors of your profile. You can click the report to see the details that you\'ve submitted!'
-                  }]
-                }).start().oncomplete(function() {
-                  $('#profile a').click();
-                  obAJAX();
-                });
-              }, 400);
-            });
-          }, 400);
-        });
-      }
-    }
-  });
-
+  
   $(document).on('click', '.introjs-prevbutton', function() {
     introbtn = 'previous';
   });

@@ -20,7 +20,7 @@ var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'
 function obAJAX() {
 	$.ajax({
 		type: 'POST',
-		url: `${$('#dashboard').data('user')}/update`,
+		url: `${$('#accounts').data('user')}/update`,
 		data: {tab:'ob', module:'dashboard'},
 		datatype: 'JSON',
 		error: function(err) {
@@ -225,7 +225,7 @@ function realtimeMarkers() {
 						{
 							element: document.querySelector('.navbar-burger'),
 							title: 'Menu',
-							intro: 'Click the menu here on the top right and proceed to Profile. Complete your profile there to be able to submit reports!'
+							intro: 'Click the menu here on the top right to open the navigation menu. Then click Profile from the menu and complete your LinEase profile there!'
 						}]
 					}).start().onchange(function() {
 						if ($('.introjs-tooltip-title').text() == 'Submitting Reports') {

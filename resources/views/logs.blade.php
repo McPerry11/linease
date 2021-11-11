@@ -3,6 +3,9 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/logs.css') }}">
 <link rel="stylesheet" href="{{ asset('css/bulma-divider.min.css') }}">
+@if (Auth::user()->ob_logs == 0)
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css">
+@endif
 @endsection
 
 @section('body')
@@ -139,5 +142,8 @@
 @endsection
 
 @section('scripts')
-<script id="logs" src="{{ asset('js/logs.js') }}" data-base="{{ asset('reports') }}"></script>
+@if (Auth::user()->ob_logs == 0)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+@endif
+<script id="logs" src="{{ asset('js/logs.js') }}" data-base="{{ asset('reports') }}" data-ob="{{ Auth::user()->ob_logs }}" data-user="{{ Auth::user()->username }}" data-role="{{ Auth::user()->type == 'SUPER' || Auth::user()->type == 'ADMIN' ? 'Admin' : 'Facilitator' }}"></script>
 @endsection

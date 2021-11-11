@@ -1,3 +1,79 @@
+function obAJAX() {
+	$.ajax({
+		type: 'POST',
+		url: `${$('#logs').data('user')}/update`,
+		data: {tab:'ob', module:'logs'},
+		datatype: 'JSON',
+		error: function(err) {
+			console.error(err);
+			obAJAX();
+		}
+	});
+}
+
+$(window).on('load', function() {
+	$('.title').text('');
+	$('.pageloader').removeClass('is-active');
+	if ($('#logs').data('ob') == 0) {
+		introJs().setOptions({
+			disableInteraction: true,
+			showBullets: false,
+			exitOnOverlayClick: false,
+			exitOnEsc: false,
+			steps: [{
+				title: 'Logs',
+				intro: 'This is your logs module. Activities that occur in LinEase will be recorded in this module!'
+			},
+			{
+				element: document.querySelector('#reports'),
+				title: 'Report Logs',
+				intro: `This is the report logs. As ${$('#logs').data('role') == 'Admin' ? 'an admin' : 'a facilitator'}, you have access to all the report logs that are submitted by users!`
+			},
+			{
+				element: document.querySelector('#reports_content'),
+				title: 'Reports',
+				intro: 'Reports that are submitted will be listed here.'
+			}
+			]
+		}).start().oncomplete(function() {
+			if ($('#logs').data('role') == 'Admin') {
+				$('#admin a').click();
+				setTimeout(function() {
+					introJs().setOptions({
+						disableInteraction: true,
+						showBullets: false,
+						exitOnOverlayClick: false,
+						exitOnEsc: false,
+						steps: [{
+							element: document.querySelector('#admin'),
+							title: 'Admin Logs',
+							intro: `This is the admin logs. As an admin, you have access to the activities of your team!`
+						},
+						{
+							element: document.querySelector('#admin_content'),
+							title: 'Logs',
+							intro: 'Logs such as time in and time out will be listed here.'
+						}]
+					}).start().onchange(function() {
+						if ($('.introjs-tooltip-title').text() == 'Logs') {
+							setTimeout(function() {
+								$('.introjs-tooltip').css('left', '-140px');
+								$('.introjs-arrow').removeClass('top-middle').addClass('top-right');
+							}, 400);
+						}
+					}).oncomplete(function() {
+						obAJAX();
+					});
+					setTimeout(function() {
+						$('.introjs-tooltip').css('left', '-140px');
+						$('.introjs-arrow').removeClass('top-middle').addClass('top-right');
+					}, 100);
+				}, 400);
+			}
+		});
+	}
+});
+
 $(function() {
 	$('.title').text('Loading Logs');
 	$('html').removeClass('has-navbar-fixed-top');

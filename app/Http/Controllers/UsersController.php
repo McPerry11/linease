@@ -246,6 +246,14 @@ class UsersController extends Controller
         case 'profile':
         $user->ob_profile = true;
         break;
+
+        case 'accounts':
+        $user->ob_accounts = true;
+        break;
+
+        case 'logs':
+        $user->ob_logs = true;
+        break;
       }
       $user->save();
 

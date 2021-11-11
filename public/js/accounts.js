@@ -1,11 +1,73 @@
+function obAJAX() {
+  $.ajax({
+    type: 'POST',
+    url: `${$('#accounts').data('user')}/update`,
+    data: {tab:'ob', module:'accounts'},
+    datatype: 'JSON',
+    error: function(err) {
+      console.error(err);
+      obAJAX();
+    }
+  });
+}
+
+$(window).on('load', function() {
+  $('.title').text('');
+  $('.pageloader').removeClass('is-active');
+  if ($('#accounts').data('ob') == 0) {
+    introJs().setOptions({
+      disableInteraction: true,
+      showBullets: false,
+      exitOnOverlayClick: false,
+      exitOnEsc: false,
+      steps: [{
+        title: 'Accounts',
+        intro: 'This is your accounts module. Get started in building your team here!'
+      },
+      {
+        element: document.querySelector('#add'),
+        title: $('#add').find('span:last-child()').text(),
+        intro: `Click the add button to start adding ${$('#accounts').data('role')} accounts.`
+      }
+      ]
+    }).start().oncomplete(function() {
+      $('#add').click();
+      setTimeout(function() {
+        introJs().setOptions({
+          disableInteraction: true,
+          showBullets: false,
+          exitOnOverlayClick: false,
+          exitOnEsc: false,
+          steps: [{
+            element: document.querySelector('.modal'),
+            title: 'Form',
+            intro: `Complete the ${$('#accounts').data('role')}'s details in this form to start building your team!`
+          }]
+        }).start().oncomplete(function() {
+          obAJAX();
+        });
+      }, 400);
+    });
+  }
+});
+
 $(function() {
   var inputs = {'username':true, 'email':true, 'phone':true}, action, account;
-  
+
   $('.title').text('Loading Accounts');
   $('html').removeClass('has-navbar-fixed-top');
   $('.navbar').removeClass('is-fixed-top');
   $('.content.navbar-item h3').text('Accounts');
   $('#back').attr('title', 'Go back to dashboard');
+
+
+  $(document).on('click', '.introjs-prevbutton', function() {
+    introbtn = 'previous';
+  });
+
+  $(document).on('click', '.introjs-nextbutton', function() {
+    introbtn = 'next';
+  });
 
   $('#add').click(function() {
     action = 'add';
