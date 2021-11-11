@@ -235,7 +235,22 @@ class UsersController extends Controller
   {
     $user = User::where('username', $username)->get()[0];
 
-    if ($request->tab == 'security') {
+    if ($request->tab == 'ob') {
+      $user = User::where('username', $username)->get()[0];
+
+      switch($request->module) {
+        case 'dashboard':
+        $user->ob_dashboard = true;
+        break;
+
+        case 'profile':
+        $user->ob_profile = true;
+        break;
+      }
+      $user->save();
+
+      return response()->json('success');
+    } else if ($request->tab == 'security') {
       $user = User::where('username', $username)->get()[0];
 
       $user->password = Hash::make($request->new);

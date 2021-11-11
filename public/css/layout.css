@@ -8,6 +8,14 @@ html {
 	overflow-y: visible;
 }
 
+body.swal2-height-auto {
+	height: 100%!important;
+}
+
+.introjs-skipbutton {
+	display: none;
+}
+
 #nojs {
 	display: none;
 }

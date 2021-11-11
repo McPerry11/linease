@@ -3,6 +3,9 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link rel="stylesheet" href="{{ asset('css/bulma-divider.min.css') }}">
+@if (Auth::user()->ob_profile == 0)
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css">
+@endif
 @endsection
 
 @section('body')
@@ -440,5 +443,8 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}"></script>
+@if (Auth::user()->ob_profile == 0)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+@endif
+<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}" data-ob="{{ Auth::user()->ob_profile }}"></script>
 @endsection

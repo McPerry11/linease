@@ -55,7 +55,7 @@ p.subtitle.is-5, #avatar {
 }
 
 body, #map-container {
-	height: 100%;
+	height: 100%!important;
 }
 
 #map {

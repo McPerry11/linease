@@ -11,7 +11,7 @@ window.oncontextmenu = function(event) {
 };
 
 $(window).on('load', function() {
-	if ($('#app').data('link') != 'camera' && $('#app').data('link') != '/') {
+	if (['login', 'register', 'desktop', 'not_found'].includes($('#app').data('link'))) {
 		$('.title').text('');
 		$('.pageloader').removeClass('is-active');
 	}

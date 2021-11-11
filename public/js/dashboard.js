@@ -1,4 +1,4 @@
-var map, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
+var introbtn, map, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
 var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'), icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
@@ -16,6 +16,19 @@ var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'
 		icon: `${base}/RPin.png`,
 	}
 };
+
+function obAJAX() {
+	$.ajax({
+		type: 'POST',
+		url: `${$('#dashboard').data('user')}/update`,
+		data: {tab:'ob', module:'dashboard'},
+		datatype: 'JSON',
+		error: function(err) {
+			console.error(err);
+			obAJAX();
+		}
+	});
+}
 
 function realtimeMarkers() {
 	setInterval(function() {
@@ -180,10 +193,57 @@ function realtimeMarkers() {
 				}
 				$('.title').text('');
 				$('.pageloader').removeClass('is-active');
+				if ($('#dashboard').data('ob') == 0) {
+					introJs().setOptions({
+						disableInteraction: true,
+						showBullets: false,
+						exitOnOverlayClick: false,
+						exitOnEsc: false,
+						steps: [{
+							title: 'Welcome to LinEase!',
+							intro: 'Seems like you\'re new to LinEase. Start learning how LinEase works!'
+						},
+						{
+							title: 'About LinEase',
+							intro: 'LinEase is a land pollution action network application meant to monitor and raise public awareness about polluted areas that needs cleaning and maintaining while simultaneously serving as a platform for reporting polluted locations or issues related to this matter.'
+						},
+						{
+							element: document.querySelector('#map-container'),
+							title: 'Map',
+							intro: 'This map will serve as your dashboard. Reports submitted by users are updated in real-time! See how many reports there are in your area here.'
+						},
+						{
+							element: document.querySelector('#search'),
+							title: 'Search',
+							intro: 'Want to look for reports in a specific location? Just search the address in this searchbox! LinEase uses Google Maps as its mapping service. Any place Google Maps can find, we can find also!'
+						},
+						{
+							element: document.querySelector('#center'),
+							title: 'Submitting Reports',
+							intro: 'If you want to submit a report, click the LinEase icon here on the bottom of your screen! However, only verified users can submit reports. Let\'s complete your profile first to be able to submit reports!',
+						},
+						{
+							element: document.querySelector('.navbar-burger'),
+							title: 'Menu',
+							intro: 'Click the menu here on the top right and proceed to Profile. Complete your profile there to be able to submit reports!'
+						}]
+					}).start().onchange(function() {
+						if ($('.introjs-tooltip-title').text() == 'Submitting Reports') {
+							setTimeout(function() {
+								if (introbtn == 'next') {
+									$('.introjs-arrow').removeClass('top-middle').addClass('top-right');
+									$('.introjs-tooltip').css('left', '-250px');
+								}
+							}, 400);
+						}
+					}).oncomplete(function() {
+						obAJAX();
+					});
+				}
 				init = false;
 			}
 		});
-	}, 5000	);
+	}, 5000);
 }
 
 function getPosition() {
@@ -219,6 +279,14 @@ async function initMap() {
 
 $(function() {
 	$('.title').text('Loading Dashboard');
+
+	$(document).on('click', '.introjs-prevbutton', function() {
+		introbtn = 'previous';
+	});
+
+	$(document).on('click', '.introjs-nextbutton', function() {
+		introbtn = 'next';
+	});
 
 	$('#center').click(function() {
 		if ($(this).data('valid') == 0) {
