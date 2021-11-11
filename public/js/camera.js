@@ -282,7 +282,7 @@ $(function() {
         $('.icon.is-left img').attr('src', 'img/S4Label.png');
         $('#loader').addClass('is-hidden');
         $('.modal-card-body form').removeClass('is-hidden');
-        if ($('#dashboard').data('ob') == 0 && tutorform == false) {
+        if ($('#camjs').data('ob') == 0 && tutorform == false) {
           tutorform = true;
           introJs().setOptions({
             disableInteraction: true,
