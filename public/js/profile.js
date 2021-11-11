@@ -11,6 +11,8 @@ function obAJAX() {
   });
 }
 
+var introbtn;
+
 $(window).on('load', function() {
   $('.title').text('');
   $('.pageloader').removeClass('is-active');
@@ -121,7 +123,7 @@ $(function() {
     }
   }
 
-  var introbtn, inputs = {'username':true, 'email':true, 'phone':true};
+  var inputs = {'username':true, 'email':true, 'phone':true};
   var passwords = {'current':true, 'new':true, 'confirm':true};
 
   $('.title').text('Loading Profile');

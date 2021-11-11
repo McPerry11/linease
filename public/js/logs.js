@@ -114,7 +114,6 @@ $(function() {
 			datatype:'JSON',
 			success: function(data) {
 				var color;
-				console.log(data.username);
 				switch(data.severity) {
 					case 'CRITICAL':
 					color = '#4e1e73';

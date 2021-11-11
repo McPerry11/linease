@@ -20,7 +20,7 @@ var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'
 function obAJAX() {
 	$.ajax({
 		type: 'POST',
-		url: `${$('#accounts').data('user')}/update`,
+		url: `${$('#dashboard').data('user')}/update`,
 		data: {tab:'ob', module:'dashboard'},
 		datatype: 'JSON',
 		error: function(err) {

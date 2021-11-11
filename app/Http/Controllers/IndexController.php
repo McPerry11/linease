@@ -48,7 +48,7 @@ class IndexController extends Controller
 				$adminlogs = Log::whereNull('report_id')->orderBy('created_at', 'desc')->get();
 			} else {
 				$user_ids = User::select('id')->whereIn('type', ['FACIL', 'ADMIN'])->get();
-				$adminlogs = Log::whereNull('report_id')->whereIn('user_id', $user_ids)->get();
+				$adminlogs = Log::whereNull('report_id')->whereIn('user_id', $user_ids)->orderBy('created_at', 'desc')->get();
 			}
 			return view('logs', [
 				'adminlogs' => $adminlogs,
