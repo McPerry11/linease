@@ -23,13 +23,14 @@ $(function() {
     navigator.mediaDevices.getUserMedia(constraints)
     .then(function(stream) {
       $('#camera').remove();
-      $('body').append('<video autoplay id="camera"></video>');
+      $('body').append('<video autoplay muted id="camera"></video>');
       $('#camera').css('padding', 0);
       var video = document.querySelector('video');
       video.srcObject = stream;
 
       const track = stream.getVideoTracks()[0];
       imgCap = new ImageCapture(track);
+      document.getElementById('camera').play();
       $('.title').text('');
       $('.pageloader').removeClass('is-active');
       $('#center').removeAttr('disabled');
@@ -107,7 +108,7 @@ $(function() {
           showConfirmButton: false,
           timer: 10000
         });
-        $('#warning').append('LinEase had a problem accessing your device\'s camera. There was no rear-facing camera detected.');
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. There is no rear-facing camera detected.');
       } else if (err.name == 'NotFoundError' || err.name == 'DeviesNotFoundError') {
         Swal.fire({
           icon: 'error',
@@ -116,7 +117,7 @@ $(function() {
           showConfirmButton: false,
           timer: 10000
         });
-        $('#warning').append('LinEase had a problem accessing your device\'s camera. There was no camera detected.');
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. There is no camera detected.');
       } else if (err.name == 'NotReadableError' || err.name == 'TrackStartError') {
         Swal.fire({
           icon: 'error',
