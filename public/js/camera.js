@@ -130,7 +130,7 @@ $(function() {
     video: {
       width: {ideal: 720},
       height: {ideal: 720},
-      facingMode: {exact: 'environment'}
+      facingMode: {ideal: 'environment'}
     },
   };
 
