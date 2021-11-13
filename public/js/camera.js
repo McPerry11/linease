@@ -87,17 +87,55 @@ $(function() {
     }).catch(function(err) {
       $('.title').text('');
       $('.pageloader').removeClass('is-active');
-      console.error(err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Cannot Access Device Camera',
-        text: 'An error occurred while accessing your device\'s camera.',
-        showConfirmButton: false,
-        timer: 10000
-      });
+      console.error(err.name);
       $('video').remove();
       $('#camera').append('<div id="warning"><span class="icon is-large is-block">\n<span class="fa-stack fa-lg">\n<i class="fas fa-camera fa-stack-1x has-text-black"></i>\n<i class="fas fa-exclamation-triangle fa-stack-2x"></i></span></span></div>');
-      $('#warning').append('LinEase had a problem accessing your device\'s camera. Please allow camera permissions for LinEase to work properly.');
+      if (err.name == 'NotAllowedError' || err.name == 'PermissionDeniedError') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Access Device Camera',
+          text: 'Please allow camera permissions for LinEase to work properly.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. Please allow camera permissions for LinEase to work properly.');
+      } else if (err.name == 'OverconstrainedError' || err.name == 'ConstraintNotSatisfiedError') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Access Device Camera',
+          text: 'Rear-facing camera not detected.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. There was no rear-facing camera detected.');
+      } else if (err.name == 'NotFoundError' || err.name == 'DeviesNotFoundError') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Access Device Camera',
+          text: 'No camera detected.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. There was no camera detected.');
+      } else if (err.name == 'NotReadableError' || err.name == 'TrackStartError') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Access Device Camera',
+          text: 'Device camera is already in use.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. There camera is already in use by another application.');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Access Device Camera',
+          text: 'An error occured while accessing your device\'s camera.',
+          showConfirmButton: false,
+          timer: 10000
+        });
+        $('#warning').append('LinEase had a problem accessing your device\'s camera. Please try again later.');
+      }
     });
   }
 
@@ -130,7 +168,7 @@ $(function() {
     video: {
       width: {ideal: 720},
       height: {ideal: 720},
-      facingMode: {exact: 'environment'}
+      facingMode: {ideal: 'environment'}
     },
   };
 
