@@ -15,7 +15,7 @@
 		</div>
 		<div class="column is-6">
 			<h2 class="is-size-3 has-text-centered-mobile">Unavailable on Desktop</h2>
-			<h4 class="is-size-5 has-text-centered-mobile">LinEase desktop still has incomplete features. If you want to experience all the features of LinEase, try it on your mobile device!</h4>
+			<h4 class="is-size-5 has-text-centered-mobile">LinEase desktop still has incomplete features. If you want to get the full experience of LinEase, try it on your mobile device!</h4>
 			<div class="level is-mobile mt-4">
 				<div class="level-item">
 					<figure class="image">

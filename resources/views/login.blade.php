@@ -147,4 +147,13 @@
 
 @section('scripts')
 <script src="{{ asset('js/login.js') }}" id="js" data-link="{{ URL::previous() }}"></script>
+@if ((new \Jenssegers\Agent\Agent)->isDesktop())
+<script>
+	Swal.fire({
+		icon: 'info',
+		title: 'LinEase Desktop',
+		text: 'LinEase desktop still has incomplete features. If you would like to get the full experience of LinEase, try it on your mobile device!'
+	});
+</script>
+@endif
 @endsection
