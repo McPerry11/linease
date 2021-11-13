@@ -24,6 +24,7 @@ Route::post('register', 'UsersController@store');
 
 Route::post('users', 'UsersController@index');
 
+Route::post('report/{id}', 'ReportController@show');
 Route::middleware(['auth'])->group(function() {
   Route::get('', 'IndexController@dashboard')->name('dashboard');
   Route::post('markers', 'ReportController@index');
@@ -36,7 +37,6 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
 
-    Route::post('report/{id}', 'ReportController@show');
     Route::get('{username}', 'UsersController@show');
     Route::post('{username}/profile', 'UsersController@edit');
     Route::post('{username}/update', 'UsersController@update');
