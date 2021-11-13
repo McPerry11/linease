@@ -50,7 +50,7 @@ class ReportController extends Controller
     $report->severity = $request->sev;
     $report->address = $request->add;
 
-    if (count(Report::latest('created_at')->first()))
+    if (count(Report::all()) > 0)
       $id = Report::latest('created_at')->first();
     else
       $id = 0;
