@@ -74,7 +74,7 @@ body, #map-container {
 	z-index: 2;
 }
 
-p.control {
+p.control, .modal-card .icon {
 	width: 100%;
 }
 
@@ -148,6 +148,8 @@ figure.image.is-64x64 {
 	border-radius: 10px;
 }
 
-.modal-card .icon {
-	width:  100%;
+@media only screen and (min-width: 769px) {
+	p.control {
+		width: 500px;
+	}
 }

@@ -14,7 +14,7 @@
 	<form id="search">
 		<div class="field has-addons">
 			<p class="control has-icons-left">
-				<input class="input is-rounded" type="text" name="search" placeholder="Search Address, City, or District">
+				<input class="input is-rounded" type="text" name="search" placeholder="Search Address, City, or District...">
 				<span class="icon is-left">
 					<i class="image is-24x24">
 						<img src="{{ asset('img/LineaseIcon.PNG') }}" alt="LinEase Pin">
@@ -30,9 +30,11 @@
 			</div>
 		</div>
 	</form>
+	@if (!(new \Jenssegers\Agent\Agent)->isDesktop())
 	<figure id="center" class="image is-64x64 is-hidden-desktop" data-valid="{{ $user->verified }}" data-profile="{{ url($user->username) }}" data-camera="{{ url('camera') }}">
 		<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">
 	</figure>
+	@endif
 </div>
 
 <div class="modal">
