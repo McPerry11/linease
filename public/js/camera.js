@@ -168,7 +168,7 @@ $(function() {
     video: {
       width: {ideal: 720},
       height: {ideal: 720},
-      facingMode: {ideal: 'environment'}
+      facingMode: {exact: 'environment'}
     },
   };
 
