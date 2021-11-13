@@ -50,7 +50,11 @@ class ReportController extends Controller
     $report->severity = $request->sev;
     $report->address = $request->add;
 
-    $number = Report::latest('created_at')->first()->id + 1;
+    if (count(Report::latest('created_at')->first()))
+      $id = Report::latest('created_at')->first();
+    else
+      $id = 0;
+    $number = $id + 1;
     $filename = $number . '-' . Carbon::now()->isoFormat('MMDDYYYY-HHmmss') . '.jpg';
     $report->picture = $filename;
 
