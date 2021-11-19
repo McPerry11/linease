@@ -3,7 +3,7 @@
 @section('styles')
 <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps.css'>
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-@if ($user->ob_dashboard == 0)
+@if ($user->ob_dashboard != 0)
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css">
 @endif
 @endsection
@@ -11,6 +11,7 @@
 @section('body')
 <div id="map-container">
 	<div id="map"></div>
+	<div id="legend"></div>
 	<form id="search">
 		<div class="field has-addons">
 			<p class="control has-icons-left">
@@ -69,7 +70,7 @@
 
 @section('scripts')
 <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-@if ($user->ob_dashboard == 0)
+@if ($user->ob_dashboard != 0)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
 @endif
 <script id="dashboard" src="{{ asset('js/dashboard.js') }}" data-link="{{ asset('img') }}" data-expire="{{ route('login') }}" data-survey="{{ $user->survey }}" data-ob="{{ $user->ob_dashboard }}" data-user="{{ $user->username }}"></script>

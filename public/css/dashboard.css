@@ -86,13 +86,24 @@ p.control, .modal-card .icon {
 
 #legend {
 	margin-right: 5px;
-	background-color: lightgrey;
+	background-color: rgba(80, 80, 80, 0.8);
 	padding: 6px;
 	border-radius: 15px;
 }
 
+#legend a {
+	display: block;
+}
+
+#legend a.active img {
+	background-color: black;
+	opacity: 0.7;
+}
+
 #legend img {
-	margin: 2.5px auto;	
+	width: 40px;
+	height: 40px;
+	margin: 2.5px auto;
 }
 
 figure.image.is-64x64 {

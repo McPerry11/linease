@@ -1,5 +1,6 @@
-var introbtn, map, init = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
-var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'), icons = {
+var introbtn, map, legend, init = rt = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
+var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'), types = ['S1', 'S2', 'S3', 'S4', 'R'];
+var icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
 	},
@@ -32,217 +33,234 @@ function obAJAX() {
 
 function realtimeMarkers() {
 	setInterval(function() {
-		$.ajax({
-			type: 'POST',
-			url: 'markers',
-			data: {source:'map'},
-			datatype: 'JSON',
-			success: async function(data) {
-				pins = true;
-				if (data.length > 0) {
-					temp = [];
-					add = data.filter((report) => {
-						temp.push(report.id);
-						if (!ids.includes(report.id)) {
-							return report.id;
-						}
-					});
-
-					remove = ids.filter((report_id) => {
-						if (!temp.includes(report_id))
-							return report_id;
-					});
-					ids = temp;
-
-					if (remove.length > 0) {
-						markers = markers.map((marker) => {
-							if (remove.includes(parseInt(marker.title))) {
-								marker.setMap(null);
-								marker = null;
-							} else {
-								return marker;
+		if (rt) {
+			$.ajax({
+				type: 'POST',
+				url: 'markers',
+				data: {source:'map'},
+				datatype: 'JSON',
+				success: async function(data) {
+					pins = true;
+					if (data.length > 0) {
+						temp = [];
+						add = data.filter((report) => {
+							temp.push(report.id);
+							if (!ids.includes(report.id)) {
+								return report.id;
 							}
 						});
-						markers = markers.filter((marker) => {
-							return marker != null;
+
+						remove = ids.filter((report_id) => {
+							if (!temp.includes(report_id))
+								return report_id;
 						});
-					}
+						ids = temp;
 
-					if (add.length > 0) {
-						markers = data.map((report) => {
-							marker = new google.maps.Marker({
-								map: map,
-								position: new google.maps.LatLng(report.latitude, report.longitude),
-								icon: icons[report.severity.toLowerCase()].icon,
-								title: `${report.id}`
+						if (remove.length > 0) {
+							markers = markers.map((marker) => {
+								if (remove.includes(parseInt(marker.title))) {
+									marker.setMap(null);
+									marker = null;
+								} else {
+									return marker;
+								}
 							});
+							markers = markers.filter((marker) => {
+								return marker != null;
+							});
+						}
 
-							google.maps.event.addListener(marker, 'click', (function(marker) {
-								return function() {
-									let report_id = parseInt(marker.title);
-									map.panTo(marker.position);
-									if (map.getZoom() < 19)
-										map.setZoom(19);
-									$('.modal').addClass('is-active');
-									$.ajax({
-										type: 'POST',
-										url: 'report/' + report_id,
-										datatype:'JSON',
-										success: function(data) {
-											var color;
-											switch(data.severity) {
-												case 'CRITICAL':
-												color = '#4e1e73';
-												break;
-												case 'MAJOR':
-												color = '#3598db';
-												break;
-												case 'MODERATE':
-												color = '#9E1C21';
-												break;
-												case 'LIGHT':
-												color = '#e8ca4d';
-												break;
-												case 'RESOLVED':
-												color = '#087F38';
-												break;
+						if (add.length > 0) {
+							markers = data.map((report) => {
+								marker = new google.maps.Marker({
+									map: map,
+									position: new google.maps.LatLng(report.latitude, report.longitude),
+									icon: icons[report.severity.toLowerCase()].icon,
+									title: `${report.id}`
+								});
+
+								google.maps.event.addListener(marker, 'click', (function(marker) {
+									return function() {
+										let report_id = parseInt(marker.title);
+										map.panTo(marker.position);
+										if (map.getZoom() < 19)
+											map.setZoom(19);
+										$('.modal').addClass('is-active');
+										$.ajax({
+											type: 'POST',
+											url: 'report/' + report_id,
+											datatype:'JSON',
+											success: function(data) {
+												var color;
+												switch(data.severity) {
+													case 'CRITICAL':
+													color = '#4e1e73';
+													break;
+													case 'MAJOR':
+													color = '#3598db';
+													break;
+													case 'MODERATE':
+													color = '#9E1C21';
+													break;
+													case 'LIGHT':
+													color = '#e8ca4d';
+													break;
+													case 'RESOLVED':
+													color = '#087F38';
+													break;
+												}
+												$('#date').text(data.date);
+												$('#title').text(data.severity).css({'color': color});
+												$('#address').text(data.address);
+												$('#description').text(data.description);
+												$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
+												$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+												$('#loader').addClass('is-hidden');
+												$('.modal-content').removeClass('is-hidden');
+											},
+											error: function(err) {
+												console.error(err);
+												$('#loader').removeClass('is-hidden');
+												$('.modal').removeClass('is-active');
+												Swal.fire({
+													icon: 'error',
+													title: 'Cannot Fetch Marker Details',
+													text: 'The report might have been deleted and removed from the map.',
+													showConfirmButton: false,
+													timer: 10000
+												});
 											}
-											$('#date').text(data.date);
-											$('#title').text(data.severity).css({'color': color});
-											$('#address').text(data.address);
-											$('#description').text(data.description);
-											$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
-											$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
-											$('#loader').addClass('is-hidden');
-											$('.modal-content').removeClass('is-hidden');
-										},
-										error: function(err) {
-											console.error(err);
-											$('#loader').removeClass('is-hidden');
-											$('.modal').removeClass('is-active');
-											Swal.fire({
-												icon: 'error',
-												title: 'Cannot Fetch Marker Details',
-												text: 'The report might have been deleted and removed from the map.',
-												showConfirmButton: false,
-												timer: 10000
-											});
-										}
-									});
-								}
-							})(marker));
-							return marker;
-						});
-					} 
+										});
+									}
+								})(marker));
+								return marker;
+							});
+						}
 
-					if (add.length > 0 || remove.length > 0) {
-						if (cluster)
-							cluster.clearMarkers();
-						cluster = new markerClusterer.MarkerClusterer({
-							map: map,
-							markers: markers
+						if (add.length > 0 || remove.length > 0) {
+							if (cluster)
+								cluster.clearMarkers();
+							cluster = new markerClusterer.MarkerClusterer({
+								map: map,
+								markers: markers
+							});
+						}
+					}
+				},
+				error: function(err) {
+					console.error(err);
+					if (err.status == 401) {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Session Expired',
+							text: 'Please log in again.',
+							confirmButtonText: 'Log In'
+						}).then((result) => {
+							if (result.isConfirmed) {
+								$('.title').text('Redirecting to Login');
+								$('.pageloader').addClass('is-active');
+								window.location.href = $('#dashboard').data('expire');
+							}
 						});
 					}
 				}
-			},
-			error: function(err) {
-				console.error(err);
-				if (err.status == 401) {
-					Swal.fire({
-						icon: 'warning',
-						title: 'Session Expired',
-						text: 'Please log in again.',
-						confirmButtonText: 'Log In'
-					}).then((result) => {
-						if (result.isConfirmed) {
-							$('.title').text('Redirecting to Login');
-							$('.pageloader').addClass('is-active');
-							window.location.href = $('#dashboard').data('expire');
-						}
-					});
+			}).then(function() {
+				if (init) {
+					if (pins == false) {
+						Swal.fire({
+							icon: 'error',
+							title: 'Cannot Get Map Markers',
+							text: 'Trying to get map markers once again.',
+							showConfirmButton: false,
+							timer: 10000
+						}).then(function() {
+							if (geoloc == false) {
+								Swal.fire({
+									icon: 'error',
+									title: 'Cannot Access Device Location',
+									text: text,
+									showConfirmButton: false,
+									timer: 10000
+								});
+							}
+						});
+					} else if (geoloc == false) {
+						Swal.fire({
+							icon: 'error',
+							title: 'Cannot Access Device Location',
+							text: text,
+							showConfirmButton: false,
+							timer: 10000
+						});
+					}
+					$('.title').text('');
+					$('.pageloader').removeClass('is-active');
+					if ($('#dashboard').data('ob') != 0) {
+						introJs().setOptions({
+							disableInteraction: true,
+							showBullets: false,
+							exitOnOverlayClick: false,
+							exitOnEsc: false,
+							steps: [{
+								title: 'Welcome to LinEase!',
+								intro: 'Seems like you\'re new to LinEase. Start learning how LinEase works!'
+							},
+							{
+								title: 'About LinEase',
+								intro: 'LinEase is a land pollution action network application meant to monitor and raise public awareness about polluted areas that needs cleaning and maintaining while simultaneously serving as a platform for reporting polluted locations or issues related to this matter.'
+							},
+							{
+								element: document.querySelector('#map-container'),
+								title: 'Map',
+								intro: 'This map will serve as your dashboard. Reports submitted by users are updated in real-time! See how many reports there are in your area here.'
+							},
+							{
+								element: document.querySelector('#search'),
+								title: 'Search',
+								intro: 'Want to look for reports in a specific location? Just search the address in this searchbox! LinEase uses Google Maps as its mapping service. Any place Google Maps can find, we can find also!'
+							},
+							{
+								element: document.querySelector('#legend'),
+								title: 'Map Legend',
+								intro: 'Want to filter the report severities on the map? Toggle these labels on the map legend to filter through the marker severities!'
+							},
+							{
+								element: document.querySelector('#center'),
+								title: 'Submitting Reports',
+								intro: 'If you want to submit a report, click the LinEase icon here on the bottom of your screen! However, only verified users can submit reports. Let\'s complete your profile first to be able to submit reports!',
+							},
+							{
+								element: document.querySelector('.navbar-burger'),
+								title: 'Menu',
+								intro: 'Click the menu here on the top right to open the navigation menu. Then click Profile from the menu and complete your LinEase profile there!'
+							}]
+						}).start().onchange(function() {
+							if ($('.introjs-tooltip-title').text() == 'Submitting Reports') {
+								setTimeout(function() {
+									if (introbtn == 'next') {
+										$('.introjs-arrow').removeClass('top-middle').addClass('top-right');
+										$('.introjs-tooltip').css({'left':'', 'right':'15px'});
+									} else if (introbtn == 'previous') {
+										$('.introjs-tooltip').css({'top':'0', 'left':'-260px', 'width':'200px'});
+										$('.introjs-arrow').removeClass('top-middle').addClass('right');
+									}
+								}, 400);
+							} else if ($('.introjs-tooltip-title').text() == 'Search') {
+								setTimeout(function() {
+									if (introbtn == 'next') {
+										$('.introjs-tooltip').css({'top':'0', 'left':'-260px', 'width':'200px'});
+										$('.introjs-arrow').removeClass('top-middle').addClass('right');	
+									}
+								}, 400);
+							}
+						}).oncomplete(function() {
+							obAJAX();
+						});
+					}
+					init = false;
 				}
-			}
-		}).then(function() {
-			if (init) {
-				if (pins == false) {
-					Swal.fire({
-						icon: 'error',
-						title: 'Cannot Get Map Markers',
-						text: 'Trying to get map markers once again.',
-						showConfirmButton: false,
-						timer: 10000
-					}).then(function() {
-						if (geoloc == false) {
-							Swal.fire({
-								icon: 'error',
-								title: 'Cannot Access Device Location',
-								text: text,
-								showConfirmButton: false,
-								timer: 10000
-							});
-						}
-					});
-				} else if (geoloc == false) {
-					Swal.fire({
-						icon: 'error',
-						title: 'Cannot Access Device Location',
-						text: text,
-						showConfirmButton: false,
-						timer: 10000
-					});
-				}
-				$('.title').text('');
-				$('.pageloader').removeClass('is-active');
-				if ($('#dashboard').data('ob') == 0) {
-					introJs().setOptions({
-						disableInteraction: true,
-						showBullets: false,
-						exitOnOverlayClick: false,
-						exitOnEsc: false,
-						steps: [{
-							title: 'Welcome to LinEase!',
-							intro: 'Seems like you\'re new to LinEase. Start learning how LinEase works!'
-						},
-						{
-							title: 'About LinEase',
-							intro: 'LinEase is a land pollution action network application meant to monitor and raise public awareness about polluted areas that needs cleaning and maintaining while simultaneously serving as a platform for reporting polluted locations or issues related to this matter.'
-						},
-						{
-							element: document.querySelector('#map-container'),
-							title: 'Map',
-							intro: 'This map will serve as your dashboard. Reports submitted by users are updated in real-time! See how many reports there are in your area here.'
-						},
-						{
-							element: document.querySelector('#search'),
-							title: 'Search',
-							intro: 'Want to look for reports in a specific location? Just search the address in this searchbox! LinEase uses Google Maps as its mapping service. Any place Google Maps can find, we can find also!'
-						},
-						{
-							element: document.querySelector('#center'),
-							title: 'Submitting Reports',
-							intro: 'If you want to submit a report, click the LinEase icon here on the bottom of your screen! However, only verified users can submit reports. Let\'s complete your profile first to be able to submit reports!',
-						},
-						{
-							element: document.querySelector('.navbar-burger'),
-							title: 'Menu',
-							intro: 'Click the menu here on the top right to open the navigation menu. Then click Profile from the menu and complete your LinEase profile there!'
-						}]
-					}).start().onchange(function() {
-						if ($('.introjs-tooltip-title').text() == 'Submitting Reports') {
-							setTimeout(function() {
-								if (introbtn == 'next') {
-									$('.introjs-arrow').removeClass('top-middle').addClass('top-right');
-									$('.introjs-tooltip').css('left', '-250px');
-								}
-							}, 400);
-						}
-					}).oncomplete(function() {
-						obAJAX();
-					});
-				}
-				init = false;
-			}
-		});
+			});
+		}
 	}, 5000);
 }
 
@@ -272,6 +290,14 @@ async function initMap() {
 			rotateControl: true,
 			keyboardShortcuts: false
 		});
+		legend = document.getElementById('legend');
+		for (let type in types) {
+			let div = document.createElement('a');
+			div.setAttribute('id', types[type]);
+			div.innerHTML = `<img src="${base}/${types[type]}Label.png">`;
+			legend.appendChild(div);
+		}
+		map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 		$('.title').text('Fetching Map Markers');
 		realtimeMarkers();
 	}
@@ -368,5 +394,35 @@ $(function() {
 	$('#reporter a').click(function() {
 		$('.title').text(`Loading ${$(this).text()}'s Profile`);
 		$('.pageloader').addClass('is-active');
+	});
+
+	$(document).on('click', '#legend a', function() {
+		rt = false;
+		let id = $(this).attr('id');
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			markers = markers.map((marker) => {
+				if (marker.icon == `${base}/${id}Pin.png`) {
+					marker.setVisible(true);
+				}
+				return marker;
+			});
+		} else {
+			$(this).addClass('active');
+			markers = markers.map((marker) => {
+				if (marker.icon == `${base}/${id}Pin.png`) {
+					marker.setVisible(false);
+				}
+				return marker;
+			});
+		}
+
+		if (cluster)
+			cluster.clearMarkers();
+		cluster = new markerClusterer.MarkerClusterer({
+			map: map,
+			markers: markers
+		});
+		rt = true;
 	});
 });
