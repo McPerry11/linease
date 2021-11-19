@@ -195,7 +195,7 @@ function realtimeMarkers() {
 					}
 					$('.title').text('');
 					$('.pageloader').removeClass('is-active');
-					if ($('#dashboard').data('ob') != 0) {
+					if ($('#dashboard').data('ob') == 0) {
 						introJs().setOptions({
 							disableInteraction: true,
 							showBullets: false,
