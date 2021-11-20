@@ -16,4 +16,8 @@ class Report extends Model
 		'picture',
 		'verified',
 	];
+
+	public function user() {
+		return $this->belongsTo('App\User');
+	}
 }

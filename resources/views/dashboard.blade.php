@@ -31,6 +31,13 @@
 			</div>
 		</div>
 	</form>
+	@if(Auth::user()->type != 'USER')
+	<button id="dbscan" class="button is-rounded" title="Analyze Reports">
+		<span class="icon is-medium">
+			<i class="fas fa-lg fa-search-location"></i>
+		</span>
+	</button>
+	@endif
 	@if (!(new \Jenssegers\Agent\Agent)->isDesktop())
 	<figure id="center" class="image is-64x64 is-hidden-desktop" data-valid="{{ $user->verified }}" data-profile="{{ url($user->username) }}" data-camera="{{ url('camera') }}">
 		<img class="is-rounded" src="{{ asset('img/CenterLogo.png') }}" alt="MAP PIN">

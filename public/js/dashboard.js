@@ -1,5 +1,6 @@
-var introbtn, map, legend, init = rt = true, text, cluster, geoloc = pins = false, center = {lat:14.59468687747799, lng:120.99835708124482};
-var markers = ids = temp = remove = add = [], base = $('#dashboard').data('link'), types = ['S1', 'S2', 'S3', 'S4', 'R'];
+var introbtn, temp, remove, add, map, legend, init = rt = true, text, cluster, geoloc = pins = false, R = 6371000, center = {lat:14.59468687747799, lng:120.99835708124482};
+var markers = ids = analyze = shapes = [], base = $('#dashboard').data('link'), types = ['S1', 'S2', 'S3', 'S4', 'R'];
+var colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
 var icons = {
 	critical: {
 		icon: `${base}/S1Pin.png`,
@@ -291,10 +292,10 @@ async function initMap() {
 			keyboardShortcuts: false
 		});
 		legend = document.getElementById('legend');
-		for (let type in types) {
+		for (let type of types) {
 			let div = document.createElement('a');
-			div.setAttribute('id', types[type]);
-			div.innerHTML = `<img src="${base}/${types[type]}Label.png">`;
+			div.setAttribute('id', type);
+			div.innerHTML = `<img src="${base}/${type}Label.png">`;
 			legend.appendChild(div);
 		}
 		map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
@@ -385,10 +386,12 @@ $(function() {
 		}
 	});
 
-	$('.modal-background').click(function(){
-		$('.modal').removeClass('is-active');
-		$('#loader').removeClass('is-hidden');
-		$('.modal-content').addClass('is-hidden');
+	$('.modal-background').click(function() {
+		if (!$('#dbscan').hasClass('active')) {
+			$('.modal').removeClass('is-active');
+			$('#loader').removeClass('is-hidden');
+			$('.modal-content').addClass('is-hidden');
+		}
 	});
 
 	$('#reporter a').click(function() {
@@ -397,32 +400,138 @@ $(function() {
 	});
 
 	$(document).on('click', '#legend a', function() {
-		rt = false;
-		let id = $(this).attr('id');
-		if ($(this).hasClass('active')) {
-			$(this).removeClass('active');
-			markers = markers.map((marker) => {
-				if (marker.icon == `${base}/${id}Pin.png`) {
-					marker.setVisible(true);
-				}
-				return marker;
-			});
-		} else {
-			$(this).addClass('active');
-			markers = markers.map((marker) => {
-				if (marker.icon == `${base}/${id}Pin.png`) {
-					marker.setVisible(false);
-				}
-				return marker;
-			});
-		}
+		if (!$('#dbscan').hasClass('active')) {
+			rt = false;
+			let id = $(this).attr('id');
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				markers = markers.map((marker) => {
+					if (marker.icon == `${base}/${id}Pin.png`) {
+						marker.setVisible(true);
+					}
+					return marker;
+				});
+			} else {
+				$(this).addClass('active');
+				markers = markers.map((marker) => {
+					if (marker.icon == `${base}/${id}Pin.png`) {
+						marker.setVisible(false);
+					}
+					return marker;
+				});
+			}
 
-		if (cluster)
-			cluster.clearMarkers();
-		cluster = new markerClusterer.MarkerClusterer({
-			map: map,
-			markers: markers
-		});
-		rt = true;
+			if (cluster)
+				cluster.clearMarkers();
+			cluster = new markerClusterer.MarkerClusterer({
+				map: map,
+				markers: markers
+			});
+			rt = true;
+		}
+	});
+
+
+	function dbscan(group, analyze, dbscanclusters) {
+		let counter = group.length;
+		for (let data of group) {
+			for (let neighbor of analyze) {
+				let lat1 = data.position.lat() * (Math.PI / 180), lat2 = neighbor.position.lat() * (Math.PI/180);
+				let difflat = lat2 - lat1;
+				let difflng = (neighbor.position.lng() - data.position.lng()) * (Math.PI / 180);
+				let distance = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(difflng / 2) * Math.sin(difflng / 2)));
+				if (distance <= 10) {
+					if (!group.includes(neighbor))
+						group.push(neighbor);
+				}
+			}
+		}
+		if (group.length != counter) {
+			dbscan(group, analyze, dbscanclusters);
+		} else {
+			dbscanclusters.push(group);
+			console.log(dbscanclusters);
+			for (let data of group) {
+				data.title = 'true';
+			}
+		}
+	}
+
+	$('#dbscan').click(function() {
+		if ($(this).hasClass('active')) {
+			$(this).addClass('is-loading').removeClass('active');
+			$(this).find('.fa-eye-slash').removeClass('fa-eye-slash').addClass('fa-search-location');
+			$('.modal').addClass('is-active');
+
+			for (data in analyze) {
+				analyze[data].setMap(null);
+				shapes[data].setMap(null);
+			}
+			analyze = shapes = [];
+			cluster = new markerClusterer.MarkerClusterer({
+				map: map,
+				markers: markers
+			});
+
+			$('.modal').removeClass('is-active');
+			$(this).removeClass('is-loading');
+			rt = true;
+		} else {
+			rt = false;
+			$(this).addClass('is-loading').addClass('active');
+			$(this).find('.fa-search-location').removeClass('fa-search-location').addClass('fa-eye-slash');
+			$('.modal').addClass('is-active');
+
+			if (cluster)
+				cluster.clearMarkers();
+			analyze = markers.map((report) => {
+				marker = new google.maps.Marker({
+					map: map,
+					position: report.position,
+					icon: report.icon,
+					title: 'false'
+				});
+				return marker;
+			});
+			map.setZoom(19);
+
+			let dbscanclusters = [];
+			for (let data of analyze) {
+				var group = [];
+				if (data.title == 'false') {
+					data.title = 'true';
+					group.push(data);
+					dbscan(group, analyze, dbscanclusters);
+				}
+			}
+
+			let count = 0;
+			for (let cluster of dbscanclusters) {
+				if (cluster.length > 2) {
+					let color = colors[count % colors.length];
+					for (let report of cluster) {
+						map.panTo(report.position);
+						circle = new google.maps.Circle({
+							strokeColor: color,
+							strokeOpacity: 0.5,
+							strokeWeight: 2,
+							fillColor: color,
+							fillOpacity: 0.2,
+							map,
+							center: report.position,
+							radius: 10
+						});
+						shapes.push(circle);
+					}
+					count++;
+				} else {
+					for (let report of cluster)
+						map.panTo(report.position);
+				}
+			}
+
+			$('.modal').removeClass('is-active');
+			$(this).removeClass('is-loading');
+		}
 	});
 });

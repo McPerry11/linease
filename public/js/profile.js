@@ -112,8 +112,8 @@ $(function() {
   function checkInputs(inputs) {
     $('#submit').removeAttr('disabled');
     $('#sec-actions button[type="submit"]').removeAttr('disabled');
-    for (let i in inputs) {
-      if (inputs[i] == false) {
+    for (let input of inputs) {
+      if (input == false) {
         if ($('#profile').hasClass('is-active'))
           $('#submit').attr('disabled', true);
         else
