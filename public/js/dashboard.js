@@ -463,9 +463,9 @@ $(function() {
 			$(this).find('.fa-eye-slash').removeClass('fa-eye-slash').addClass('fa-search-location');
 			$('.modal').addClass('is-active');
 
-			for (let report in analyze)
+			for (let report of analyze)
 				report.setMap(null);
-			for (let circle in shapes)
+			for (let circle of shapes)
 				circle.setMap(null);
 			analyze = shapes = [];
 			cluster = new markerClusterer.MarkerClusterer({
