@@ -450,7 +450,7 @@ $(function() {
 			dbscan(group, analyze, dbscanclusters);
 		} else {
 			dbscanclusters.push(group);
-			console.log(dbscanclusters);
+			// console.log(dbscanclusters);
 			for (let data of group) {
 				data.title = 'true';
 			}
@@ -524,9 +524,6 @@ $(function() {
 						shapes.push(circle);
 					}
 					count++;
-				} else {
-					for (let report of cluster)
-						map.panTo(report.position);
 				}
 			}
 
