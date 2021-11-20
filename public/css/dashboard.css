@@ -132,6 +132,11 @@ figure.image.is-64x64 {
 	left: 20px;
 }
 
+#dbscan.active {
+	background-color: white;
+	color: #00C944;
+}
+
 .card {
 	border-radius: 5px;
 	box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 18px 0 rgba(0, 0, 0, 0.19);
