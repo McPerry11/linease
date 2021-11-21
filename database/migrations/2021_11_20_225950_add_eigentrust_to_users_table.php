@@ -14,8 +14,8 @@ class AddEigentrustToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('sat');
-            $table->integer('unsat');
+            $table->integer('sat')->default(0);
+            $table->integer('unsat')->default(0);
         });
     }
 

@@ -116,6 +116,20 @@ function realtimeMarkers() {
 												$('#description').text(data.description);
 												$('#reporter a').attr('href', `${$('#reporter').data('base')}/${data.username}`).text(data.username);
 												$('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+												$('.dropdown').removeClass('is-active');
+												if (data.severity != 'RESOLVED' && data.verified != 0) {
+													$('#status').removeClass('is-hidden');
+													$('.dropdown').removeClass('is-hidden');
+													$('.dropdown-item').not('#resolved').addClass('is-hidden');
+													$('#resolved').attr('data-id', data.id);
+												} else if (data.severity == 'RESOLVED') {
+													$('#status').addClass('is-hidden');
+													$('.dropdown').addClass('is-hidden');
+												} else {
+													$('#status').addClass('is-hidden');
+													$('.dropdown').removeClass('is-hidden');
+													$('.dropdown-item').removeClass('is-hidden').attr('data-id', data.id);
+												}
 												$('#loader').addClass('is-hidden');
 												$('.modal-content').removeClass('is-hidden');
 											},
@@ -387,7 +401,7 @@ $(function() {
 	});
 
 	$('.modal-background').click(function() {
-		if (!$('#dbscan').hasClass('active')) {
+		if ($('#loader').hasClass('is-hidden')) {
 			$('.modal').removeClass('is-active');
 			$('#loader').removeClass('is-hidden');
 			$('.modal-content').addClass('is-hidden');
@@ -531,5 +545,65 @@ $(function() {
 			$('.modal').removeClass('is-active');
 			$(this).removeClass('is-loading');
 		}
+	});
+
+	$('.dropdown-trigger button').click(function() {
+		if ($('.dropdown').hasClass('is-active')) {
+			$('.dropdown').removeClass('is-active');
+			$('.dropdown-trigger .fa-angle-up').removeClass('fa-angle-up').addClass('fa-angle-down');
+		} else {
+			$('.dropdown').addClass('is-active');
+			$('.dropdown-trigger .fa-angle-down').removeClass('fa-angle-down').addClass('fa-angle-up');
+		}
+	});
+
+	$('.dropdown-item').click(function() {
+		$('#loader').removeClass('is-hidden');
+		$('.modal-content').addClass('is-hidden');
+		let status = $(this).attr('id');
+		let id = $(this).data('id');
+		$.ajax({
+			type: 'POST',
+			url: `report/${id}/evaluate`,
+			data: {status:status},
+			datatype: 'JSON',
+			success: function(response) {
+				Swal.fire({
+					icon: 'info',
+					title: response,
+					showConfirmButton: false,
+					timer: 10000
+				}).then(function() {
+					if (status == 'resolved') {
+						for (let marker of markers) {
+							if (marker.title == id) {
+								marker.setIcon(icons.resolved.icon);
+								break;
+							}
+						}
+					} else if (status == 'inaccurate' || status == 'invalid') {
+						for (let marker of markers) {
+							if (marker.title == id) {
+								marker.setMap(null);
+								marker = null;
+								break;
+							}
+						}
+						markers = markers.filter((marker) => {
+							return marker != null;
+						});
+					}
+				});
+			},
+			error: function(err) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Cannot Evaluate Report',
+					text: 'Something went wrong. Please try again later.'
+				});
+			}
+		}).then(function() {
+			$('.modal').removeClass('is-active');
+		});
 	});
 });

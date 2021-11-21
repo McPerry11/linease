@@ -24,7 +24,6 @@ class CreateReportsTable extends Migration
                 'MAJOR',
                 'MODERATE',
                 'LIGHT',
-                'VERIFIED',
                 'RESOLVED'
             ]);
             $table->longText('description')->nullable();

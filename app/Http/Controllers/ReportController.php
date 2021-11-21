@@ -81,7 +81,7 @@ class ReportController extends Controller
   {
     $report = Report::find($id);
     $report->date = Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY - hh:mma');
-    $report->username = User::find($report->user_id)->username;
+    $report->username = $report->user->username;
 
     return response()->json($report);
   }
@@ -106,7 +106,47 @@ class ReportController extends Controller
    */
   public function update(Request $request, $id)
   {
-    //
+    $report = Report::find($id);
+    $id = $report->id;
+    $user = User::find($report->user_id);
+    if ($request->status == 'resolved') {
+      $report->verified = true;
+      $report->severity = 'RESOLVED';
+      $user->sat+=2;
+      $user->save();
+      $report->save();
+      $response = 'Report Marked As Resolved';
+      $description = Auth::user()->username . ' marked Report #' . $report->id . ' as resolved.';
+    } else if ($request->status == 'verified') {
+      $report->verified = true;
+      $user->sat++;
+      $user->save();
+      $report->save();
+      $response = 'Report Marked As Verified';
+      $description = Auth::user()->username . ' marked Report #' . $report->id . ' as verified.';
+    } else {
+      if ($request->status == 'inaccurate') {
+        $user->unsat++;
+        $user->save();
+        $response = 'Report Marked As Inaccurate';
+        $description = Auth::user()->username . ' marked Report #' . $report->id . ' as inaccurate and removed from the map.';
+      } else {
+        $user->unsat+=2;
+        $user->save();
+        $response = 'Report Marked As Invalid';
+        $description = Auth::user()->username . ' marked Report #' . $report->id . ' as invalid and removed from the map.';
+      }
+      Storage::disk('reports')->delete($report->picture);
+      $report->delete();
+    }
+
+    Log::create([
+      'user_id' => Auth::id(),
+      'ip_address' => $request->ip(),
+      'description' => $description
+    ]);
+
+    return response()->json($response);
   }
 
   /**

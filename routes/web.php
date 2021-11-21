@@ -25,6 +25,7 @@ Route::post('register', 'UsersController@store');
 Route::post('users', 'UsersController@index');
 
 Route::post('report/{id}', 'ReportController@show');
+Route::post('report/{id}/evaluate', 'ReportController@update');
 Route::middleware(['auth'])->group(function() {
   Route::get('', 'IndexController@dashboard')->name('dashboard');
   Route::post('markers', 'ReportController@index');

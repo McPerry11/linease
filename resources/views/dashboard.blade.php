@@ -63,8 +63,78 @@
 			</div>
 			<div class="card-content">
 				<div class="content">
-					<p id="date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
-					<p id="title" class="is-size-5 has-text-weight-bold mb-1"></p>
+					@if (Auth::user()->type != 'USER')
+					<div class="level is-mobile mb-0">
+						<div class="level-left">
+							<span id="status" class="icon-text has-text-success">
+								<span class="icon">
+									<i class="fas fa-check"></i>
+								</span>
+								<span>Verified</span>
+							</span>
+						</div>
+						<div class="level-right">
+							<div class="level-item">
+								<div class="dropdown is-right">
+									<div class="dropdown-trigger">
+										<button class="button">
+											<span>Evaluate</span>
+											<span class="icon is-small">
+												<i class="fas fa-angle-down"></i>
+											</span>
+										</button>
+									</div>
+									<div class="dropdown-menu">
+										<div class="dropdown-content">
+											<a id="resolved" class="dropdown-item">
+												<span class="icon-text has-text-success">
+													<span class="icon">
+														<i class="fas fa-check-double"></i>
+													</span>
+													<span>Resolved</span>
+												</span>
+											</a>
+											<a id="verified" class="dropdown-item">
+												<span class="icon-text has-text-success">
+													<span class="icon">
+														<i class="fas fa-check"></i>
+													</span>
+													<span>Verified</span>
+												</span>
+											</a>
+											<a id="inaccurate" class="dropdown-item">
+												<span class="icon-text has-text-danger">
+													<span class="icon">
+														<i class="fas fa-exclamation-triangle"></i>
+													</span>
+													<span>Inaccurate</span>
+												</span>
+											</a>
+											<a id="invalid" class="dropdown-item">
+												<span class="icon-text has-text-danger">
+													<span class="icon">
+														<i class="fas fa-times"></i>
+													</span>
+													<span>Invalid Report</span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					@endif
+					<div class="level is-mobile mb-0">
+						<div class="level-left">
+							<p id="title" class="is-size-5 has-text-weight-bold mb-1 level-item"></p>
+							
+						</div>
+						<div class="level-right">
+							
+							<p id="date" class="is-size-7 has-text-weight-light level-item"></p>             
+						</div>
+					</div>
 					<p id="reporter" class="is-size-7 has-text-weight-medium" data-base="{{ url('') }}">Reported by: <a href=""></a></p>
 					<p id="address" class="is-size-7 has-text-weight-medium"></p>
 					<p id="description" class="is-size-6"></p>
