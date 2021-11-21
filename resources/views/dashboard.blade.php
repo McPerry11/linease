@@ -31,7 +31,7 @@
 			</div>
 		</div>
 	</form>
-	@if(Auth::user()->type == 'ADMIN' || Auth::user()->type == 'FACIL')
+	@if(Auth::user()->type != 'USER')
 	<button id="dbscan" class="button is-rounded" title="Analyze Reports">
 		<span class="icon is-medium">
 			<i class="fas fa-lg fa-search-location"></i>
@@ -63,7 +63,7 @@
 			</div>
 			<div class="card-content">
 				<div class="content">
-					@if (Auth::user()->type != 'USER')
+					@if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'FACIL')
 					<div class="level is-mobile mb-0">
 						<div class="level-left">
 							<span id="status" class="icon-text has-text-success">
