@@ -493,7 +493,7 @@ $(function() {
 				});
 				return marker;
 			});
-			if (map.getZoom < 19)
+			if (map.getZoom() < 19)
 				map.setZoom(19);
 
 			let dbscanclusters = [];
