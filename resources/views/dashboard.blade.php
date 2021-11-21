@@ -31,7 +31,7 @@
 			</div>
 		</div>
 	</form>
-	@if(Auth::user()->type != 'USER')
+	@if(Auth::user()->type == 'ADMIN' || Auth::user()->type == 'FACIL')
 	<button id="dbscan" class="button is-rounded" title="Analyze Reports">
 		<span class="icon is-medium">
 			<i class="fas fa-lg fa-search-location"></i>
