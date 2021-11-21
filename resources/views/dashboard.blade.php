@@ -63,7 +63,7 @@
 			</div>
 			<div class="card-content">
 				<div class="content">
-					@if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'FACIL')
+					@if (Auth::user()->type != 'USER')
 					<div class="level is-mobile mb-0">
 						<div class="level-left">
 							<span id="status" class="icon-text has-text-success">
@@ -128,10 +128,8 @@
 					<div class="level is-mobile mb-0">
 						<div class="level-left">
 							<p id="title" class="is-size-5 has-text-weight-bold mb-1 level-item"></p>
-							
 						</div>
 						<div class="level-right">
-							
 							<p id="date" class="is-size-7 has-text-weight-light level-item"></p>             
 						</div>
 					</div>
