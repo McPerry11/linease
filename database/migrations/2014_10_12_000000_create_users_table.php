@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
                 'SUPER',
             ]);
             $table->string('password');
+            $table->integer('sat')->default(0);
+            $table->integer('unsat')->default(0);
             $table->string('avatar')->nullable();
             $table->boolean('survey')->default(false);
             $table->boolean('verified')->default(false);

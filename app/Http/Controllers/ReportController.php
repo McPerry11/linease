@@ -30,7 +30,10 @@ class ReportController extends Controller
    */
   public function create()
   {
-    return view('camera');
+    if (Auth::user()->verified) {
+      return view('camera');
+    }
+    return redirect('dashboard');
   }
 
   /**

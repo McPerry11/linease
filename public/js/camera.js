@@ -169,7 +169,7 @@ $(function() {
     video: {
       width: {ideal: 720},
       height: {ideal: 720},
-      facingMode: {exact: 'environment'}
+      facingMode: {ideal: 'environment'}
     },
   };
 
@@ -401,7 +401,9 @@ $(function() {
   	e.preventDefault();
   	$('#submit').addClass('is-loading');
   	$('#cancel').attr('disabled', true);
-  	var des = $('#description').val();
+    $('#description').attr('disabled', true);
+    $('#severity-button').attr('disabled', true);
+    var des = $('#description').val();
     var img = $('#preview').attr('src');
     var add = $('#address').val();
     var sev = $('.ui-selectmenu-text').text().toUpperCase();
@@ -427,6 +429,8 @@ $(function() {
         console.error(err);
         $('#submit').removeClass('is-loading');
         $('#cancel').removeAttr('disabled');
+        $('#description').removeAttr('disabled');
+        $('#severity-button').removeAttr('disabled');
         Swal.fire({
           icon: 'error',
           title: 'Cannot Upload Report',

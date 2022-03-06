@@ -160,3 +160,7 @@ figure.image.is-32x32 {
 .ui-selectmenu-icon.ui-icon {
 	margin-top: 5px;
 }
+
+#severity-button[disabled] {
+	pointer-events: none;
+}

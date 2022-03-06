@@ -99,6 +99,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
 @endif
 <script src="{{ asset('js/camera.js') }}" id="camjs" data-link="{{ route('dashboard') }}" data-ob="{{ Auth::user()->ob_camera }}" data-user="{{ Auth::user()->username }}"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-vMsr2D_l6ODCXuHIGuBaZEsedlG7FVs&libraries=places&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 @endsection
