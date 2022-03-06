@@ -5,7 +5,7 @@ LinEase is a land pollution action network created to monitor and spread awarene
  - [Mack Perry Co](https://github.com/McPerry11)
  - Kaye Ysabelle Rosacia
  - [Jobert Fernandez](https://github.com/MeanFinn)
- - August Christopher Tela
+ - [August Christopher Tela](https://github.com/seamonsterx)
  - [Philip Justin Guiang](https://github.com/Yonjiii)
 
 Copyright © 2021 LinEase
