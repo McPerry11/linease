@@ -11,23 +11,26 @@
 |
 */
 
-Route::get('desktop', 'IndexController@desktop');
+
+Route::get('desktop', 'IndexController@desktop')->middleware('desktop');
 Route::get('not_found', 'IndexController@notfound');
 
-Route::group(['middleware' => 'desktop'], function() {
-  Route::get('login', 'IndexController@login')->name('login');
-  Route::post('login', 'LoginController@login')->middleware('throttle:10,3')->name('login_post');
-  Route::post('logout', 'LoginController@logout')->name('logout');
+Route::get('login', 'IndexController@login')->name('login');
+Route::post('login', 'LoginController@login')->middleware('throttle:10,3')->name('login_post');
+Route::post('logout', 'LoginController@logout')->name('logout');
 
-  Route::get('register', 'UsersController@create');
-  Route::post('register', 'UsersController@store');
+Route::get('register', 'UsersController@create');
+Route::post('register', 'UsersController@store');
 
-  Route::post('users', 'UsersController@index');
+Route::post('users', 'UsersController@index');
 
-  Route::group(['middleware' => 'auth'], function() {
-    Route::get('', 'IndexController@dashboard')->name('dashboard');
-    Route::post('markers', 'ReportController@index');
+Route::post('report/{id}', 'ReportController@show');
+Route::post('report/{id}/evaluate', 'ReportController@update');
+Route::middleware(['auth'])->group(function() {
+  Route::get('', 'IndexController@dashboard')->name('dashboard');
+  Route::post('markers', 'ReportController@index');
 
+  Route::middleware(['desktop'])->group(function() {
     Route::get('camera', 'ReportController@create');
     Route::post('camera', 'ReportController@store');
 
@@ -35,11 +38,10 @@ Route::group(['middleware' => 'desktop'], function() {
 
     Route::get('accounts', 'IndexController@accounts')->middleware('access:accounts');
 
-    Route::get('settings', 'IndexController@settings');
-
     Route::get('{username}', 'UsersController@show');
     Route::post('{username}/profile', 'UsersController@edit');
     Route::post('{username}/update', 'UsersController@update');
+    Route::post('{username}/delete', 'UsersController@destroy');
   });
 });
 

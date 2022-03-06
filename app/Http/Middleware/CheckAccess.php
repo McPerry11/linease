@@ -21,6 +21,5 @@ class CheckAccess
         else if ($route == 'logs' && Auth::user()->type != 'USER')
             return $next($request);
         return redirect(route('dashboard'));
-
     }
 }

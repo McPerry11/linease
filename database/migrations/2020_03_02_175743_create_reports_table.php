@@ -15,18 +15,20 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->string('latitude');
             $table->string('longitude');
+            $table->longText('address')->nullable();
             $table->enum('severity', [
                 'CRITICAL',
                 'MAJOR',
                 'MODERATE',
                 'LIGHT',
-                'VERIFIED',
                 'RESOLVED'
             ]);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('picture');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }

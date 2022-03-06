@@ -1,12 +1,12 @@
 $(function() {
-	function serverErr(err, input, control) {
-		console.log(err);
+	function ajaxError(err, input, control) {
+		console.error(err);
 		$(control).removeClass('is-loading');
 		$(input).removeAttr('readonly');
 		validate(error);
 		Swal.fire({
 			icon: 'error',
-			title: 'Cannot Connect to server',
+			title: 'Cannot Connect to Server',
 			text: 'Something went wrong. Please try again later.'
 		});
 	}
@@ -15,7 +15,7 @@ $(function() {
 		$(btnCreate).removeAttr('disabled');
 		for (let i = 0; i < check.length; i++) {
 			if (check[i]) {
-				$(btnCreate).attr('disabled', 'disabled');
+				$(btnCreate).attr('disabled', true);
 				break;
 			}
 		}
@@ -99,11 +99,11 @@ $(function() {
 	}
 
 	var error = [false, false, false], platform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-	var btnCreate = '#' + platform + 'create';
-	var inpUsername = '#' + platform + 'username', icnUsername = '#' + platform + 'user-icon', txtUserWarning = '#' + platform + 'user-warning', inpUserControl = '#' + platform + 'user-control';
-	var inpEmail = '#' + platform + 'email', icnEmail = '#' + platform + 'email-icon', txtEmailWarning = '#' + platform + 'email-warning', inpEmailControl = '#' + platform + 'email-control';
-	var btnView = '#' + platform + 'view', icnEye = '#' + platform + 'icon-pass', inpPassword = '#' + platform + 'password', icnPassword = '#' + platform + 'pass-icon', txtPassWarning = '#' + platform + 'pass-warning';
-	var inpConfirm = '#' + platform + 'cpass', icnConfirm = '#' + platform + 'cpass-icon', txtConfirmWarning = '#' + platform + 'cpass-warning';
+	var btnCreate = `#${platform}create`, btnView = `#${platform}view`;
+	var inpUsername = `#${platform}username`, icnUsername = `#${platform}user-icon`, txtUserWarning = `#${platform}user-warning`, inpUserControl = `#${platform}user-control`;
+	var inpEmail = `#${platform}email`, icnEmail = `#${platform}email-icon`, txtEmailWarning = `#${platform}email-warning`, inpEmailControl = `#${platform}email-control`;
+	var icnEye = `#${platform}icon-pass`, inpPassword = `#${platform}password`, icnPassword = `#${platform}pass-icon`, txtPassWarning = `#${platform}pass-warning`;
+	var inpConfirm = `#${platform}cpass`, icnConfirm = `#${platform}cpass-icon`, txtConfirmWarning = `#${platform}cpass-warning`;
 
 	$('html').removeClass('has-navbar-fixed-bottom').removeClass('has-navbar-fixed-top');
 	$('.title').text('Loading Registration');
@@ -136,15 +136,6 @@ $(function() {
 	// 	}
 	// });
 
-	$(window).resize(function() {
-		let newplatform = window.matchMedia('only screen and (max-width: 768px)').matches ? 'm' : '';
-		if (newplatform != platform) {
-			$('.title').text('Reloading Viewport');
-			$('.pageloader').addClass('is-active');
-			location.reload();
-		}
-	});
-
 	$('form').submit(function(e) {
 		e.preventDefault();
 		if ($(inpPassword).attr('type') == 'text') {
@@ -153,7 +144,7 @@ $(function() {
 			$(btnView).removeClass('has-background-grey-dark').addClass('has-background-grey-lighter');
 		}
 		$(btnCreate).addClass('is-loading');
-		$(btnView).attr('disabled', 'disabled');
+		$(btnView).attr('disabled', true);
 		$(inpUsername).attr('readonly', true);
 		$(inpEmail).attr('readonly', true);
 		$(inpPassword).attr('readonly', true);
@@ -167,16 +158,19 @@ $(function() {
 			success: function(response) {
 				ajaxResponse();
 				if (response.status == 'error') {
-					switch(response.data) {
+					switch (response.data) {
 						case 'username':
 						serverValidateError(inpUsername, icnUsername, txtUserWarning, response.warn, 0);
 						break;
+
 						case 'email':
 						serverValidateError(inpEmail, icnEmail, txtEmailWarning, response.warn, 1);
 						break;
-						case 'password':
+
+						case 'pass':
 						serverValidateError(inpPassword, icnPassword, txtPassWarning, response.warn, 2);
 						break;
+
 						case 'confirm':
 						serverValidateError(inpPassword, icnPassword, txtPassWarning, '', 2);
 						serverValidateError(inpConfirm, icnConfirm, txtConfirmWarning, response.warn, 2);
@@ -209,14 +203,14 @@ $(function() {
 				ajaxResponse();
 				Swal.fire({
 					icon: 'error',
-					title: 'Cannot connect to server',
+					title: 'Cannot Connect to Server',
 					text: 'Something went wrong. Please try again later.'
 				});
 			}
 		});
 	});
 
-	$('#' + platform + 'login').click(function(e) {
+	$(`#${platform}login`).click(function(e) {
 		if ($(btnCreate).hasClass('is-loading')) {
 			e.preventDefault();
 		} else {
@@ -246,7 +240,7 @@ $(function() {
 							},
 							error: function(err) {
 								error[0] = true;
-								serverErr(err, inpUsername, inpUserControl);
+								ajaxError(err, inpUsername, inpUserControl);
 							}
 						});
 					}
@@ -262,13 +256,16 @@ $(function() {
 	});
 
 	$(inpUsername).keyup(function(e) {
-		if (!$(btnCreate).hasClass('is-loading')) if (e.which !== 9) clearResponse(txtUserWarning, this, icnUsername, 0);
+		if (!$(btnCreate).hasClass('is-loading')) {
+			if (e.which !== 9)
+				clearResponse(txtUserWarning, this, icnUsername, 0);
+		}
 	});
 
 	$(inpEmail).focusout(function() {
 		if (!$(btnCreate).hasClass('is-loading')) {
 			let expr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message1 = 'Email Address cannot be empty', message2 = 'Invalid email address';
-			var email = $(this).val(), valid = expr.test(email);;
+			var email = $(this).val(), valid = expr.test(email);
 			let proceed = checkInputs(email, this, icnEmail, txtEmailWarning, message1, valid, message2, 1);
 			if (proceed) {
 				if (!$(inpEmailControl).hasClass('is-loading')) {
@@ -284,7 +281,7 @@ $(function() {
 						},
 						error: function(err) {
 							error[1] = true;
-							serverErr(err, inpEmail, inpEmailControl);
+							ajaxError(err, inpEmail, inpEmailControl);
 						}
 					});
 				}
@@ -293,7 +290,10 @@ $(function() {
 	});
 
 	$(inpEmail).keyup(function(e) {
-		if (!$(btnCreate).hasClass('is-loading')) if (e.which !== 9) clearResponse(txtEmailWarning, this, icnEmail, 1);
+		if (!$(btnCreate).hasClass('is-loading')) {
+			if (e.which !== 9)
+				clearResponse(txtEmailWarning, this, icnEmail, 1);
+		}
 	});
 
 	$(btnView).click(function() {
@@ -335,13 +335,14 @@ $(function() {
 	$(inpConfirm).focusout(function() {
 		if (!$(btnCreate).hasClass('is-loading')) {
 			var pass = $(inpPassword).val(), confirm = $(this).val();
-			if (pass.length >= 8) validatePassword(pass, confirm);
+			if (pass.length >= 8)
+				validatePassword(pass, confirm);
 		}
 	});
 
 	$(inpConfirm).keyup(function(e) {
 		if (!$(btnCreate).hasClass('is-loading')) {
-			if ($(inpPassword).val() != '' && e.which !== 9) {
+			if ($(inpPassword).val() != '' && $(inpPassword).val().length >= 8 && e.which !== 9) {
 				clearResponse(txtPassWarning, inpPassword, icnPassword, 2);
 				clearResponse(txtConfirmWarning, this, icnConfirm, 2);
 			}

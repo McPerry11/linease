@@ -1,6 +1,107 @@
+function obAJAX() {
+  $.ajax({
+    type: 'POST',
+    url: `${$('#js').data('auth')}/update`,
+    data: {tab:'ob', module:'profile'},
+    datatype: 'JSON',
+    error: function(err) {
+      console.error(err);
+      obAJAX();
+    }
+  });
+}
+
+var introbtn;
+
+$(window).on('load', function() {
+  $('.title').text('');
+  $('.pageloader').removeClass('is-active');
+  if ($('#js').data('user') == $('#js').data('auth')) {
+    if ($('#js').data('ob') == 0) {
+      introJs().setOptions({
+        disableInteraction: true,
+        showBullets: false,
+        exitOnOverlayClick: false,
+        exitOnEsc: false,
+        steps: [{
+          title: 'Profile',
+          intro: 'This is your profile module! Here you can manage your information, security, and reports. Let\'s start personalizing your LinEase profile!'
+        },
+        {
+          element: document.querySelector('#avatar'),
+          title: 'Profile Picture',
+          intro: 'Here you can change your profile picture. Everyone can see your picture if they visit your profile. You can upload PNG, JPG, and JPEG images. You can even upload animated GIFs! Just remember that your file size cannot exceed 5MB.'
+        },
+        {
+          element: document.querySelector('.tabs'),
+          title: 'Tabs',
+          intro: 'Your profile is divided into 3 parts: Profile Information, Security, and Reports. Use these tabs to navigate in your profile!'
+        },
+        {
+          element: document.querySelector('#profile_content'),
+          title: 'Profile Information',
+          intro: 'Here you can see your profile information. This part is hidden to visitors of your profile.'
+        },
+        {
+          element: document.querySelector('#edit'),
+          title: 'Edit Profile',
+          intro: 'To edit your profile, click on this button. This will be your first step to be able to submit reports!',
+        }]
+      }).start().onafterchange(function() {
+        if ($('.introjs-tooltip-title').text() == 'Profile Information') {
+          setTimeout(function() {
+            if (introbtn == 'next') {
+              $('.introjs-arrow').removeClass('top-middle').addClass('top-right');
+              $('.introjs-tooltip').css('left', '-150px');
+            }
+          }, 400);
+        }
+      }).oncomplete(function() {
+        $('#security a').click();
+        setTimeout(function() {
+          introJs().setOptions({
+            disableInteraction: true,
+            showBullets: false,
+            exitOnOverlayClick: false,
+            exitOnEsc: false,
+            steps: [{
+              element: document.querySelector('#security_content'),
+              title: 'Security',
+              intro: 'Here you can see the security tab. This part is also hidden to visitors of your profile. There\'s nothing much to do here, but you can change your password any time.'
+            },
+            {
+              element: document.querySelector('#change'),
+              title: 'Change Password',
+              intro: 'You can change your password by clicking this button.'
+            }]
+          }).start().oncomplete(function() {
+            $('#reports a').click();
+            setTimeout(function() {
+              introJs().setOptions({
+                disableInteraction: true,
+                showBullets: false,
+                exitOnOverlayClick: false,
+                exitOnEsc: false,
+                steps: [{
+                  element: document.querySelector('#reports_content'),
+                  title: 'Reports',
+                  intro: 'Here you can see the reports tab. Every report that you submit will be listed here. This part will be visible to visitors of your profile. You can click the report to see the details that you\'ve submitted!'
+                }]
+              }).start().oncomplete(function() {
+                $('#profile a').click();
+                obAJAX();
+              });
+            }, 400);
+          });
+        }, 400);
+      });
+    }
+  }
+});
+
 $(function() {
   function ajaxError(err) {
-    console.log(err);
+    console.error(err);
     Swal.fire({
       icon: 'error',
       title: 'Cannot Connect to Server',
@@ -11,8 +112,8 @@ $(function() {
   function checkInputs(inputs) {
     $('#submit').removeAttr('disabled');
     $('#sec-actions button[type="submit"]').removeAttr('disabled');
-    for (let i in inputs) {
-      if (inputs[i] == false) {
+    for (let input of inputs) {
+      if (input == false) {
         if ($('#profile').hasClass('is-active'))
           $('#submit').attr('disabled', true);
         else
@@ -25,7 +126,7 @@ $(function() {
   var inputs = {'username':true, 'email':true, 'phone':true};
   var passwords = {'current':true, 'new':true, 'confirm':true};
 
-  $('.pageloader .title').text('Loading Profile');
+  $('.title').text('Loading Profile');
   $('html').removeClass('has-navbar-fixed-top');
   $('.navbar').removeClass('is-fixed-top');
   $('.content.navbar-item h3').text('Profile');
@@ -71,31 +172,42 @@ $(function() {
   //     return false;
   //   }
   // });
+  
+  $(document).on('click', '.introjs-prevbutton', function() {
+    introbtn = 'previous';
+  });
+
+  $(document).on('click', '.introjs-nextbutton', function() {
+    introbtn = 'next';
+  });
 
   $('#back').click(function() {
-    $('.pageloader .title').text('Loading ' + $('#navbar-back').data('link'));
+    $('.title').text(`Loading ${$('#navbar-back').data('link')}`);
     $('.pageloader').addClass('is-active');
   });
 
   $('.tabs a').click(function() {
     let content = $(this).parent().attr('id');
-    if (!$('#' + content).hasClass('is-active')) {
+    if (!$(`#${content}`).hasClass('is-active')) {
       $('.tabs li').removeClass('is-active');
-      $('#' + content).addClass('is-active');
-      switch (content){
+      $(`#${content}`).addClass('is-active');
+      switch (content) {
         case 'profile':
         $('#profile_content').removeClass('is-hidden');
         $('#security_content').addClass('is-hidden');
+        $('#reports_content').addClass('is-hidden');
         break;
 
         case 'security':
         $('#profile_content').addClass('is-hidden');
         $('#security_content').removeClass('is-hidden');
+        $('#reports_content').addClass('is-hidden');
         break;
 
         case 'reports':
         $('#profile_content').addClass('is-hidden');
         $('#security_content').addClass('is-hidden');
+        $('#reports_content').removeClass('is-hidden');
         break;
       }
     }
@@ -326,8 +438,8 @@ $(function() {
             icon: 'error',
             title: data.msg
           });
-          $('#' + data.data + ' input').addClass('is-danger').focus();
-          $('#' + data.data + '-warning').text(data.warn);
+          $(`#${data.data} input`).addClass('is-danger').focus();
+          $(`#${data.data}-warning`).text(data.warn);
           inputs[data.data] = false;
           checkInputs(inputs);
         } else {
@@ -338,12 +450,12 @@ $(function() {
             showConfirmButton: false
           }).then(function() {
             if (data.data.username != $('#js').data('user')) {
-              $('.pageloader .title').text('Reloading Profile');
+              $('.title').text('Reloading Profile');
               $('.pageloader').addClass('is-active');
               window.location.href = data.data.username;
             } else {
               $('#name h4').text(data.name);
-              $('#name p').text('@' + data.data.username);
+              $('#name p').text(`@${data.data.username}`);
               $('#name-label').text(data.name);
               $('#lastname').val(data.data.lastname);
               $('#firstname').val(data.data.firstname);
@@ -355,7 +467,7 @@ $(function() {
               $('#email input').val(data.data.email);
               $('#city-label').text(data.data.city);
               $('#city').attr('data-val', data.data.city);
-              $('#city').find('option[value="' + data.data.city + '"]').prop('selected', true);
+              $('#city').find(`option[value="${data.data.city}"]`).prop('selected', true);
               // $('#phone-label').text('0' + data.data.phone);
               // $('#phone input').val(data.data.phone);
               $('#birthdate-label').text(data.date);
@@ -579,10 +691,9 @@ $(function() {
             showCancelButton: true,
             cancelButtonText: 'No, stay logged in'
           }).then((result) => {
-            console.log(result.isConfirmed);
             if (result.isConfirmed) {
               $('#logout').submit();
-              $('.pageloader .title').text('Logging Out');
+              $('.title').text('Logging Out');
               $('.pageloader').addClass('is-active');
             }
           });
@@ -593,6 +704,115 @@ $(function() {
         $('#sec-actions button[type="submit"]').removeClass('is-loading');
         $('#security_form button').removeAttr('disabled');
         $('#security_form input').removeAttr('readonly');
+      }
+    });
+  });
+
+  $('.box').click(function() {
+    var report_id = $(this).data('id');
+    $('.modal').addClass('is-active');
+    $.ajax({
+      type: 'POST',
+      url: 'report/' + report_id,
+      datatype:'JSON',
+      success: function(data) {
+        var color;
+        switch(data.severity) {
+          case 'CRITICAL':
+          color = '#4e1e73';
+          break;
+          case 'MAJOR':
+          color = '#3598db';
+          break;
+          case 'MODERATE':
+          color = '#9E1C21';
+          break;
+          case 'LIGHT':
+          color = '#e8ca4d';
+          break;
+          case 'RESOLVED':
+          color = '#087F38';
+          break;
+        }
+        $('#report_date').text(data.date);
+        $('#report_title').text(data.severity).css({'color': color});
+        $('#report_address').text(data.address);
+        $('#report_description').text(data.description);
+        $('.modal img').attr('src', `${$('.modal img').data('base')}/${data.picture}`).attr('alt', `Report #${data.id}`);
+        $('#loader').addClass('is-hidden');
+        $('.modal-content').removeClass('is-hidden');
+      },
+      error: function(err) {
+        console.error(err);
+        $('.modal').removeClass('is-active');
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Connect to Server',
+          text: 'Something went wrong. Please try again later.'
+        });
+      }
+    });
+  });
+
+  $('.modal-background').click(function() {
+    $('.modal').removeClass('is-active');
+    $('#loader').removeClass('is-hidden');
+    $('.modal-content').addClass('is-hidden');
+  });
+
+  $('#avatar').click(function() {
+    if ($('#edit-avatar').data('user') == $('#edit-avatar').data('auth'))
+      $('#edit-avatar input').val(null).click();
+  });
+
+  $('#edit-avatar input').change(function() {
+    Swal.fire({
+      html: '<span class="icon is-large"><i class="fas fa-circle-notch fa-spin fa-2x"></i></span>',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+    let image = $('#avatar img').attr('src');
+    $('#avatar img').attr('src', $('#avatar img').data('placeholder'));
+    let data = new FormData(document.getElementById('edit-avatar'));
+    data.append('file', this.files[0]);
+    $.ajax({
+      type: 'POST',
+      url: `${$('#edit-avatar').data('user')}/update`,
+      data: data,
+      contentType: false,
+      processData: false,
+      datatype: 'JSON',
+      success: function(response) {
+        $('#avatar img').attr('src', `${$('#avatar img').data('base')}/${response.avatar}`);
+        Swal.fire({
+          icon: 'success',
+          title: response.msg,
+          showConfirmButton: false,
+          timer: 10000
+        });
+      },
+      error: function(err) {
+        console.error(err);
+        $('#avatar img').attr('src', image);
+        let title, text;
+        if (err.status == 422) {
+          title = 'Invalid File';
+          text = 'Only upload PNG, JPG, JPEG, or GIF images with a maximum file size of 5MB.';
+        } else if (err.status == 413) {
+          title = 'Cannot Handle File Size';
+          text = 'Please upload an image with a maximum file size of 5MB.';
+        } else {
+          title = 'Cannot Upload Image';
+          text = 'Something went wrong. Please try again later.';
+        }
+        Swal.fire({
+          icon: 'error',
+          title: title,
+          text: text,
+          showConfirmButton: false,
+          timer: 10000
+        });
       }
     });
   });

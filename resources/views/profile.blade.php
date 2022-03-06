@@ -3,18 +3,31 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link rel="stylesheet" href="{{ asset('css/bulma-divider.min.css') }}">
+@if (Auth::user()->ob_profile == 0)
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css">
+@endif
 @endsection
 
 @section('body')
-<figure class="image is-96x96 has-background-white">
-  <img src="{{ asset('img/profilePlaceholder.jpg') }}" alt="Profile Placeholder">
+<figure id="avatar" class="image is-96x96 has-background-white">
+  <img src="{{ $user->avatar ? asset('avatars/' . $user->avatar) : asset('img/profilePlaceholder.jpg') }}" data-base="{{ asset('avatars') }}" data-placeholder="{{ asset('img/profilePlaceholder.jpg') }}">
+  @if ($user->username == Auth::user()->username)
+  <div class="icon">
+    <i class="fas fa-edit"></i>
+  </div>
+  @endif
 </figure>
+<form id="edit-avatar" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}">
+  <input type="file" name="avatar" accept="image/*" hidden>
+</form>
 <div id="name">
   <div class="content">
     <h4 class="has-text-centered">{{ $name ?? $user->username }}</h4>
     <p class="has-text-centered">&#65312;{{ $user->username }}</p>
   </div>
 </div>
+
+{{-- TABS --}}
 @if (Auth::user()->username == $user->username)
 <div class="tabs is-boxed mt-4 mb-3">
   <ul>
@@ -44,6 +57,8 @@
     </li>
   </ul>
 </div>
+
+{{-- PROFILE --}}
 <div id="profile_content" class="container is-fluid">
   <form id="profile_form">
     <div class="level is-mobile mb-0 pt-2">
@@ -241,11 +256,13 @@
       </div>
     </div>
     <div id="actions" class="buttons is-centered mt-5">
-      <button id="submit" class="button is-success" type="submit">Submit</button>
       <button id="cancel" class="button is-danger is-outlined" type="button">Cancel</button>
+      <button id="submit" class="button is-success" type="submit">Submit</button>
     </div>
   </form>
 </div>
+
+{{-- SECURITY --}}
 <div id="security_content" class="container is-fluid is-hidden">
   <form id="security_form" autocomplete="off">
     <div class="divider is-left">Change Password</div>
@@ -313,8 +330,8 @@
       </div>
       <div class="help">Changing password will log you out from other devices with your account</div>
       <div id="sec-actions" class="buttons is-centered mt-5">
-        <button class="button is-success" type="submit">Submit</button>
         <button class="button is-danger is-outlined" type="button">Cancel</button>
+        <button class="button is-success" type="submit">Submit</button>
       </div>
     </div>
   </form>
@@ -322,13 +339,112 @@
     @csrf
   </form>
 </div>
+
+<!-- REPORTS -->
 <div id="reports_content" class="container is-fluid is-hidden">
-  {{-- Reports Here --}}
+  @if (count($reports) > 0) 
+  @php
+  $previousDate = "";
+  @endphp
+  @foreach ($reports as $report)
+  @if ($previousDate != \Carbon\Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY'))
+  @php
+  $previousDate = \Carbon\Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY');
+  @endphp
+  <div class="divider mb-1 is-left">{{ \Carbon\Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY') }}</div>
+  @endif
+  <div class="column is-variable px-0">
+    <div class="box {{ strtolower($report->severity) }} px-3 py-4" data-id="{{ $report->id }}">
+      <div class="media">
+        <div class="media-content">
+          <p class="is-size-6 has-text-weight-bold is-uppercase">{{ $report->severity }}</p> 
+          <p class="is-size-7 has-text-weight-medium">{{ $report->address }}</p>
+          <p class="is-size-7 has-text-weight-light">{{ \Carbon\Carbon::parse($report->created_at)->isoFormat('MMM D, YYYY - hh:mma') }}</p>   
+        </div>
+        <figure class="media-right">
+          <p class="image is-48x48">
+            <img src="{{ asset('reports/' . $report->picture) }}" alt="Report #{{ $report->id }}">
+          </p>
+        </figure>
+      </div>
+    </div>
+  </div>
+  @endforeach
+  <hr>
+  @else
+  <div class="has-text-centered">No reports found.</div>
+  @endif
 </div>
 @else
-{{-- Reports Here --}}
+<div class="container is-fluid">
+  @if (count($reports) > 0) 
+  @php
+  $previousDate = ""; 
+  @endphp
+  @foreach ($reports as $report)
+  @if ($previousDate != \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY'))
+  @php
+  $previousDate = \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY');
+  @endphp
+  <div class="divider mb-1 is-left">{{ \Carbon\Carbon::parse($report->created_at)->isoFormat('MM/DD/YYYY') }}</div>
+  @endif
+  <div class="column is-variable px-0">
+    <div class="box {{ strtolower($report->severity) }} px-3 py-4" data-id="{{ $report->id }}">
+      <div class="media">
+        <div class="media-content">
+          <p class="is-size-6 has-text-weight-bold is-uppercase">{{$report->severity }}</p> 
+          <p class="is-size-7 has-text-weight-medium">{{ $report->address }}</p>
+          <p class="is-size-7 has-text-weight-light">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->FormatLocalized('%b %d %H:%M') : '' }}</p>   
+        </div>
+        <figure class="media-right">
+          <p class="image is-48x48">
+            <img src="{{ asset('reports/' . $report->picture) }}" alt="Report #{{ $report->id }}">
+          </p>
+        </figure>
+      </div>
+    </div>
+  </div>
+  @endforeach
+  <hr>
+  @else
+  <hr class="mt-2">
+  <div class="has-text-centered">No reports found.</div>
+  @endif
+</div>
 @endif
+<div class="modal">
+  <div class="modal-background"></div>
+  <div id="loader" class="modal-card">
+    <div class="modal-card-body">
+      <span class="icon is-large has-text-success">
+        <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+      </span>
+    </div>
+  </div>
+  <div class="modal-content is-hidden">
+    <div class="card mx-4">
+      <div class="card-image mt-2">
+        <p class="image is-1by1">
+          <img src="" alt="" data-base="{{ asset('reports') }}">
+        </p>
+      </div>
+      <div class="card-content">
+        <div class="media-content">
+          <p id="report_date" class="is-size-7 has-text-weight-light is-pulled-right"></p>             
+          <p id="report_title" class="is-size-5 has-text-weight-bold is-uppercase"></p> 
+          <p id="report_address" class="is-size-7 has-text-weight-medium"></p>
+          <br>
+          <p id="report_description" class="is-size-6"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
+
 @section('scripts')
-<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}"></script>
+@if (Auth::user()->ob_profile == 0)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+@endif
+<script src="{{ asset('js/profile.js') }}" id="js" data-user="{{ $user->username }}" data-auth="{{ Auth::user()->username }}" data-ob="{{ Auth::user()->ob_profile }}"></script>
 @endsection

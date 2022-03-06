@@ -29,7 +29,16 @@ class CreateUsersTable extends Migration
                 'SUPER',
             ]);
             $table->string('password');
-            $table->integer('avatar_id')->nullable();
+            $table->integer('sat')->default(0);
+            $table->integer('unsat')->default(0);
+            $table->string('avatar')->nullable();
+            $table->boolean('survey')->default(false);
+            $table->boolean('verified')->default(false);
+            $table->boolean('ob_dashboard')->default(false);
+            $table->boolean('ob_profile')->default(false);
+            $table->boolean('ob_logs')->default(false);
+            $table->boolean('ob_accounts')->default(false);
+            $table->boolean('ob_camera')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

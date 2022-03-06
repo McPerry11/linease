@@ -1,8 +1,8 @@
-html {
+html, body {
 	overflow-y: hidden;
 }
 
-.content {
+#navbar .content {
 	position: fixed;
 	top: 15px;
 	right: 0;
@@ -13,7 +13,7 @@ html {
 	z-index: 31;
 }
 
-.content h4 {
+#navbar .content h4 {
 	margin-bottom: 0;
 }
 
@@ -55,7 +55,7 @@ p.subtitle.is-5, #avatar {
 }
 
 body, #map-container {
-	height: 100%;
+	height: 100%!important;
 }
 
 #map {
@@ -74,7 +74,7 @@ body, #map-container {
 	z-index: 2;
 }
 
-p.control {
+p.control, .modal-card .icon {
 	width: 100%;
 }
 
@@ -86,13 +86,24 @@ p.control {
 
 #legend {
 	margin-right: 5px;
-	background-color: lightgrey;
+	background-color: rgba(80, 80, 80, 0.8);
 	padding: 6px;
 	border-radius: 15px;
 }
 
+#legend a {
+	display: block;
+}
+
+#legend a.active img {
+	background-color: black;
+	opacity: 0.7;
+}
+
 #legend img {
-	margin: 2.5px auto;	
+	width: 40px;
+	height: 40px;
+	margin: 2.5px auto;
 }
 
 figure.image.is-64x64 {
@@ -107,12 +118,62 @@ figure.image.is-64x64 {
 	z-index: 1;
 }
 
-#center a {
-	cursor: none;
-}
-
 #center:active {
 	height: 85px;
 	width: 85px;
 	margin: 3% auto;
+}
+
+#dbscan {
+	background-color: #00C944;
+	color: white;
+	position: sticky;
+	bottom: 40px;
+	left: 20px;
+}
+
+#dbscan.active {
+	background-color: white;
+	color: #00C944;
+}
+
+.card {
+	border-radius: 5px;
+	box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 18px 0 rgba(0, 0, 0, 0.19);
+}
+
+.critical {
+	background-color: #4e1e73;
+	color: white;
+}
+
+.major {
+	background-color: #3598db;
+	color: white;
+}
+
+.moderate {
+	background-color: #9E1C21;
+	color: white;
+}
+
+.light {
+	background-color: #e8ca4d;
+	color: white; 
+}
+
+.resolved {
+	background-color: #087F38;
+	color: white;
+}
+
+.modal-card {
+	width: 90%;
+	border-radius: 10px;
+}
+
+@media only screen and (min-width: 769px) {
+	p.control {
+		width: 500px;
+	}
 }

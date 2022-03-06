@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Log;
 use App\User;
+use App\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -88,7 +91,7 @@ class UsersController extends Controller
     }
 
     if (strlen($request->password) < 8)
-      return response()->json(array('status' => 'error', 'data' => 'password', 'msg' => 'Password must be at least 8 characters', 'warn' => 'Password must be a minimum length of 8 characters'));
+      return response()->json(array('status' => 'error', 'data' => 'pass', 'msg' => 'Password must be at least 8 characters', 'warn' => 'Password must be a minimum length of 8 characters'));
 
     if ($request->password != $request->confirm)
       return response()->json(array('status' => 'error', 'data' => 'confirm', 'msg' => 'Passwords do not match', 'warn' => 'Passwords do not match.'));
@@ -98,11 +101,39 @@ class UsersController extends Controller
     $user->email = strip_tags($request->email);
     $user->password = strip_tags($request->password);
 
-    $user->type = 'USER';
+    if (Auth::check()) {
+      $user->firstname = strip_tags($request->firstname);
+      $user->lastname = strip_tags($request->lastname);
+      $user->verified = true;
+      if (Auth::user()->type == 'SUPER') {
+        $user->type = 'ADMIN';
+      } else {
+        $user->type = 'FACIL';
+      }
+    } else {
+      $user->type = 'USER';
+    }
     
     $user->save();
 
-    return response()->json(array('msg' => 'Unverified account registered successfully'));
+
+    if ($request->data != 'accounts') {
+      Log::create([
+        'user_id' => $user->id,
+        'description' => $user->username . ' just registered as a new unverified user.',
+        'ip_address' => $request->ip(),
+      ]);
+      return response()->json(array('msg' => 'Unverified Account Registered'));
+    } else {
+      $role = $user->type == 'ADMIN' ? 'Admin' : 'Facilitator';
+      Log::create([
+        'user_id' => Auth::id(),
+        'description' => Auth::user()->username . ' just registered ' . $user->username . ' as a new ' . $role . '.',
+        'ip_address' => $request->ip()
+      ]);
+
+      return response()->json(['msg' => $role . ' Account Registered']);
+    }
   }
 
   /**
@@ -113,10 +144,14 @@ class UsersController extends Controller
    */
   public function show($username)
   {
-    $user = User::select('username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar_id')
-    ->where('username', $username)->get()[0];
+    $user = User::select('id', 'username', 'firstname', 'middlename', 'lastname', 'email', 'city', 'birthdate', 'avatar', 'type')
+    ->where('username', $username)->get();
+    if (count($user) == 0)
+      return redirect('not_found');
+    else
+      $user = $user[0];
     $name = null;
-    if (URL::previous() == url('logs') || URL::previous() == url('accounts')) {
+    if (in_array(URL::previous(), [url('logs'), url('accounts')])) {
       $link = URL::previous();
       if (URL::previous() == url('logs'))
         $page = 'Logs';
@@ -129,12 +164,18 @@ class UsersController extends Controller
 
     if ($user->firstname && $user->lastname)
       $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
-    return view('profile', [
+
+    // REPORTS
+    $reports = Report::select('id', 'severity','address', 'created_at', 'picture', 'description')
+    ->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+
+    return view('profile',  [
       'username' => $username,
       'user' => $user,
       'name' => $name,
       'previousPage' => $link,
-      'page' => $page
+      'page' => $page,
+      'reports' => $reports
     ]);
   }
 
@@ -144,9 +185,12 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($username, Request $request)
+  public function edit(Request $request, $username)
   {
-    if ($request->data == 'username') {
+    if ($request->data == 'user') {
+      $user = User::where('username', $request->username)->get()[0];
+      return response()->json($user);
+    } else if ($request->data == 'username') {
       if ($request->username != $username) {
         $count = User::where('username', $request->username)->count();
         if ($count > 0)
@@ -191,7 +235,42 @@ class UsersController extends Controller
   {
     $user = User::where('username', $username)->get()[0];
 
-    if ($request->tab == 'profile') {
+    if ($request->tab == 'ob') {
+      $user = User::where('username', $username)->get()[0];
+
+      switch($request->module) {
+        case 'dashboard':
+        $user->ob_dashboard = true;
+        break;
+
+        case 'profile':
+        $user->ob_profile = true;
+        break;
+
+        case 'accounts':
+        $user->ob_accounts = true;
+        break;
+
+        case 'logs':
+        $user->ob_logs = true;
+        break;
+
+        case 'camera':
+        $user->ob_camera = true;
+        break;
+      }
+      $user->save();
+
+      return response()->json('success');
+    } else if ($request->tab == 'security') {
+      $user = User::where('username', $username)->get()[0];
+
+      $user->password = Hash::make($request->new);
+      $user->save();
+      Auth::login($user);
+
+      return response()->json(['msg' => 'Password Updated']);
+    } else if ($request->tab == 'profile') {
       $regex = '/^(?=.{5,20})[\w\.]*[a-z0-9]+[\w\.]*$/i';
       if (preg_match($regex, $request->data['username'])) {
         if ($request->data['username'] != $username) {
@@ -225,30 +304,49 @@ class UsersController extends Controller
       //   return response()->json(array('status' => 'error', 'data' => 'phone', 'msg' => 'Invalid phone number.', 'warn' => 'Invalid phone number'));
       // }
 
+      $user->verified = true;
       $user->username = strip_tags($request->data['username']);
       $user->firstname = strip_tags($request->data['firstname']);
       $user->lastname = strip_tags($request->data['lastname']);
-      $user->middlename = strip_tags($request->data['middlename']);
       $user->email = strip_tags($request->data['email']);
-      // $user->phone = strip_tags($request->data['phone']);
-      $user->city = strip_tags($request->data['city']);
-      $user->birthdate = strip_tags($request->data['birthdate']);
+      if ($request->module != 'accounts') {
+        $user->middlename = strip_tags($request->data['middlename']);
+        // $user->phone = strip_tags($request->data['phone']);
+        $user->city = strip_tags($request->data['city']);
+        $user->birthdate = strip_tags($request->data['birthdate']);
+      }
       
       $user->save();
-      $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'city', 'birthdate')->where('username', $user->username)->get()[0];
-      $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
-      $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
-      $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
-      return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
+      if ($request->module != 'accounts') {
+        $user = User::select('username', 'firstname', 'lastname', 'middlename', 'email', 'city', 'birthdate')->where('username', $user->username)->get()[0];
+        $user->birthdate = Carbon::parse($user->birthdate)->isoFormat('YYYY-MM-DD');
+        $date = Carbon::parse($user->birthdate)->isoFormat('MM/DD/YYYY');
+        $name = $user->firstname . ' ' . ($user->middlename ?? '') . ' ' . $user->lastname;
+        return response()->json(['msg' => 'Profile Updated', 'data' => $user, 'name' => $name, 'date' => $date]);
+      } else {
+        Log::create([
+          'user_id' => Auth::id(),
+          'description' => Auth::username() . ' updated ' . $user->username . '\'s account.',
+          'ip_address' => $request->ip()
+        ]);
 
+        return response()->json(['msg' => 'Account Updated']);
+      }
     } else {
+      $request->validate([
+        'file' => 'required|image|max:5000'
+      ]);
       $user = User::where('username', $username)->get()[0];
+      Storage::disk('avatars')->delete($user->avatar);
 
-      $user->password = Hash::make($request->new);
+      $time = Carbon::now()->isoFormat('MMDDYYYY-HHmmss');
+      $filename = Auth::id() . $time . '.' . $request->file->getClientOriginalExtension();
+      $user->avatar = $filename;
+
       $user->save();
-      Auth::login($user);
+      $request->file->move(public_path('avatars'), $filename);
 
-      return response()->json(['msg' => 'Password Updated']);
+      return response()->json(['msg' => 'Profile Picture Updated', 'avatar' => $filename]);
     }
   }
 
@@ -258,8 +356,17 @@ class UsersController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Request $request, $username)
   {
-    //
+    $user = User::where('username', $username)->get()[0];
+
+    Log::create([
+      'user_id' => Auth::id(),
+      'description' => Auth::user()->username . ' deleted ' . $user->username . '\'s account',
+      'ip_address' => $request->ip()
+    ]);
+    $user->delete();
+
+    return response()->json(['status' => 'success']);
   }
 }

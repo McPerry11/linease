@@ -1,5 +1,5 @@
-.navbar {
-	background-color: #00C944;
+.navbar, .button.is-success, #submit {
+	background-color: #00C944!important;
 }
 
 #back {
@@ -17,4 +17,27 @@
 .container.is-fluid {
 	padding-left: 15px;
 	padding-right: 15px;
+}
+
+.header-title {
+	color: #FFFFFF;
+}
+
+.card {
+	border-radius: 5px 5px 5px 5px;
+}
+
+.box {
+	background-color: #00C944;
+	border-radius: 5px 5px 0px 0px;
+	color:  #D2fbe2;
+}
+
+.modal-card {
+	width: 90%;
+	border-radius: 10px;
+}
+
+.modal-card .icon {
+	width: 100%;
 }

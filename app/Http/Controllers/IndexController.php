@@ -10,20 +10,25 @@ use App\Log;
 class IndexController extends Controller
 {
 	public function login() {
-		if (Auth::check()) {
+		if (Auth::check())
 			return redirect('');
-		}	
 		return view('login');
 	}
 
 	public function dashboard() {
 		$user = Auth::user();
-		return view('dashboard');
+		return view('dashboard', [
+			'user' => $user
+		]);
 	}
 
 	public function accounts() {
-		if (Auth::user()->type == 'ADMIN' || Auth::user()->type == 'SUPER') {
-			$users = User::whereIn('type', ['FACIL', 'ADMIN', 'SUPER'])->get();
+		if (in_array(Auth::user()->type, ['ADMIN', 'SUPER'])) {
+			if (Auth::user()->type == 'SUPER')
+				$users = User::where('type', 'ADMIN')->orderBy('created_at', 'desc')->get();
+			else
+				$users = User::where('type', 'FACIL')->orderBy('created_at', 'desc')->get();
+
 			return view('accounts', [
 				'users' => $users
 			]);
@@ -37,9 +42,21 @@ class IndexController extends Controller
 	}
 
 	public function logs() {
-		$logs = Log::orderBy('created_at', 'desc')->get();
+		$reportlogs = Log::whereNotNull('report_id')->orderBy('created_at', 'desc')->get();
+		if (in_array(Auth::user()->type, ['ADMIN', 'SUPER'])) {
+			if (Auth::user()->type == 'SUPER') {
+				$adminlogs = Log::whereNull('report_id')->orderBy('created_at', 'desc')->get();
+			} else {
+				$user_ids = User::select('id')->whereIn('type', ['FACIL', 'ADMIN'])->get();
+				$adminlogs = Log::whereNull('report_id')->whereIn('user_id', $user_ids)->orderBy('created_at', 'desc')->get();
+			}
+			return view('logs', [
+				'adminlogs' => $adminlogs,
+				'reportlogs'=> $reportlogs
+			]);
+		}
 		return view('logs', [
-			'logs' => $logs
+			'reportlogs'=> $reportlogs
 		]);
 	}
 

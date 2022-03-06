@@ -1,8 +1,11 @@
 @extends('_layout')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
+@if (Auth::user()->ob_camera == 0)
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css">
+@endif
 @endsection
 
 @section('body')
@@ -35,28 +38,36 @@
 				<figure class="image is-1x1">
 					<img src="" alt="" id="preview">
 				</figure>
-				<div class="field">
-					<div class="control">
-						<label>LATITUDE</label>
-						<input id="lat" class="input has-text-grey" type="number" name="lat" readonly>
+				<div id="auto">
+					<div class="field">
+						<div class="control">
+							<label>LATITUDE</label>
+							<input id="lat" class="input has-text-grey" type="number" name="lat" readonly>
+						</div>
+					</div>
+					<div class="field">
+						<div class="control">
+							<label>LONGITUDE</label>
+							<input id="lng" class="input has-text-grey" type="text" name="long" readonly>
+						</div>
+					</div>
+					<div class="field">
+						<div class="control">
+							<label>ADDRESS</label>
+							<textarea id="address" rows="3" class="textarea has-text-grey" name="description" readonly></textarea>
+							<small class="help">Latitude, Longitude, and Address cannot be edited.</small>
+						</div>
 					</div>
 				</div>
-				<div class="field">
-					<div class="control">
-						<label>LONGITUDE</label>
-						<input id="lng" class="input has-text-grey" type="text" name="long" readonly>
-					</div>
-				</div>
-				<div class="field">
+				<div id="severity_field" class="field">
 					<label>SEVERITY</label>
 					<div class="control has-icons-left">
 						<div class="select">
 							<select id="severity" name="severity">
-								<option value="" data-class="avatar" data-img="S1Label.png" data-style="background-image:url('img/S1Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Critical</option>
-								<option value="" data-class="avatar" data-img="S2Label.png" data-style="background-image:url('img/S2Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Major</option>
-								<option value="" data-class="avatar" data-img="S3Label.png" data-style="background-image:url('img/S3Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Moderate</option>
 								<option value="" data-class="avatar" data-img="S4Label.png" data-style="background-image:url('img/S4Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Light</option>
-								{{-- <option value="" data-class="avatar" data-img="RLabel.png" data-style="background-image:url('img/RLabel.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Hello World</option> --}}
+								<option value="" data-class="avatar" data-img="S3Label.png" data-style="background-image:url('img/S3Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Moderate</option>
+								<option value="" data-class="avatar" data-img="S2Label.png" data-style="background-image:url('img/S2Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Major</option>
+								<option value="" data-class="avatar" data-img="S1Label.png" data-style="background-image:url('img/S1Label.png'); background-size:contain; background-position:center; height:20px; width:20px; border-radius:50%;">Critical</option>
 							</select>
 						</div>
 						<div class="icon is-left">
@@ -66,10 +77,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="field">
+				<div id="description_field" class="field">
 					<div class="control">
 						<label>DESCRIPTION</label>
-						<textarea rows="5" class="textarea" name="description"></textarea>
+						<textarea id="description" rows="5" class="textarea" name="description"></textarea>
 					</div>
 				</div>
 				<div class="buttons is-centered mt-5">
@@ -80,11 +91,14 @@
 		</section>
 	</div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script src="{{ asset('js/modernizr-custom.js') }}"></script>
-<script src="{{ asset('js/camera.js') }}" id="camjs" data-link="{{ route('dashboard') }}"></script>
+@if (Auth::user()->ob_camera == 0)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+@endif
+<script src="{{ asset('js/camera.js') }}" id="camjs" data-link="{{ route('dashboard') }}" data-ob="{{ Auth::user()->ob_camera }}" data-user="{{ Auth::user()->username }}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 @endsection
