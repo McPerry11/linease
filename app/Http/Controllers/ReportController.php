@@ -33,7 +33,7 @@ class ReportController extends Controller
     if (Auth::user()->verified) {
       return view('camera');
     }
-    return redirect('dashboard');
+    return redirect(route('dashboard'));
   }
 
   /**
